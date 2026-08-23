@@ -133,6 +133,46 @@ just to use a fashionable technique.
 | `needs_manual_review` | The signature isn't simple, no matching parameter, or the narrow memcpy pattern wasn't found. This is the *expected*, common outcome for most real functions — Augur is honest that its scope is narrow, not that most bugs fit it. |
 | `seed_derivation_failed` | (`analyze_auto` / no `--seed` given only) The function's matching logic doesn't fit the snprintf-then-strstr shape automatic derivation needs. Supply `--seed` manually. |
 
+## Section 3 — provenance
+
+For the same narrow bug shape, answers a different question: given the
+fix commit, when was the vulnerable pattern actually introduced, and
+which released versions contain it?
+
+```
+$ python3 -m augur provenance ./rtcon-clone \
+    --file skel/crash.c --function getCrashAddress \
+    --fix-commit e8b4127 --param report
+
+[*] found: True
+{
+  "introduction_commit": "3f49a23...",
+  "fix_commit": "e8b4127",
+  "vulnerable_tags": [],
+  "first_fixed_tag": null
+}
+```
+
+This targets a real, published research gap: a 2025 paper found that
+existing "which versions are affected" tools (SZZ-based and ML-based
+alike) have "low precision and recall" and don't generalize across
+projects. `provenance` doesn't solve that in general -- it answers it
+precisely for the one bug shape it already understands, by re-running
+the same structural detector against every historical revision of the
+function instead of trusting whichever commit last touched the line
+(classic SZZ's well-known weakness: a pure reformatting or renaming
+commit gets blamed instead of the real one).
+
+Validated against a real external repository, not just a synthetic
+one -- see METHODOLOGY.md for running this against
+`kaist-hacking/RTCON`'s actual merged fix and independently confirming
+the answer by hand.
+
+An empty `vulnerable_tags` list means either the repository has no
+tags, or the introduction/fix commits fall outside all of them --
+`provenance` never guesses at version numbers it can't verify against
+real tags.
+
 ## Install
 
 No third-party runtime dependencies. Needs `git` (for `radar`) and a C

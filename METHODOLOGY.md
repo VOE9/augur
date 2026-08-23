@@ -158,6 +158,63 @@ never claim confirmation without being sure it can't be silently
 wrong). Left as a documented next step, not attempted under pressure to
 use a specific technique for its own sake.
 
+## Provenance: finding when a vulnerability was actually introduced
+
+`augur/provenance/` answers a different question than radar or harness:
+given a fix commit, when was the vulnerable pattern actually introduced,
+and which released versions contain it? This targets a real,
+unsolved-in-general research problem -- a 2025 paper
+("Vulnerability-Affected Versions Identification: How Far Are We?")
+documents that existing tools (SZZ-based and ML-based alike) have "low
+precision and recall" and don't generalize across projects. Augur
+doesn't attempt the general problem either; it targets the same narrow
+bug shape the harness module already supports, and answers it precisely
+for that shape by re-running the same structural detector
+(`UnboundedCopyDetector`) against every historical revision of the
+function, walking backward from the fix until the exact shape (same
+`dest_size`/`copy_length`, deliberately *not* the same variable names --
+see the bug below) stops matching. This is a structural improvement
+over classic SZZ, which blames whichever commit last touched a line and
+is well known to be fooled by pure reformatting or renaming.
+
+**Validated two ways, not just one:**
+
+1. **Controlled ground truth** (`test_provenance_integration.py`): a real
+   git repository built with six commits -- a no-op, the true
+   introduction, an unrelated change, a *cosmetic rename* of the tainted
+   variable, the true fix, and another unrelated change -- with tags at
+   four points. Confirms the tool finds the true introduction commit
+   (not the cosmetic-rename commit) and maps exactly the tags that
+   should be vulnerable.
+2. **Real-world validation** (not in the automated test suite, since it
+   needs a live clone): run against the actual `kaist-hacking/RTCON`
+   repository, using the real merged fix commit from this project's own
+   earlier outreach work (`e8b4127`, PR #2). The tool reported
+   `skel/crash.c`'s `getCrashAddress` was vulnerable since the
+   repository's very first commit (`3f49a23`). Checked independently by
+   hand: `git log --follow -- skel/crash.c` shows exactly two commits
+   ever touched that file (the initial commit and the fix), and
+   `git show 3f49a23:skel/crash.c` contains the unbounded
+   `memcpy(addr, pc, 20)` verbatim. The tool's answer and the manual
+   check agree completely.
+
+**A real bug found by the controlled test, not by inspection:** the
+first version of `_same_signature()` compared `dest_buffer` and
+`source_expr` -- the literal *names* of the destination buffer and
+source pointer variables -- as part of what makes two findings "the
+same vulnerability." The cosmetic-rename commit in the test fixture
+(renaming `pc` to `cursor`, changing nothing else) made the walk stop
+early, misreporting the rename commit as the introduction point instead
+of walking past it to the true one. Fixed by comparing only
+`dest_size`/`copy_length` -- the renaming-independent, semantically
+meaningful part of the shape.
+
+**Honest limits:** same narrow bug shape as harness (one string
+parameter, one taint hop, fixed-size `memcpy`); a repository with no
+tags returns an empty vulnerable-version list rather than guessing at
+version numbers; and, like harness, this reads git history and runs
+structural pattern matching only -- it does not execute anything.
+
 ## Scope and responsible use
 
 `radar` only reads local git history — no network calls, no contact

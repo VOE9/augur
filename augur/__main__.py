@@ -15,6 +15,7 @@ from pathlib import Path
 
 from . import __version__
 from .harness.pipeline import HarnessPipeline, Verdict
+from .provenance.pipeline import ProvenancePipeline
 from .radar.engine import RadarEngine
 from .radar.repository import GitCommandError, GitRepository
 
@@ -98,6 +99,40 @@ def cmd_harness(args: argparse.Namespace) -> int:
     return 0 if result.verdict == Verdict.CONFIRMED_REGRESSION_FIX else (1 if result.verdict == Verdict.INCONCLUSIVE else 0)
 
 
+def cmd_provenance(args: argparse.Namespace) -> int:
+    try:
+        repo = GitRepository(args.clone_path)
+    except (ValueError, GitCommandError) as e:
+        print(f"[!] {e}", file=sys.stderr)
+        return 1
+
+    result = ProvenancePipeline().analyze(
+        repo, filename=args.file, function_name=args.function,
+        fix_commit=args.fix_commit, tainted_param=args.param,
+    )
+
+    payload = {
+        "found": result.introduction.found,
+        "reason": result.introduction.reason,
+        "introduction_commit": result.introduction.introduction_commit,
+        "fix_commit": result.introduction.fix_commit,
+    }
+    if result.version_range:
+        payload["vulnerable_tags"] = result.version_range.vulnerable_tags
+        payload["first_fixed_tag"] = result.version_range.first_fixed_tag
+
+    print(f"[*] found: {result.introduction.found}", file=sys.stderr)
+    print(f"[*] {result.introduction.reason}", file=sys.stderr)
+
+    if args.out:
+        args.out.write_text(json.dumps(payload, indent=2))
+        print(f"[*] result written to {args.out}", file=sys.stderr)
+    else:
+        print(json.dumps(payload, indent=2))
+
+    return 0 if result.introduction.found else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="augur",
@@ -125,6 +160,15 @@ def main(argv: list[str] | None = None) -> int:
     p_harness.add_argument("--param", action="append", default=[], help="name=value for every other parameter, repeatable")
     p_harness.add_argument("--out", type=Path, default=None)
     p_harness.set_defaults(func=cmd_harness)
+
+    p_prov = sub.add_parser("provenance", help="find when a vulnerable pattern was introduced, and which tagged versions contain it")
+    p_prov.add_argument("clone_path", type=Path, help="path to an existing local git clone")
+    p_prov.add_argument("--file", required=True, help="path to the source file, relative to the repo root")
+    p_prov.add_argument("--function", required=True, help="name of the function")
+    p_prov.add_argument("--fix-commit", required=True, help="SHA of the commit that fixed the vulnerability")
+    p_prov.add_argument("--param", required=True, help="name of the tainted string-like parameter")
+    p_prov.add_argument("--out", type=Path, default=None)
+    p_prov.set_defaults(func=cmd_provenance)
 
     args = parser.parse_args(argv)
     return args.func(args)

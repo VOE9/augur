@@ -14,6 +14,12 @@ Two stages, run independently:
                For a common bug shape, the seed value itself is derived
                mechanically from the function's own source -- see
                augur.pattern.format_string_prefix.
+  - provenance -- for the same narrow bug shape, finds the commit that
+               first introduced the vulnerable pattern (structurally,
+               not "last commit that touched the line" like classic
+               SZZ) and maps it to the tagged versions that actually
+               contain it, instead of trusting a hand-written
+               advisory's version range.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.3.0
+
+**New:** a third section, `provenance`. Given a fix commit for the same
+narrow bug shape `harness` targets, finds the commit that actually
+introduced the vulnerable pattern -- structurally (re-running the same
+detector against every historical revision of the function), not "the
+last commit that touched this line" the way classic SZZ does, which is
+well documented to be fooled by pure reformatting/renaming commits --
+and maps that introduction point to the tagged versions that actually
+contain it.
+
+- Added `augur/provenance/` (`VulnerabilityIntroductionFinder`,
+  `VersionRangeMapper`, `ProvenancePipeline`) and the `augur provenance`
+  CLI command.
+- Extended `GitRepository` with `parent_of`, `file_history_before`,
+  `is_ancestor`, and `tags_sorted_by_date`.
+- Verified against a controlled real git repository (six commits
+  including a deliberate cosmetic rename of the tainted variable, four
+  tags) confirming the tool finds the true introduction commit and the
+  correct vulnerable-tag range.
+- Verified against a real, external repository, not a synthetic one:
+  `kaist-hacking/RTCON`, using this project's own real, previously
+  merged fix commit (`e8b4127`, PR #2). The tool's answer (vulnerable
+  since the repository's first commit) was checked independently by
+  hand against `git log --follow` and `git show` on the real repo, and
+  the two agree.
+- One real bug found by the controlled test: the first version of the
+  signature comparison included the tainted variable's literal *name*,
+  so the deliberate cosmetic-rename commit in the test broke the walk
+  early. Fixed by comparing only the renaming-independent parts of the
+  shape (`dest_size`/`copy_length`). See METHODOLOGY.md.
+- 23/23 tests passing (up from 19).
+
 ## 0.2.0
 
 **New:** automatic seed derivation for `harness`. `--seed` is now
