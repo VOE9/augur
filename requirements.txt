@@ -1,0 +1,4 @@
+# Augur has no third-party runtime dependencies: `git` and a C compiler
+# (gcc or clang) with AddressSanitizer support are the only external
+# tools it shells out to, both invoked directly via subprocess.
+pytest>=7.0  # dev/test only
