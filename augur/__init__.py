@@ -11,4 +11,9 @@ Two stages, run independently:
                heuristic flag into an executable proof instead of a
                guess. Anything outside that narrow shape is honestly
                reported as needing manual review, not silently skipped.
+               For a common bug shape, the seed value itself is derived
+               mechanically from the function's own source -- see
+               augur.pattern.format_string_prefix.
 """
+
+__version__ = "0.2.0"

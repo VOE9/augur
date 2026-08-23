@@ -52,13 +52,14 @@ an executable proof instead of a guess.
 ```
 $ python3 -m augur harness \
     --old vulnerable_version.c --new fixed_version.c \
-    --function getCrashAddress \
-    --seed "#0 0x556ab456789a in vulnerable_func crash.c:100:5" \
-    --param index=0
+    --function getCrashAddress --param index=0
 
+[*] no --seed given, attempting automatic prefix derivation...
 [*] verdict: confirmed_regression_fix
-[*] old crashes at truncation length 3 (heap-buffer-overflow); new runs cleanly at the same length
+[*] [auto-derived prefix '#0 '] old crashes at truncation length 3 (heap-buffer-overflow); new runs cleanly at the same length
 ```
+
+No `--seed` was supplied above — Augur read the function's own `snprintf(...)`/`strstr(...)` logic and derived the exact matching prefix (`"#0 "`) mechanically, then swept truncation lengths against it. `--seed` still exists for functions whose matching logic doesn't fit that shape (see below).
 
 What it does, mechanically:
 
@@ -85,19 +86,42 @@ What it does, mechanically:
    reliable way to test many candidates).
 6. Reports one of four honest verdicts — see below.
 
-### The `--seed` argument, and why it's required, not derived
+### Automatic prefix derivation, and the honest edge of it
 
-Augur does not try to reverse-engineer what a "matching" input string
-looks like for an arbitrary function (e.g., what prefix format a
-`strstr()` call is searching for). That's specific business logic every
-function encodes differently, and guessing at it generically is exactly
-the kind of over-claiming this project's own convention (see every prior
-tool's README) argues against. Instead, you supply **one realistic,
-full-length example value** — an actual sample log line, report string,
-whatever the function is meant to consume — and Augur automatically
-tries every truncation of it, from full length down to nothing. If the
-bug is "not enough bytes remain after some point," some truncation length
-will hit it; you don't need to know which one in advance.
+Augur first tries to mechanically read what a "matching" input looks
+like straight out of the function's own source: if it finds a
+`snprintf(var, len, "format", args...)` call whose result is later
+searched for via `strstr(param, var)`, it renders that format string
+using the concrete parameter values you passed with `--param`, giving
+the exact literal prefix bytes the function's own logic requires — not
+a guess, not a reimplementation of the search logic, just the format
+string it already contains. It then automatically sweeps every
+truncation length after that prefix, the same way a manually-supplied
+seed would be swept.
+
+This covers a real, specific shape (`FormatStringPrefixDeriver`,
+`augur/pattern/format_string_prefix.py`) — not every function's
+matching logic looks like this. When it doesn't (a hand-rolled parsing
+loop, a match against a hardcoded byte value, anything without a
+`snprintf`-then-`strstr` pair), derivation fails honestly
+(`seed_derivation_failed`) and you fall back to `--seed`: supply **one
+realistic, full-length example value** yourself, and Augur sweeps every
+truncation of it the same way.
+
+**What was deliberately not built:** a general symbolic-execution-based
+input solver (via `angr`, installed and evaluated during this feature's
+development) that would remove even the `--seed` fallback for arbitrary
+matching logic, not just the snprintf/strstr shape. `angr` symbolic
+execution of a real compiled binary carries a real, known risk class of
+its own — state explosion, subtle setup errors, or an incorrect model
+of a hooked libc function silently producing a *wrong* satisfying
+input — and this project's standing rule is not to ship anything into
+the path that produces a `confirmed_regression_fix` verdict without
+being confident it can't be silently wrong. The mechanical derivation
+above already closes the practical gap (no human input needed) for a
+real, common pattern; a symbolic fallback for the general case is
+documented here as a real next step, not attempted under time pressure
+just to use a fashionable technique.
 
 ### The four verdicts
 
@@ -107,6 +131,7 @@ will hit it; you don't need to know which one in advance.
 | `no_difference_found` | Old never crashed across the whole sweep — either the seed never reaches the bug, or there isn't one at this shape. |
 | `inconclusive` | New *also* crashed at the same length old did — the fix may be incomplete, or (more likely) the harness's assumptions don't hold for this function. Never reported as a silent pass. |
 | `needs_manual_review` | The signature isn't simple, no matching parameter, or the narrow memcpy pattern wasn't found. This is the *expected*, common outcome for most real functions — Augur is honest that its scope is narrow, not that most bugs fit it. |
+| `seed_derivation_failed` | (`analyze_auto` / no `--seed` given only) The function's matching logic doesn't fit the snprintf-then-strstr shape automatic derivation needs. Supply `--seed` manually. |
 
 ## Install
 

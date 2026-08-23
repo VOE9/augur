@@ -13,6 +13,7 @@ import sys
 import tempfile
 from pathlib import Path
 
+from . import __version__
 from .harness.pipeline import HarnessPipeline, Verdict
 from .radar.engine import RadarEngine
 from .radar.repository import GitCommandError, GitRepository
@@ -59,17 +60,21 @@ def cmd_harness(args: argparse.Namespace) -> int:
 
     old_source = args.old.read_text()
     new_source = args.new.read_text()
+    pipeline = HarnessPipeline()
 
     with tempfile.TemporaryDirectory() as tmp:
         try:
-            result = HarnessPipeline().analyze(
-                old_source=old_source,
-                new_source=new_source,
-                function_name=args.function,
-                seed=args.seed,
-                other_param_defaults=other_defaults,
-                workdir=Path(tmp),
-            )
+            if args.seed is None:
+                print("[*] no --seed given, attempting automatic prefix derivation...", file=sys.stderr)
+                result = pipeline.analyze_auto(
+                    old_source=old_source, new_source=new_source, function_name=args.function,
+                    other_param_defaults=other_defaults, workdir=Path(tmp),
+                )
+            else:
+                result = pipeline.analyze(
+                    old_source=old_source, new_source=new_source, function_name=args.function,
+                    seed=args.seed, other_param_defaults=other_defaults, workdir=Path(tmp),
+                )
         except Exception as e:  # compiler errors, etc. -- surfaced, not swallowed
             print(f"[!] harness pipeline failed: {e}", file=sys.stderr)
             return 1
@@ -99,6 +104,7 @@ def main(argv: list[str] | None = None) -> int:
         description="Reads the signs in a project's commit history: flags likely undisclosed security fixes, "
                      "and where possible, proves the ones that fit a narrow, checkable pattern.",
     )
+    parser.add_argument("--version", action="version", version=f"augur {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_radar = sub.add_parser("radar", help="scan a local git clone for possible silent security fixes")
@@ -111,7 +117,11 @@ def main(argv: list[str] | None = None) -> int:
     p_harness.add_argument("--old", type=Path, required=True, help="source file containing the pre-fix version")
     p_harness.add_argument("--new", type=Path, required=True, help="source file containing the post-fix version")
     p_harness.add_argument("--function", required=True, help="name of the function to compare")
-    p_harness.add_argument("--seed", required=True, help="a realistic full-length example value for the string parameter")
+    p_harness.add_argument(
+        "--seed", default=None,
+        help="a realistic full-length example value for the string parameter; "
+             "omit to attempt automatic derivation from the function's own source",
+    )
     p_harness.add_argument("--param", action="append", default=[], help="name=value for every other parameter, repeatable")
     p_harness.add_argument("--out", type=Path, default=None)
     p_harness.set_defaults(func=cmd_harness)

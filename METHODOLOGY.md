@@ -123,6 +123,41 @@ truth rather than by inspection:
    greedily, so a literal character right after `\xNN` that happens to
    look like a hex digit would otherwise silently merge into it).
 
+## Closing the `--seed` gap: mechanical derivation, not symbolic execution
+
+The original harness design required a human-supplied realistic example
+value for the string parameter, documented as a deliberate limit (see
+git history / earlier README revision) rather than something to
+generalize away casually. Revisiting it: for the real pattern this tool
+targets, the "matching" logic is very often exactly `snprintf` building
+a needle from the function's own other parameters, then `strstr`
+against the tainted string — RTCON's `getCrashAddress` is a real
+instance of this, not a constructed example. `FormatStringPrefixDeriver`
+reads that pair directly out of the source and renders the format
+string with the caller-supplied concrete parameter values (`--param`),
+producing the same prefix a human would have had to know or guess
+before. Verified against the same real RTCON ground truth as the rest
+of this project: `test_auto_seed_integration.py` confirms the identical
+regression-fix verdict with **zero** human-supplied seed content.
+
+**`angr` was installed and evaluated as a path to removing `--seed`
+entirely** (full symbolic execution of the compiled binary, treating
+the string parameter's content as unconstrained and solving for a
+crash-triggering assignment, independent of what specific parsing idiom
+the function uses). It was not shipped. Reasoning, stated plainly:
+mechanical format-string derivation is a small, auditable, single-pass
+text transformation whose correctness is easy to verify by reading it;
+a symbolic-execution pipeline correct enough to trust in the
+`confirmed_regression_fix` path — handling libc hook fidelity, avoiding
+state explosion, and not silently returning a satisfying model that
+doesn't actually correspond to the real crash condition — is a
+meaningfully larger and riskier undertaking than the time available for
+this feature justified. Shipping it half-verified would violate this
+project's own standing rule (see the RTCON ground-truth section above:
+never claim confirmation without being sure it can't be silently
+wrong). Left as a documented next step, not attempted under pressure to
+use a specific technique for its own sake.
+
 ## Scope and responsible use
 
 `radar` only reads local git history — no network calls, no contact
