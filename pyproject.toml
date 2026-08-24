@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "augur"
+version = "0.3.1"
+description = "Reads the signs in a project's own commit history: flags likely undisclosed security fixes, proves the ones that fit a narrow, checkable pattern, and finds where they were really introduced."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = []
+
+[tool.setuptools.packages.find]
+include = ["augur*"]

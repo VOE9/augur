@@ -22,4 +22,4 @@ Two stages, run independently:
                advisory's version range.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"

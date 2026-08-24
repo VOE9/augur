@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1
+
+Packaging only, no behavior change: added `pyproject.toml` so Augur can
+be installed as a regular dependency (`pip install git+https://...`)
+instead of only run from a checkout. Needed to let
+[cve-explain](https://github.com/VOE9/cve-explain) depend on Augur's
+`provenance` module directly for its own `--verify-git` feature.
+
 ## 0.3.0
 
 **New:** a third section, `provenance`. Given a fix commit for the same
