@@ -104,6 +104,58 @@ class GitRepository:
         )
         return result.returncode == 0
 
+    def removed_line_ranges(self, commit_sha: str, filename: str) -> list[tuple[int, int]]:
+        """(start, end) inclusive line ranges, in the PARENT revision's
+        numbering, that `commit_sha` removed or changed in `filename` --
+        the input classic SZZ blames to find a bug-introducing commit.
+        A pure addition (no old-side lines at all) contributes no range,
+        since there's nothing to blame; SZZ has no answer for that case,
+        by design, not as a bug in this method."""
+        parent = self.parent_of(commit_sha)
+        if parent is None:
+            return []
+        try:
+            raw = self._run("diff", "--unified=0", parent, commit_sha, "--", filename)
+        except GitCommandError:
+            return []
+        ranges: list[tuple[int, int]] = []
+        for line in raw.splitlines():
+            if not line.startswith("@@"):
+                continue
+            # "@@ -start[,count] +start2[,count2] @@..." -- only the
+            # old side (-start,count) matters for finding what was there
+            # before the fix.
+            old_part = line.split(" ")[1]  # "-start,count" or "-start"
+            old_part = old_part.lstrip("-")
+            if "," in old_part:
+                start_s, count_s = old_part.split(",", 1)
+                start, count = int(start_s), int(count_s)
+            else:
+                start, count = int(old_part), 1
+            if count == 0:
+                continue  # pure addition at this hunk -- nothing removed to blame
+            ranges.append((start, start + count - 1))
+        return ranges
+
+    def blame_line(self, ref: str, filename: str, line: int) -> tuple[str, str] | None:
+        """(commit_sha, author-date) that last touched `filename`'s given
+        line number as of `ref`, or None if the line/file doesn't exist
+        there (e.g. the file was shorter at that point in history)."""
+        try:
+            raw = self._run("blame", "--porcelain", "-L", f"{line},{line}", ref, "--", filename)
+        except GitCommandError:
+            return None
+        lines = raw.splitlines()
+        if not lines:
+            return None
+        sha = lines[0].split(" ")[0]
+        author_time = None
+        for l in lines[1:]:
+            if l.startswith("author-time "):
+                author_time = l.split(" ", 1)[1].strip()
+                break
+        return (sha, author_time or "0")
+
     def tags_sorted_by_date(self) -> list[tuple[str, str]]:
         """(tag_name, commit_sha) pairs, oldest first. An annotated tag's
         `%(objectname)` is the tag OBJECT's own SHA, not the commit it

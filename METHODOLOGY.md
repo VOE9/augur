@@ -215,6 +215,49 @@ tags returns an empty vulnerable-version list rather than guessing at
 version numbers; and, like harness, this reads git history and runs
 structural pattern matching only -- it does not execute anything.
 
+## Building the SZZ baseline instead of asserting the comparison
+
+Earlier versions of these docs stated that classic SZZ is fooled by a
+pure rename while `provenance` is not. That was a reasonable reading of
+the literature, but it was an assertion -- nothing in the repository
+demonstrated it.
+
+`augur/provenance/szz_baseline.py` closes that gap. It implements
+classic B-SZZ directly rather than vendoring an existing package, for
+the same reason the radar signals were ported rather than re-derived:
+the comparison is only worth something if the thing being compared
+against is auditable. The algorithm is small enough to state in full --
+for every line the fix removed or changed, `git blame` the fix's parent
+revision; report the most recently authored of the blamed commits.
+
+Two implementation details worth recording:
+
+- **Pure additions are reported as unanswerable, not guessed.** A fix
+  that only inserts lines gives `git diff --unified=0` a hunk with an
+  old-side count of zero, so there is nothing to blame. `ClassicSZZ`
+  returns `found=False` with that reason. This is a real, documented
+  limitation of B-SZZ, and reproducing it faithfully matters more than
+  making the baseline look better than it is.
+- **The line ranges come from hunk headers, not from a diff parser.**
+  `GitRepository.removed_line_ranges()` reads the `@@ -start,count +...`
+  headers of `git diff --unified=0` and skips hunks whose old-side count
+  is zero. Blaming is capped at 200 lines per fix so a pathologically
+  large hunk cannot turn into hundreds of `git blame` invocations.
+
+The result, run against a real repository whose ground truth is known
+by construction (`tests/conftest.py` builds it: B introduces the
+pattern, D renames a local variable inside the same function, E fixes
+it):
+
+| | reports |
+|---|---|
+| classic B-SZZ | D -- the rename-only commit |
+| augur provenance | B -- the real introduction |
+
+The test asserts `!= B` for the baseline as well as `== D`, so if a
+future change accidentally makes B-SZZ correct here, the test fails
+loudly rather than silently agreeing with the documentation.
+
 ## Scope and responsible use
 
 `radar` only reads local git history — no network calls, no contact

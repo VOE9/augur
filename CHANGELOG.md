@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.4.0
+
+**New:** `augur/provenance/szz_baseline.py` -- an implementation of
+classic B-SZZ (Sliwerski, Zimmermann & Zeller, 2005), written directly
+rather than vendored, so the comparison rests on an auditable algorithm
+instead of an opaque dependency.
+
+This project's docs have repeatedly claimed that classic SZZ is fooled by
+a purely cosmetic rename while the structural `provenance` finder is not.
+That claim now has an executable check behind it
+(`tests/test_szz_baseline.py`): against a real git repository whose
+history contains a known introduction commit and a later rename-only
+commit, B-SZZ reports the rename commit and `provenance` reports the true
+introduction.
+
+- `ClassicSZZ.find_introducing_commit()` -- blames every line the fix
+  removed or changed at the fix's parent revision and reports the most
+  recently authored of those commits, which is what B-SZZ does. A fix
+  that only adds lines has no answer under this algorithm; that is
+  reported honestly rather than guessed at.
+- `GitRepository` gained `removed_line_ranges()` (parses `git diff
+  --unified=0` hunk headers, skipping pure additions) and `blame_line()`
+  (`git blame --porcelain -L n,n`).
+- Test fixtures moved to `tests/conftest.py` so the provenance and SZZ
+  tests exercise the same repository.
+
+25 tests pass.
+
 ## 0.3.1
 
 Packaging only, no behavior change: added `pyproject.toml` so Augur can

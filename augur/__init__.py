@@ -19,7 +19,11 @@ Two stages, run independently:
                not "last commit that touched the line" like classic
                SZZ) and maps it to the tagged versions that actually
                contain it, instead of trusting a hand-written
-               advisory's version range.
+               advisory's version range. Ships classic B-SZZ
+               (augur.provenance.szz_baseline) alongside it, so the
+               "structural beats textual" claim can be checked by
+               running both against the same history rather than
+               taken on trust.
 """
 
-__version__ = "0.3.1"
+__version__ = "0.4.0"

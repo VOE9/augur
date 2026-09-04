@@ -173,6 +173,33 @@ tags, or the introduction/fix commits fall outside all of them --
 `provenance` never guesses at version numbers it can't verify against
 real tags.
 
+### The SZZ comparison, as something you can run
+
+Claiming "structural beats textual" is easy; the repository now ships
+the baseline so the claim can be checked instead of trusted.
+`augur/provenance/szz_baseline.py` implements classic B-SZZ (Sliwerski,
+Zimmermann & Zeller, 2005) directly -- blame every line the fix removed
+or changed, report the most recently authored of those commits.
+
+`tests/test_szz_baseline.py` runs both against the same real git
+repository, whose history is built so the answer is known in advance:
+commit B introduces the vulnerable pattern, commit D only renames a
+local variable inside the same function, commit E is the fix.
+
+```
+classic SZZ       -> D    (the rename-only commit)
+augur provenance  -> B    (the real introduction)
+```
+
+B-SZZ picks D because the rename changed the text of the line the fix
+touches, so `git blame` attributes that line to D. `provenance` walks
+the same history re-running the structural detector, and the renamed
+variable does not change the shape it matches on.
+
+The same test also covers the case B-SZZ genuinely cannot answer: a fix
+that only adds lines leaves nothing to blame, and `ClassicSZZ` reports
+that rather than guessing.
+
 ## Install
 
 No third-party runtime dependencies. Needs `git` (for `radar`) and a C
