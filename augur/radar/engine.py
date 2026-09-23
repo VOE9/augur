@@ -34,11 +34,18 @@ class RadarEngine:
     # directly and often, flooding the report with noise about nothing.
     QUALIFYING_SIGNAL_NAMES = {"sensitive_path", "defensive_diff_shape"}
 
-    def __init__(self, extra_signals: list[Signal] | None = None):
+    def __init__(
+        self,
+        extra_signals: list[Signal] | None = None,
+        qualifying_signal_names: set[str] | None = None,
+    ):
         self._diff_shape_signal = DefensiveDiffShapeSignal()
         self._vague_message_signal = VagueMessageSignal()
         self._other_signals: list[Signal] = [SensitivePathSignal(), SmallFocusedDiffSignal()]
         self._other_signals.extend(extra_signals or [])
+        self._qualifying_signal_names = set(self.QUALIFYING_SIGNAL_NAMES)
+        if qualifying_signal_names:
+            self._qualifying_signal_names.update(qualifying_signal_names)
 
     def _confidence(self, score: float) -> str:
         if score >= self.HIGH_THRESHOLD:
@@ -64,7 +71,7 @@ class RadarEngine:
         vague_result = self._vague_message_signal.evaluate(commit, diff_shape_result.fired)
         results = [s.evaluate(commit) for s in self._other_signals] + [diff_shape_result, vague_result]
 
-        if not any(r.fired and r.name in self.QUALIFYING_SIGNAL_NAMES for r in results):
+        if not any(r.fired and r.name in self._qualifying_signal_names for r in results):
             return None
 
         score = sum(r.weight for r in results if r.fired)

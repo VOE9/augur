@@ -11,8 +11,10 @@ from pathlib import Path
 
 import pytest
 
+from augur.radar.commit import Commit
 from augur.radar.engine import RadarEngine
 from augur.radar.repository import GitRepository
+from augur.radar.signal import MemorySafetyDiffSignal
 
 GIT_MISSING = subprocess.run(["which", "git"], capture_output=True).returncode != 0
 
@@ -97,3 +99,30 @@ def test_flagged_commit_has_expected_signals_fired(sample_repo: Path):
     assert "defensive_diff_shape" in fired_names
     assert "vague_message_defensive_diff" in fired_names
     assert finding.confidence in ("medium", "high")
+
+
+def test_memory_safety_variant_is_opt_in_and_qualifies_an_added_guard():
+    raw_diff = """diff --git a/src/copy.c b/src/copy.c
+index 1111111..2222222 100644
+--- a/src/copy.c
++++ b/src/copy.c
+@@ -1,2 +1,3 @@
+ void copy(char *dst, const char *src, size_t n) {
++    if (n <= capacity) return;
+ }
+"""
+    commit = Commit("a" * 40, "small cleanup", "tester", "2026-01-01", raw_diff)
+
+    assert RadarEngine().evaluate_commit(commit) is None
+
+    variant = RadarEngine(
+        extra_signals=[MemorySafetyDiffSignal()],
+        qualifying_signal_names={MemorySafetyDiffSignal.name},
+    )
+    finding = variant.evaluate_commit(commit)
+    assert finding is not None
+    assert "memory_safety_diff" in {r.name for r in finding.fired_signals()}
+
+    python_diff = raw_diff.replace("src/copy.c", "docs/example.py").replace("if (n <= capacity) return;", "if (n <= capacity): return")
+    python_commit = Commit("b" * 40, "small cleanup", "tester", "2026-01-01", python_diff)
+    assert variant.evaluate_commit(python_commit) is None

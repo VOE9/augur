@@ -40,12 +40,14 @@ class ClassicSZZ:
 
         blamed: list[tuple[str, str]] = []
         for start, end in ranges:
-            for line in range(start, end + 1):
-                if len(blamed) >= _MAX_LINES_BLAMED:
-                    break
-                result = repo.blame_line(parent, filename, line)
-                if result is not None:
-                    blamed.append(result)
+            if len(blamed) >= _MAX_LINES_BLAMED:
+                break
+            # One blame per range, not per line. Same set of blamed
+            # commits either way -- blame's cost is dominated by walking
+            # history, which the whole range shares.
+            remaining = _MAX_LINES_BLAMED - len(blamed)
+            capped_end = min(end, start + remaining - 1)
+            blamed.extend(repo.blame_range(parent, filename, start, capped_end))
 
         if not blamed:
             return SzzResult(False, "none of the removed/changed lines could be blamed at the parent revision")

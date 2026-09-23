@@ -18,6 +18,7 @@ from .harness.pipeline import HarnessPipeline, Verdict
 from .provenance.pipeline import ProvenancePipeline
 from .radar.engine import RadarEngine
 from .radar.repository import GitCommandError, GitRepository
+from .radar.signal import MemorySafetyDiffSignal
 
 
 def cmd_radar(args: argparse.Namespace) -> int:
@@ -28,7 +29,14 @@ def cmd_radar(args: argparse.Namespace) -> int:
         return 1
 
     print(f"[*] scanning last {args.limit} commit(s) in {args.clone_path}...", file=sys.stderr)
-    findings = RadarEngine().scan(repo, limit=args.limit)
+    if args.variant == "memory-safety":
+        engine = RadarEngine(
+            extra_signals=[MemorySafetyDiffSignal()],
+            qualifying_signal_names={MemorySafetyDiffSignal.name},
+        )
+    else:
+        engine = RadarEngine()
+    findings = engine.scan(repo, limit=args.limit)
     print(f"[*] {len(findings)} commit(s) qualified as possible silent fixes", file=sys.stderr)
 
     report = render_radar_report(findings)
@@ -146,6 +154,10 @@ def main(argv: list[str] | None = None) -> int:
     p_radar.add_argument("clone_path", type=Path, help="path to an existing local git clone")
     p_radar.add_argument("--limit", type=int, default=200, help="how many recent commits to scan (default 200)")
     p_radar.add_argument("--out", type=Path, default=None)
+    p_radar.add_argument(
+        "--variant", choices=("default", "memory-safety"), default="default",
+        help="opt-in experimental signal variant; default preserves the original Radar",
+    )
     p_radar.set_defaults(func=cmd_radar)
 
     p_harness = sub.add_parser("harness", help="attempt an automatic differential ASan proof for one C function")

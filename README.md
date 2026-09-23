@@ -4,7 +4,7 @@ Reads the signs in a project's own commit history. Two independent
 sections:
 
 ```
-python3 -m augur radar <path-to-local-clone> [--limit N]
+python3 -m augur radar <path-to-local-clone> [--limit N] [--variant default|memory-safety]
 python3 -m augur harness --old OLD.c --new NEW.c --function NAME --seed "..." [--param name=value ...]
 ```
 
@@ -43,6 +43,18 @@ Augur existed.
 this one first." A commit can legitimately show up at "low" confidence
 just for touching a path with a sensitive-sounding name — the radar is
 broad-recall by design; judgment stays with the human reading the report.
+
+The default Radar is preserved as the reproducible baseline. An opt-in
+`memory-safety` variant adds a transparent C/C++ signal for added size,
+allocation, copy, and guard/comparison vocabulary:
+
+```
+$ python3 -m augur radar ./some-clone --variant memory-safety --limit 300
+```
+
+This variant is an experimental candidate-ranking signal, not a proof of a
+memory-safety vulnerability. It is deliberately isolated from the default
+qualifying signals so baseline comparisons remain valid.
 
 ## Section 2 — harness
 

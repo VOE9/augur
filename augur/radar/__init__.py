@@ -2,9 +2,9 @@ from .commit import ChangedFile, Commit
 from .engine import RadarEngine
 from .finding import Finding
 from .repository import GitCommandError, GitRepository
-from .signal import Signal, SignalResult
+from .signal import MemorySafetyDiffSignal, Signal, SignalResult
 
 __all__ = [
     "ChangedFile", "Commit", "RadarEngine", "Finding",
-    "GitCommandError", "GitRepository", "Signal", "SignalResult",
+    "GitCommandError", "GitRepository", "MemorySafetyDiffSignal", "Signal", "SignalResult",
 ]

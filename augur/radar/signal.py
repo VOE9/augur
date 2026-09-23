@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+import re
 
 from .commit import Commit
 
@@ -38,6 +39,21 @@ DANGEROUS_SINK_KEYWORDS = [
     " query(\"", " query('", "unmarshal(", "pickle.loads(", "yaml.load(",
     "readfile(", "include(", "require(",
 ]
+
+# Experimental C/C++ memory-safety vocabulary. This is opt-in so the default
+# Radar remains an unchanged baseline for comparison.
+MEMORY_SAFETY_RE = re.compile(
+    r"\b(null|nullptr|size|len|length|count|capacity|alloc|malloc|calloc|"
+    r"realloc|memcpy|memmove|strcpy|strncpy|snprintf|free|overflow|"
+    r"underflow|bound)\b",
+    re.IGNORECASE,
+)
+MEMORY_GUARD_RE = re.compile(
+    r"\b(if|else|assert|return|check|validate|guard|prevent|avoid)\b"
+    r"|(?:!=|==|<=|>=|<|>)",
+    re.IGNORECASE,
+)
+C_CPP_SUFFIXES = {".c", ".h", ".cc", ".hh", ".cpp", ".hpp", ".cxx", ".hxx"}
 
 STRONG_SENSITIVE_PATH_KEYWORDS = [
     "auth", "login", "session", "password", "secret", "crypto", "cipher",
@@ -171,4 +187,30 @@ class SmallFocusedDiffSignal(Signal):
         fired = 0 < n_files <= 3 and 0 < n_lines <= 40
         detail = f"{n_files} file(s), {n_lines} line(s) changed"
         detail += " -- small and focused." if fired else " -- too broad or too small for a single targeted patch."
+        return SignalResult(self.name, self.weight, fired, detail)
+
+
+class MemorySafetyDiffSignal(Signal):
+    """Opt-in signal for added C/C++ memory-safety guards.
+
+    A commit fires when added source lines contain at least one memory/size
+    token and at least one guard/comparison token. The rule is transparent and
+    intentionally isolated from the default Radar baseline.
+    """
+
+    name = "memory_safety_diff"
+    weight = 1.5
+
+    def evaluate(self, commit: Commit) -> SignalResult:
+        added = commit.added_lines_for_suffixes(C_CPP_SUFFIXES)
+        memory_lines = [line for line in added.splitlines() if MEMORY_SAFETY_RE.search(line)]
+        guard_lines = [line for line in added.splitlines() if MEMORY_GUARD_RE.search(line)]
+        fired = bool(memory_lines and guard_lines)
+        if fired:
+            detail = (
+                f"added source lines contain {len(memory_lines)} memory-safety line(s) "
+                f"and {len(guard_lines)} guard/comparison line(s)"
+            )
+        else:
+            detail = "No added source-line combination matched memory-safety plus guard vocabulary."
         return SignalResult(self.name, self.weight, fired, detail)

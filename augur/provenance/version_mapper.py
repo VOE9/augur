@@ -24,12 +24,16 @@ class VersionRangeMapper:
         to) `introduction_commit` but NOT a descendant of `fix_commit` --
         i.e. it contains the vulnerable code but not yet the fix."""
         all_tags = repo.tags_sorted_by_date()
+        # Two git calls total, rather than two per tag.
+        with_intro = repo.tags_containing(introduction_commit)
+        with_fix = repo.tags_containing(fix_commit)
+
         vulnerable_tags: list[str] = []
         first_fixed: str | None = None
 
-        for tag_name, tag_sha in all_tags:
-            has_intro = tag_sha == introduction_commit or repo.is_ancestor(introduction_commit, tag_sha)
-            has_fix = tag_sha == fix_commit or repo.is_ancestor(fix_commit, tag_sha)
+        for tag_name, _tag_sha in all_tags:
+            has_intro = tag_name in with_intro
+            has_fix = tag_name in with_fix
             if has_intro and not has_fix:
                 vulnerable_tags.append(tag_name)
             elif has_fix and first_fixed is None:

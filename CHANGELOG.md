@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+**New:** an opt-in `memory-safety` Radar variant for C/C++ commits. It uses
+an explicit added-line vocabulary for memory/size operations together with
+guards or comparisons, while leaving the default Radar behavior unchanged.
+
+**Performance:** classic B-SZZ now blames changed line ranges in one Git
+invocation per range, and provenance tag checks use `git tag --contains`
+instead of one ancestry check per tag.
+
 ## 0.4.0
 
 **New:** `augur/provenance/szz_baseline.py` -- an implementation of

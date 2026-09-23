@@ -64,6 +64,24 @@ class Commit:
     def added_lines(self) -> str:
         return "\n".join(_ADDED_LINE_RE.findall(self._source_diff_text()))
 
+    def added_lines_for_suffixes(self, suffixes: set[str]) -> str:
+        """Added lines from source files whose suffix is in ``suffixes``.
+
+        Experimental language-specific signals use this to avoid treating
+        ordinary words in documentation or another programming language as
+        C/C++ memory-safety evidence.
+        """
+        chunks = re.split(r"(?=^diff --git )", self._raw_diff, flags=re.MULTILINE)
+        kept = []
+        for chunk in chunks:
+            match = _DIFF_FILE_HEADER_RE.search(chunk)
+            if not match:
+                continue
+            filename = match.group(2)
+            if any(filename.lower().endswith(suffix.lower()) for suffix in suffixes):
+                kept.append(chunk)
+        return "\n".join(_ADDED_LINE_RE.findall("\n".join(kept)))
+
     def removed_lines(self) -> str:
         return "\n".join(_REMOVED_LINE_RE.findall(self._source_diff_text()))
 
