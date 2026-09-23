@@ -1,7 +1,10 @@
-"""Extracts one named C function's full source text from a file, via
-brace matching -- deliberately not a real C parser. Good enough for the
-narrow class of functions Augur can auto-harness; anything it can't find
-cleanly is reported as not found, never guessed at."""
+"""Extracts one named C/C++ function's full source text.
+
+When Clang is available, the extractor uses Clang's AST to identify the
+definition boundaries and then applies the existing conservative signature
+classifier. The brace-matching implementation remains an explicit fallback
+for minimal environments and for source that Clang cannot parse.
+"""
 from __future__ import annotations
 
 import re
@@ -23,7 +26,20 @@ class ExtractedFunction:
 
 
 class FunctionExtractor:
+    def __init__(self, prefer_clang: bool = True):
+        self.prefer_clang = prefer_clang
+
     def find_function(self, source: str, function_name: str) -> ExtractedFunction | None:
+        if self.prefer_clang:
+            from .clang_function_extractor import ClangFunctionExtractor
+
+            parsed = ClangFunctionExtractor().find_function(source, function_name)
+            if parsed is not None and parsed.signature is not None:
+                return parsed
+
+        return self._find_with_brace_matching(source, function_name)
+
+    def _find_with_brace_matching(self, source: str, function_name: str) -> ExtractedFunction | None:
         cleaned = self._strip_attributes(source)
         for m in _SIGNATURE_RE.finditer(cleaned):
             if m.group(2) != function_name:

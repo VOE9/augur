@@ -90,8 +90,10 @@ No `--seed` was supplied above — Augur read the function's own `snprintf(...)`
 
 What it does, mechanically:
 
-1. Extracts the named function's full body from both source files (brace
-   matching, not a real C parser).
+1. Uses Clang's AST JSON output to locate the named function definition when
+   Clang is available, then falls back to conservative brace matching if the
+   translation unit cannot be parsed. The existing narrow signature classifier
+   still decides whether automatic harness generation is safe.
 2. Checks the function's signature is "simple" — every parameter is
    either a primitive scalar (`int`, `size_t`, ...) or a `char*`/`const
    char*` string. Anything else (structs, function pointers, multiple
@@ -231,7 +233,9 @@ that rather than guessing.
 
 No third-party runtime dependencies. Needs `git` (for `radar`) and a C
 compiler with `-fsanitize=address` support, typically `gcc` or `clang`
-(for `harness`) already on the system.
+(for `harness`) already on the system. Clang is preferred for AST-based
+function extraction; the documented fallback keeps the tool usable when only
+GCC is installed.
 
 ```bash
 pip install -r requirements.txt  # pytest, for running the test suite

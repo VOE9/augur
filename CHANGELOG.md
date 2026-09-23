@@ -14,6 +14,12 @@ configuration is embedded in the JSON result for reproducibility.
 invocation per range, and provenance tag checks use `git tag --contains`
 instead of one ancestry check per tag.
 
+**Harness correctness:** Clang AST extraction is now preferred for C/C++
+function boundaries, with the conservative brace matcher retained as an
+explicit fallback. Sanitizer attributes are removed before generating the
+test harness so a source-level `no_sanitize("address")` annotation cannot
+silently disable the ASan evidence path.
+
 ## 0.4.0
 
 **New:** `augur/provenance/szz_baseline.py` -- an implementation of

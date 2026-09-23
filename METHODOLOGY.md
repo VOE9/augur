@@ -61,6 +61,21 @@ from "diff" on the first `\n` would truncate any multi-line commit
 message) was caught by inspection while fixing the first one and fixed
 the same way: split on the literal `\ndiff --git ` marker instead.
 
+## Function extraction and parser fallback
+
+The harness now asks Clang for an AST JSON dump when the `clang` executable is
+available. It uses the AST only to locate the byte range of a real function
+definition; it does not treat compiler diagnostics as a vulnerability verdict.
+The existing conservative parameter classifier and pattern detector remain the
+authority for deciding whether automatic harness generation is supported.
+
+If Clang is unavailable or cannot produce a usable AST, Augur falls back to
+the earlier brace-matching extractor. This keeps the fallback explicit and
+testable rather than silently claiming that regex extraction is equivalent to
+parsing. The RTCON integration test exercises the Clang path against the real
+`getCrashAddress` regression, while a dedicated test keeps the fallback path
+available for minimal environments.
+
 ## Why harness needs a required `--seed`, not an inferred one
 
 An earlier design considered trying to reverse-engineer what "matching"

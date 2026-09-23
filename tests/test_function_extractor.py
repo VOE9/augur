@@ -3,6 +3,11 @@ no compiler needed. Two of these lock in real bugs found while building
 this module, not speculative edge cases."""
 from __future__ import annotations
 
+import shutil
+
+import pytest
+
+from augur.pattern.clang_function_extractor import ClangFunctionExtractor
 from augur.pattern.function_extractor import FunctionExtractor
 from augur.pattern.signature import FunctionSignature, Parameter
 
@@ -41,6 +46,31 @@ def test_extracts_real_function_with_multiline_gcc_attribute():
     assert fn is not None
     assert "memcpy(addr, pc, 20)" in fn.full_text
     assert fn.full_text.count("{") == fn.full_text.count("}")
+
+
+@pytest.mark.skipif(shutil.which("clang") is None, reason="clang not available")
+def test_clang_ast_extracts_the_real_rtcon_function():
+    fn = ClangFunctionExtractor().find_function(REAL_RTCON_GETCRASHADDRESS, "getCrashAddress")
+    assert fn is not None
+    assert fn.signature is not None
+    assert "memcpy(addr, pc, 20)" in fn.full_text
+    assert fn.full_text.count("{") == fn.full_text.count("}")
+
+
+@pytest.mark.skipif(shutil.which("clang") is None, reason="clang not available")
+def test_clang_ast_extracts_a_cpp_method():
+    source = "class Parser { public: int copy(const char *src, int n) { return n + (src != nullptr); } };"
+    fn = ClangFunctionExtractor().find_function(source, "copy")
+    assert fn is not None
+    assert fn.signature is not None
+    assert fn.signature.is_simple()
+    assert "return n" in fn.full_text
+
+
+def test_legacy_extractor_can_be_selected_explicitly():
+    fn = FunctionExtractor(prefer_clang=False).find_function(REAL_RTCON_GETCRASHADDRESS, "getCrashAddress")
+    assert fn is not None
+    assert fn.signature is not None
 
 
 def test_real_function_signature_parses_as_simple():
