@@ -6,6 +6,10 @@
 an explicit added-line vocabulary for memory/size operations together with
 guards or comparisons, while leaving the default Radar behavior unchanged.
 
+**Experiment interface:** Radar now supports JSON evidence output plus
+per-signal weight and confidence-threshold overrides. The selected
+configuration is embedded in the JSON result for reproducibility.
+
 **Performance:** classic B-SZZ now blames changed line ranges in one Git
 invocation per range, and provenance tag checks use `git tag --contains`
 instead of one ancestry check per tag.

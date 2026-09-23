@@ -29,17 +29,47 @@ def cmd_radar(args: argparse.Namespace) -> int:
         return 1
 
     print(f"[*] scanning last {args.limit} commit(s) in {args.clone_path}...", file=sys.stderr)
+    weights = {}
+    for raw_weight in args.weight:
+        if "=" not in raw_weight:
+            print(f"[!] --weight must be signal=value, got: {raw_weight}", file=sys.stderr)
+            return 1
+        name, raw_value = raw_weight.split("=", 1)
+        try:
+            weights[name] = float(raw_value)
+        except ValueError:
+            print(f"[!] invalid --weight value: {raw_weight}", file=sys.stderr)
+            return 1
+
     if args.variant == "memory-safety":
         engine = RadarEngine(
             extra_signals=[MemorySafetyDiffSignal()],
             qualifying_signal_names={MemorySafetyDiffSignal.name},
+            weight_overrides=weights,
+            high_threshold=args.high_threshold,
+            medium_threshold=args.medium_threshold,
         )
     else:
-        engine = RadarEngine()
+        engine = RadarEngine(
+            weight_overrides=weights,
+            high_threshold=args.high_threshold,
+            medium_threshold=args.medium_threshold,
+        )
     findings = engine.scan(repo, limit=args.limit)
     print(f"[*] {len(findings)} commit(s) qualified as possible silent fixes", file=sys.stderr)
 
-    report = render_radar_report(findings)
+    if args.format == "json":
+        report = render_radar_json(
+            findings,
+            {
+                "variant": args.variant,
+                "high_threshold": engine.high_threshold,
+                "medium_threshold": engine.medium_threshold,
+                "weight_overrides": weights,
+            },
+        )
+    else:
+        report = render_radar_report(findings)
     if args.out:
         args.out.write_text(report)
         print(f"[*] report written to {args.out}", file=sys.stderr)
@@ -56,6 +86,18 @@ def render_radar_report(findings) -> str:
     if not findings:
         lines.append("No commits qualified in this range.")
     return "\n".join(lines)
+
+
+def render_radar_json(findings, configuration: dict | None = None) -> str:
+    payload = {
+        "schema_version": "1.0",
+        "tool": "augur",
+        "mode": "radar",
+        "qualified_count": len(findings),
+        "configuration": configuration or {},
+        "findings": [finding.to_dict() for finding in findings],
+    }
+    return json.dumps(payload, indent=2) + "\n"
 
 
 def cmd_harness(args: argparse.Namespace) -> int:
@@ -154,6 +196,10 @@ def main(argv: list[str] | None = None) -> int:
     p_radar.add_argument("clone_path", type=Path, help="path to an existing local git clone")
     p_radar.add_argument("--limit", type=int, default=200, help="how many recent commits to scan (default 200)")
     p_radar.add_argument("--out", type=Path, default=None)
+    p_radar.add_argument("--format", choices=("markdown", "json"), default="markdown")
+    p_radar.add_argument("--weight", action="append", default=[], help="override a signal weight: signal=value")
+    p_radar.add_argument("--high-threshold", type=float, default=RadarEngine.HIGH_THRESHOLD)
+    p_radar.add_argument("--medium-threshold", type=float, default=RadarEngine.MEDIUM_THRESHOLD)
     p_radar.add_argument(
         "--variant", choices=("default", "memory-safety"), default="default",
         help="opt-in experimental signal variant; default preserves the original Radar",

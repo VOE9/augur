@@ -126,3 +126,23 @@ index 1111111..2222222 100644
     python_diff = raw_diff.replace("src/copy.c", "docs/example.py").replace("if (n <= capacity) return;", "if (n <= capacity): return")
     python_commit = Commit("b" * 40, "small cleanup", "tester", "2026-01-01", python_diff)
     assert variant.evaluate_commit(python_commit) is None
+
+
+def test_configured_weights_and_thresholds_are_reflected_in_evidence(sample_repo: Path):
+    repo = GitRepository(sample_repo)
+    baseline = next(f for f in RadarEngine().scan(repo, limit=20) if f.commit.subject == "small cleanup")
+    configured = RadarEngine(
+        weight_overrides={"vague_message_defensive_diff": 0.0},
+        high_threshold=2.0,
+        medium_threshold=1.0,
+    )
+    finding = next(f for f in configured.scan(repo, limit=20) if f.commit.subject == "small cleanup")
+
+    assert finding.score < baseline.score
+    assert finding.confidence == "high"
+    vague = next(r for r in finding.signal_results if r.name == "vague_message_defensive_diff")
+    assert vague.fired is True
+    assert vague.weight == 0.0
+    payload = finding.to_dict()
+    assert payload["commit"]["sha"] == finding.commit.sha
+    assert any(signal["name"] == "vague_message_defensive_diff" for signal in payload["signals"])

@@ -56,6 +56,21 @@ This variant is an experimental candidate-ranking signal, not a proof of a
 memory-safety vulnerability. It is deliberately isolated from the default
 qualifying signals so baseline comparisons remain valid.
 
+For reproducible experiments, request machine-readable evidence and record
+the exact configuration used:
+
+```
+$ python3 -m augur radar ./some-clone --limit 300 \
+    --format json --out radar-results.json \
+    --weight memory_safety_diff=2.0 \
+    --high-threshold 5.0 --medium-threshold 2.5
+```
+
+The JSON output includes a schema version, every qualified commit's full SHA,
+changed files, score, confidence, all signal results, and the active weights
+and thresholds. This is intended for benchmark scripts and sensitivity
+analysis; it does not turn a heuristic ranking into a vulnerability verdict.
+
 ## Section 2 — harness
 
 For a narrow, specific class of C/C++ fixes, turns a heuristic flag into

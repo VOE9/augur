@@ -16,6 +16,31 @@ class Finding:
     def fired_signals(self) -> list[SignalResult]:
         return [r for r in self.signal_results if r.fired]
 
+    def to_dict(self) -> dict:
+        """Stable machine-readable evidence for evaluation and reproduction."""
+        c = self.commit
+        return {
+            "commit": {
+                "sha": c.sha,
+                "subject": c.subject,
+                "message": c.message,
+                "author": c.author,
+                "date": c.date,
+                "changed_files": [f.filename for f in c.changed_files],
+            },
+            "score": self.score,
+            "confidence": self.confidence,
+            "signals": [
+                {
+                    "name": result.name,
+                    "weight": result.weight,
+                    "fired": result.fired,
+                    "detail": result.detail,
+                }
+                for result in self.signal_results
+            ],
+        }
+
     def to_markdown(self) -> str:
         c = self.commit
         lines = [
