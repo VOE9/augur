@@ -10,9 +10,24 @@ from __future__ import annotations
 import re
 
 from .signature import FunctionSignature
+from .unbounded_copy import _strip_comments_and_literals
 
+# The return type is matched as a run of type-ish characters -- word
+# characters, spaces, tabs and `*` -- that stops immediately before the
+# function name, with the separator allowed to be empty. Letting the `*`
+# be part of that run, and not requiring whitespace between the type and
+# the name, is what makes the ordinary one-line spelling
+# `static char *parse_addr(...)` parse. The previous form required a `\s+`
+# between type and name, so it only matched when the two happened to land
+# on different lines (`static void *\ngetCrashAddress(...)`, as in RTCON);
+# every single-line pointer-returning declaration was reported as "could not
+# locate function" -- indistinguishable from the function being absent.
+# The name is verified against the caller's request afterwards, so a
+# permissive return-type match cannot make the extractor find the wrong
+# function.
 _SIGNATURE_RE = re.compile(
-    r"^[ \t]*((?:static\s+|inline\s+)*[\w \t]+?[\w \t\*]*?)\s+(\w+)\s*\(([^;{}]*)\)\s*\{",
+    r"^[ \t]*(?P<return_type>[A-Za-z_][\w \t\*]*?)\s*"
+    r"(?P<name>\w+)\s*\((?P<params>[^;{}]*)\)\s*\{",
     re.MULTILINE,
 )
 _ATTRIBUTE_RE = re.compile(r"__attribute__\s*\(\(")
@@ -41,15 +56,16 @@ class FunctionExtractor:
 
     def _find_with_brace_matching(self, source: str, function_name: str) -> ExtractedFunction | None:
         cleaned = self._strip_attributes(source)
-        for m in _SIGNATURE_RE.finditer(cleaned):
-            if m.group(2) != function_name:
+        syntax = _strip_comments_and_literals(cleaned)
+        for m in _SIGNATURE_RE.finditer(syntax):
+            if m.group("name") != function_name:
                 continue
             brace_start = m.end() - 1
-            end = self._matching_brace(cleaned, brace_start)
+            end = self._matching_brace(syntax, brace_start)
             if end is None:
                 continue
             body = cleaned[m.start():end + 1]
-            signature = FunctionSignature.parse(m.group(1), m.group(2), m.group(3))
+            signature = FunctionSignature.parse(m.group("return_type"), m.group("name"), m.group("params"))
             return ExtractedFunction(name=function_name, full_text=body, signature=signature)
         return None
 

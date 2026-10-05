@@ -1,0 +1,102 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    # `harness` needs a C compiler with a working AddressSanitizer runtime to
+    # prove anything. That is not available everywhere, so the suite is run in
+    # two tiers rather than silently skipping the parts that actually matter.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.10", "3.12"]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Windows has no `which`, and the suite must not depend on a Unix-only
+      # utility; git is preinstalled on all three runners.
+      - name: Verify git is reachable without `which`
+        shell: bash
+        run: |
+          python -c "import shutil,sys; sys.exit(0 if shutil.which('git') else 'git not found')"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Run test suite
+        run: python -m pytest tests/ -q
+
+  # A dedicated job that guarantees the sanitizer-backed integration tests
+  # actually execute rather than being skipped. Linux images ship gcc with a
+  # working libasan, which is the configuration the ground-truth results in
+  # METHODOLOGY.md were produced on.
+  asan-ground-truth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Confirm ASan actually works
+        run: |
+          printf 'int main(void){return 0;}\n' > /tmp/probe.c
+          gcc -fsanitize=address /tmp/probe.c -o /tmp/probe
+          /tmp/probe
+
+      - name: Run ASan-backed tests and fail if they were skipped
+        run: |
+          python -m pytest tests/ -q -rs --junitxml=/tmp/augur-tests.xml
+          python scripts/check_test_evidence_hussein.py /tmp/augur-tests.xml \
+            --require-case 'tests.test_release_regressions::test_conditional_guard_reproduces_real_overread' \
+            --require-case 'tests.test_release_regressions::test_function_name_inside_return_type_compiles' \
+            --require-case 'tests.test_release_regressions::test_provenance_follows_renames_and_worktrees' \
+            --require-case 'tests.test_harness_pipeline_integration::test_confirms_real_rtcon_regression_fix' \
+            --require-case 'tests.test_auto_seed_integration::test_confirms_real_rtcon_fix_with_zero_human_supplied_seed' \
+            --require-case 'tests.test_verdict_correctness::test_partial_fix_is_not_confirmed' \
+            --require-case 'tests.test_verdict_correctness::test_regression_introduced_by_fix_is_reported' \
+            --require-case 'tests.test_runner_hussein::test_actual_new_timeout_cannot_confirm_actual_old_asan_error' \
+            --require-case 'tests.test_sanitizer_output_parsing::test_leaking_function_is_reported_clean_by_a_real_run' \
+            --require-case 'tests.test_sanitizer_output_parsing::test_leak_detection_can_be_turned_back_on'
+
+      - name: Verify isolated wheel installation and console commands
+        run: python scripts/check_release_hussein.py
+
+      - name: End-to-end against the real RTCON fix commit
+        run: |
+          git clone -q https://github.com/kaist-hacking/RTCON.git /tmp/rtcon
+          git -C /tmp/rtcon show e8b4127^:skel/crash.c > /tmp/old.c
+          git -C /tmp/rtcon show e8b4127:skel/crash.c  > /tmp/new.c
+          python -m augur harness --old /tmp/old.c --new /tmp/new.c \
+            --function getCrashAddress --param index=0 \
+            | tee /tmp/result.json
+          python - <<'PY'
+          import json
+          verdict = json.load(open("/tmp/result.json"))["verdict"]
+          assert verdict == "confirmed_regression_fix", f"got {verdict}"
+          print("real ground truth reproduced:", verdict)
+          PY

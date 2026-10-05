@@ -1,6 +1,12 @@
 __pycache__/
 *.pyc
 .venv/
+.venv-*/
+local-clones/
+review-evidence/
+dist/
+.coverage
+htmlcov/
 .pytest_cache/
 *.o
 *.egg-info/

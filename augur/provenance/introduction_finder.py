@@ -52,19 +52,19 @@ class VulnerabilityIntroductionFinder:
         if reference is None:
             return IntroductionResult(
                 False,
-                "the vulnerable pattern isn't detected in the commit right before the fix -- "
+                "no UNGUARDED copy of the tracked shape is present in the commit right before the fix -- "
                 "can't establish a signature to search history for",
             )
 
-        history = repo.file_history_before(filename, fix_commit)
+        history = repo.file_history_with_paths_before(filename, fix_commit)
         if not history:
             return IntroductionResult(False, "no file history found before the fix commit")
 
         last_matching = parent
         examined = 0
-        for commit_sha in reversed(history):  # newest to oldest
+        for commit_sha, historical_path in history:
             examined += 1
-            finding = self._detect_at(repo, commit_sha, filename, function_name, tainted_param)
+            finding = self._detect_at(repo, commit_sha, historical_path, function_name, tainted_param)
             if finding is None or not self._same_signature(finding, reference):
                 break
             last_matching = commit_sha
@@ -78,19 +78,43 @@ class VulnerabilityIntroductionFinder:
         )
 
     def _detect_at(self, repo: GitRepository, commit_sha: str, filename: str, function_name: str, tainted_param: str) -> UnboundedCopyFinding | None:
+        """The first unguarded copy of the shape at this revision, or None.
+
+        Only unguarded findings count. A revision where the copy is already
+        bounded does not carry the vulnerability, and matching through it
+        would walk the range back past the guard's introduction and report
+        the wrong commit -- as well as marking guarded releases as affected.
+        """
         source = repo.show_file_at(commit_sha, filename)
         if source is None:
             return None
         fn = self.extractor.find_function(source, function_name)
         if fn is None:
             return None
-        return self.detector.find(fn.full_text, {tainted_param})
+        for finding in self.detector.find_all(fn.full_text, {tainted_param}):
+            if not finding.guarded:
+                return finding
+        return None
 
     @staticmethod
     def _same_signature(a: UnboundedCopyFinding, b: UnboundedCopyFinding) -> bool:
-        """Deliberately ignores `dest_buffer`/`source_expr` -- those are
-        just local variable *names*, and a purely cosmetic rename (caught
-        by this project's own integration test) must not look like a
-        different vulnerability. `dest_size`/`copy_length` are the
-        semantically meaningful, renaming-independent part of the shape."""
-        return a.dest_size == b.dest_size and a.copy_length == b.copy_length
+        """Whether two findings describe the same vulnerability.
+
+        Deliberately ignores `dest_buffer`/`source_expr` -- those are just
+        local variable *names*, and a purely cosmetic rename (caught by
+        this project's own integration test) must not look like a
+        different vulnerability.
+
+        `dest_size`/`copy_length` are the renaming-independent part of the
+        shape, and `copy_call` is included because the copies do not carry
+        the same defect: `memcpy(buf, src, 8)` reads 8 bytes past the end
+        of a short source, while `strncpy(buf, src, 8)` reads only up to
+        the terminator and zero-fills the rest, so it does not over-read.
+        Treating them as the same vulnerability let the walk continue
+        through a commit that had removed the actual defect.
+        """
+        return (
+            a.dest_size == b.dest_size
+            and a.copy_length == b.copy_length
+            and a.copy_call == b.copy_call
+        )

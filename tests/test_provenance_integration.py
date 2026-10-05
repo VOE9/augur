@@ -7,8 +7,6 @@ vulnerable tags == {v1.1.0, v1.2.0} (not v1.0.0, not v2.0.0);
 first_fixed_tag == v2.0.0."""
 from __future__ import annotations
 
-import subprocess
-
 import pytest
 
 from augur.provenance.pipeline import ProvenancePipeline

@@ -1,6 +1,7 @@
 """Edge cases for the provenance module, offline where possible."""
 from __future__ import annotations
 
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -9,7 +10,10 @@ import pytest
 from augur.provenance.pipeline import ProvenancePipeline
 from augur.radar.repository import GitRepository
 
-GIT_MISSING = subprocess.run(["which", "git"], capture_output=True).returncode != 0
+# `which` is a Unix utility; on Windows it does not exist and calling it
+# raised FileNotFoundError at import time, aborting collection of the whole
+# suite rather than skipping the git-dependent tests.
+GIT_MISSING = shutil.which("git") is None
 
 
 def _git(repo: Path, *args: str) -> str:

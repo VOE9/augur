@@ -1,0 +1,141 @@
+{
+  "recorded": "2026-10-02",
+  "git_version": "2.53.0",
+  "window_commits": 400,
+  "method": "radar's default variant executed against eight real local clones, with and without --discount-common-path-keywords. Every number was measured by running the tool; none is estimated.",
+  "headline": "At the default setting the report was unusable on openssl: 34.5% of a 400-commit window qualified. The cause was measured, not guessed -- sensitive_path fired on 132 of 138 candidates (96%), because the keyword 'crypto' matches 642 changed paths in that window: the entire project lives under crypto/. Discounting keywords that match most of the window takes openssl to 8.0% and leaves all seven other projects bit-identical, including every one of the 68 high-confidence findings.",
+  "discount_calibration": {
+    "note": "The two frequency marks bracket the measured gap. This is a calibration over eight projects, not a law: a project where a genuinely security-critical area occupies 30% of its commits will have that keyword ignored.",
+    "low_frequency_mark": 0.1,
+    "high_frequency_mark": 0.3,
+    "measured_keyword_frequencies": {
+      "openssl/crypto": 0.305,
+      "openssl/cipher": 0.048,
+      "openssl/parse": 0.018,
+      "libpng/auth": 0.1,
+      "sqlite/sql": 0.063,
+      "curl/auth": 0.025
+    }
+  },
+  "totals": {
+    "candidates_default": 314,
+    "candidates_discounted": 208,
+    "removed": 106,
+    "removed_share": "33.8%",
+    "high_confidence_default": 68,
+    "high_confidence_discounted": 68
+  },
+  "projects": [
+    {
+      "project": "curl",
+      "repo_history_commits": 39975,
+      "commits_scanned": 400,
+      "candidates_default": 19,
+      "candidate_rate_default": "4.8%",
+      "candidates_discounted": 19,
+      "candidate_rate_discounted": "4.8%",
+      "removed_share": "0.0%"
+    },
+    {
+      "project": "jq",
+      "repo_history_commits": 1954,
+      "commits_scanned": 400,
+      "candidates_default": 6,
+      "candidate_rate_default": "1.5%",
+      "candidates_discounted": 6,
+      "candidate_rate_discounted": "1.5%",
+      "removed_share": "0.0%"
+    },
+    {
+      "project": "libpng",
+      "repo_history_commits": 4722,
+      "commits_scanned": 400,
+      "candidates_default": 51,
+      "candidate_rate_default": "12.8%",
+      "candidates_discounted": 51,
+      "candidate_rate_discounted": "12.8%",
+      "removed_share": "0.0%"
+    },
+    {
+      "project": "libtiff",
+      "repo_history_commits": 5363,
+      "commits_scanned": 400,
+      "candidates_default": 23,
+      "candidate_rate_default": "5.8%",
+      "candidates_discounted": 23,
+      "candidate_rate_discounted": "5.8%",
+      "removed_share": "0.0%"
+    },
+    {
+      "project": "openssl",
+      "repo_history_commits": 41346,
+      "commits_scanned": 400,
+      "candidates_default": 138,
+      "candidate_rate_default": "34.5%",
+      "candidates_discounted": 32,
+      "candidate_rate_discounted": "8.0%",
+      "removed_share": "76.8%"
+    },
+    {
+      "project": "redis",
+      "repo_history_commits": 13319,
+      "commits_scanned": 400,
+      "candidates_default": 35,
+      "candidate_rate_default": "8.8%",
+      "candidates_discounted": 35,
+      "candidate_rate_discounted": "8.8%",
+      "removed_share": "0.0%"
+    },
+    {
+      "project": "sqlite",
+      "repo_history_commits": 32540,
+      "commits_scanned": 400,
+      "candidates_default": 38,
+      "candidate_rate_default": "9.5%",
+      "candidates_discounted": 38,
+      "candidate_rate_discounted": "9.5%",
+      "removed_share": "0.0%"
+    },
+    {
+      "project": "zlib",
+      "repo_history_commits": 1126,
+      "commits_scanned": 400,
+      "candidates_default": 4,
+      "candidate_rate_default": "1.0%",
+      "candidates_discounted": 4,
+      "candidate_rate_discounted": "1.0%",
+      "removed_share": "0.0%"
+    },
+    {
+      "project": "ffmpeg",
+      "status": "not fetched; clone exceeded the time budget"
+    },
+    {
+      "project": "qemu",
+      "status": "not fetched; clone exceeded the time budget"
+    },
+    {
+      "project": "git",
+      "status": "not fetched; clone exceeded the time budget"
+    },
+    {
+      "project": "nginx",
+      "status": "not fetched; clone exceeded the time budget"
+    },
+    {
+      "project": "php-src",
+      "status": "not fetched; clone exceeded the time budget"
+    },
+    {
+      "project": "cpython",
+      "status": "not fetched; clone exceeded the time budget"
+    }
+  ],
+  "caveats": [
+    "Candidate rate measures how noisy the report is at a given threshold. It is NOT an accuracy figure. It does not measure how many real silent fixes were found: recall cannot be computed from these runs because there are no ground-truth labels for silent fixes in the scanned windows, and no precision or recall claim is made anywhere in this file.",
+    "Removing 106 candidates removes unknowns, not known false positives. No manual review of the removed set was performed, so it is unknown whether any real silent fix was among them.",
+    "The discount is calibrated on eight projects and could be wrong for a project whose security-critical code legitimately dominates its history.",
+    "Parse timings on libtiff, openssl, redis and sqlite (244-435s for a 400-commit window) are inflated by the cache being cloned with --filter=blob:none, which fetches blobs on demand. Not a clean measurement of the tool; must be retaken on a full clone.",
+    "Six further planned projects were not fetched, so this is eight, not sixteen."
+  ]
+}

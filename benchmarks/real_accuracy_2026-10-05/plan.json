@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-05",
+  "protocol": "real upstream Git histories; unmodified messages and diffs; labels selected before scores; no mocks or generated repositories",
+  "limit": 100,
+  "min_score": 0.0,
+  "top_k": 5,
+  "variants": [
+    "default",
+    "memory-safety"
+  ],
+  "negative_selection": "First ten manually reviewed documentation-only commits per project from the union of pinned windows, ordered by full SHA. Entire diff must contain prose/links only; source, build and generated behavioral changes are rejected. Unknown commits remain unlabeled.",
+  "population": "Purposive small challenge set, not a representative estimate of all security fixes or production precision. Eligible means passes current disclosure/conventional-type filters; not equivalent to independently verified silent disclosure.",
+  "radar_source_sha256": {
+    "commit.py": "dafe5752ddf7512f3f5f416e1baff4d2d9bd29bf1d766287a305453b20c1252f",
+    "engine.py": "ed6975f312128ef094245feb6175d058d61a2e23393947194e3306eea029caaf",
+    "finding.py": "4066c0422b48080e0afca1820e4f0cca8f57407c0705cdc597445bfdacac58dc",
+    "repository.py": "bce327315208997b8ff592b992e68bd6b078d3b1eb4190f591f6289687345450",
+    "signal.py": "2d3aab8d7df29b04641ebbf1b8984d7102029e38cade2613d1041b2d4d01540e",
+    "__init__.py": "4e4803b3f703bea679aa2762786552d68cc826462d64ced77553bd4d8c5a6044"
+  }
+}

@@ -62,8 +62,9 @@ class ClangFunctionExtractor:
                     "-Xclang", "-ast-dump=json",
                     "-",
                 ],
-                input=source,
-                text=True,
+                # Byte offsets in Clang's AST must refer to exactly these
+                # bytes. Text-mode pipes may translate newlines on Windows.
+                input=source.encode("utf-8"),
                 capture_output=True,
                 timeout=self.timeout,
                 check=False,

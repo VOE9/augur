@@ -5,8 +5,8 @@ RadarEngine's scoring together, the same way it would run against any
 real clone."""
 from __future__ import annotations
 
+import shutil
 import subprocess
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -16,7 +16,10 @@ from augur.radar.engine import RadarEngine
 from augur.radar.repository import GitRepository
 from augur.radar.signal import MemorySafetyDiffSignal
 
-GIT_MISSING = subprocess.run(["which", "git"], capture_output=True).returncode != 0
+# `which` is a Unix utility; on Windows it does not exist and calling it
+# raised FileNotFoundError at import time, aborting collection of the whole
+# suite rather than skipping the git-dependent tests.
+GIT_MISSING = shutil.which("git") is None
 
 
 def _git(repo: Path, *args: str) -> None:
@@ -146,3 +149,119 @@ def test_configured_weights_and_thresholds_are_reflected_in_evidence(sample_repo
     payload = finding.to_dict()
     assert payload["commit"]["sha"] == finding.commit.sha
     assert any(signal["name"] == "vague_message_defensive_diff" for signal in payload["signals"])
+
+
+@pytest.mark.skipif(GIT_MISSING, reason="git not available")
+def test_git_version_is_parsed_correctly():
+    """Regression test for an indexing error that made this check fail for
+    every git build.
+
+    `git --version` prints "git version 2.53.0", which splits to
+    ['git', 'version', '2.53.0'] -- the product name is parts[0] and the
+    version string is parts[2]. Reading the name from parts[2] and the
+    version from parts[3] made the comparison against "git" always fail,
+    so every caller was silently routed to the older-git fallback. That
+    fallback used `--first-parent`, which restricts traversal to the
+    first-parent chain, so side-branch commits disappeared from the scan
+    entirely -- a silent loss of coverage that no existing test caught.
+    """
+    from augur.radar import repository as repo_module
+
+    parsed = repo_module._git_version()
+    assert parsed is not None, "the local git must be discoverable"
+    assert len(parsed) == 2
+    assert all(isinstance(n, int) and n >= 0 for n in parsed)
+
+    args = repo_module._log_diff_merge_args()
+    if parsed >= (2, 31):
+        assert args == ("--diff-merges=first-parent",)
+    else:
+        assert args == ("-m",)
+
+
+@pytest.mark.skipif(GIT_MISSING, reason="git not available")
+def test_diff_merge_args_never_leave_a_merge_commit_diffless():
+    """The blind spot being closed: `git log -p` prints no diff at all for a
+    merge commit, so a silent fix integrated by merge was carried by a
+    commit whose diff was empty and could match no diff-shaped signal."""
+    from augur.radar import repository as repo_module
+
+    assert repo_module._log_diff_merge_args()
+
+
+def test_diff_merge_args_do_not_restrict_traversal():
+    """`--first-parent` would deduplicate a merge commit's diff but would
+    also hide every side-branch commit. The fallback must not use it."""
+    from augur.radar import repository as repo_module
+
+    assert "--first-parent" not in repo_module._log_diff_merge_args()
+
+
+# --- Discounting path keywords that match the whole window ---------------
+#
+# Measured motivation: in a real openssl clone the keyword `crypto` matches
+# 642 changed paths across a 400-commit window, because the entire project
+# lives under `crypto/`, and `sensitive_path` fired on 132 of openssl's 138
+# candidates -- 96% of the report, saying nothing. A keyword that appears in
+# most commits is a fact about the repository's layout, not about any fix.
+
+def _commit_with_paths(paths, message="tweak"):
+    body = "".join(f"diff --git a/{p} b/{p}\n--- a/{p}\n+++ b/{p}\n@@ -1 +1 @@\n-x\n+y\n"
+                   for p in paths)
+    return Commit(sha="0" * 40, message=message, author="a", date="2026-01-01", raw_diff=body)
+
+
+def test_a_keyword_matching_almost_every_commit_is_not_evidence():
+    """A signal asked to discount `crypto` must ignore it when `crypto` is
+    present in nearly every commit, and must still fire on a keyword that is
+    rare in the same window."""
+    from augur.radar.signal import SensitivePathSignal
+
+    common = SensitivePathSignal(keyword_frequencies={"crypto": 0.9, "auth": 0.01})
+    common_hit = common.evaluate(_commit_with_paths(["crypto/asn1/a.c"]))
+    rare_hit = common.evaluate(_commit_with_paths(["src/auth/login.c"]))
+
+    assert not common_hit.fired, (
+        "a keyword matching 90% of the window must not make every commit a candidate"
+    )
+    assert "no evidence" in common_hit.detail
+    assert rare_hit.fired, "a keyword matching 1% of the window must still count"
+
+
+def test_discount_is_off_unless_frequencies_are_supplied():
+    from augur.radar.signal import SensitivePathSignal
+
+    plain = SensitivePathSignal()
+    assert plain.evaluate(_commit_with_paths(["crypto/asn1/a.c"])).fired
+    assert plain.frequency_multiplier("crypto") == 1.0
+
+
+def test_multiplier_falls_between_the_two_marks():
+    from augur.radar.signal import SensitivePathSignal
+
+    s = SensitivePathSignal()
+    assert s.frequency_multiplier("x") == 1.0   # unknown keyword
+    assert s.frequency_multiplier("x") == 1.0
+    sig = SensitivePathSignal(keyword_frequencies={"x": 0.10})
+    assert sig.frequency_multiplier("x") == 1.0
+    sig = SensitivePathSignal(keyword_frequencies={"x": 0.30})
+    assert sig.frequency_multiplier("x") == 0.0
+    sig = SensitivePathSignal(keyword_frequencies={"x": 0.20})
+    mid = sig.frequency_multiplier("x")
+    assert 0.0 < mid < 1.0
+
+
+def test_frequencies_are_not_estimated_from_a_small_window():
+    """Below the minimum window the map stays empty, so the signal is exactly
+    what it was before this existed -- no silent behaviour change on small
+    scans."""
+    from augur.radar.engine import RadarEngine
+    from augur.radar.signal import SensitivePathSignal
+
+    engine = RadarEngine()
+    few = [_commit_with_paths(["crypto/a.c"]) for _ in range(10)]
+    assert engine.path_keyword_frequencies(few, SensitivePathSignal()) == {}
+
+    many = [_commit_with_paths(["crypto/a.c"]) for _ in range(100)]
+    freqs = engine.path_keyword_frequencies(many, SensitivePathSignal())
+    assert freqs["crypto"] == 1.0

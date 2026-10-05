@@ -152,15 +152,48 @@ real, common pattern; a symbolic fallback for the general case is
 documented here as a real next step, not attempted under time pressure
 just to use a fashionable technique.
 
-### The four verdicts
+### The verdicts
 
 | Verdict | Meaning |
 |---|---|
-| `confirmed_regression_fix` | Old crashed at some length under ASan; new ran cleanly at that same length. The strongest thing this tool can say. |
-| `no_difference_found` | Old never crashed across the whole sweep — either the seed never reaches the bug, or there isn't one at this shape. |
-| `inconclusive` | New *also* crashed at the same length old did — the fix may be incomplete, or (more likely) the harness's assumptions don't hold for this function. Never reported as a silent pass. |
-| `needs_manual_review` | The signature isn't simple, no matching parameter, or the narrow memcpy pattern wasn't found. This is the *expected*, common outcome for most real functions — Augur is honest that its scope is narrow, not that most bugs fit it. |
+| `confirmed_regression_fix` | Old crashed at one or more lengths under ASan; new crashed at **none** of the swept lengths. The strongest thing this tool can say, and the only verdict that asserts the new version is safe. |
+| `partial_fix` | Both crashed, and the new one crashed at lengths the old one also crashed at — or only at lengths the old one survived. The original crash is gone or narrowed, but the new code is still unsafe. |
+| `regression_introduced_by_fix` | Old never crashed anywhere in the sweep, new did. The change under test made things worse. |
+| `no_difference_found` | Neither implementation crashed across the whole sweep — either the seed never reaches the bug, or there isn't one at this shape. |
+| `inconclusive` | At least one input could not be evaluated (timeout, unexplained exit, harness failed to start). **Nothing** is concluded, in particular nothing is confirmed. |
+| `needs_manual_review` | The signature isn't a shape Augur can synthesize arguments for, or the tracked copy pattern wasn't found. This is the *expected*, common outcome for most real functions — Augur is honest that its scope is narrow, not that most bugs fit it. |
+| `not_found` | The named function could not be located in the given source. |
 | `seed_derivation_failed` | (`analyze_auto` / no `--seed` given only) The function's matching logic doesn't fit the snprintf-then-strstr shape automatic derivation needs. Supply `--seed` manually. |
+
+Two things this table is careful about, because both were real defects:
+
+- **`confirmed` means "clean at every length swept", not "clean at the one
+  length where old first crashed".** A partially-fixed version that is safe
+  for short inputs and still overflows for long ones used to pass as
+  confirmed. `tests/test_verdict_correctness.py` carries an ASan-verified
+  fixture for exactly that case.
+- **A run that could not be evaluated is not a run that passed.** Timeouts,
+  unexplained non-zero exits, and harnesses that failed to start all used
+  to read as "new did not crash". They now produce `inconclusive`.
+
+A confirmation is still a statement about the inputs that were actually
+tested, not about all inputs — one seed, one truncation sweep, one bug
+shape. Memory *leaks* are reported separately and never counted as
+memory-safety violations, since a function that allocates without freeing
+says nothing about whether a copy was bounded.
+
+### What the copy detector covers
+
+`memcpy`, `memmove`, `strcpy`, `strncpy` and `sprintf` into a
+fixed-size `char` buffer, from a pointer that traces back to a
+caller-supplied string. Copies with a computed length are **not** matched —
+`memcpy(buf, q, n)` cannot be judged from the source text alone, and
+staying silent is what makes a *fixed* function read as "not found", which
+is exactly what stops provenance's backward walk at the fix.
+
+A length comparison counts as a guard only when it can prevent the copy
+from running (an early exit, or a clamp). `if (strlen(q) < 16) log();
+memcpy(buf, q, 16);` is reported as unguarded.
 
 ## Section 3 — provenance
 
@@ -238,9 +271,37 @@ function extraction; the documented fallback keeps the tool usable when only
 GCC is installed.
 
 ```bash
+python3 -m pip install .        # installs the augur command
 pip install -r requirements.txt  # pytest, for running the test suite
 python3 -m pytest tests/
 ```
+
+On Windows, use WSL for the sanitizer-backed harness when a working GCC/ASan
+toolchain is not installed natively. Radar and provenance also accept Git
+worktrees. All source and report files are read/written as UTF-8.
+
+Manual seeds are UTF-8 strings; truncation lengths count **bytes**. Embedded
+NUL bytes are refused because this harness models C strings. Parameter names
+may change between versions, but parameter types and positions must remain
+compatible. Unsupported signature changes require manual review.
+
+Automatic prefix derivation supports a literal-sized `snprintf` followed by
+`strstr`, including C integer literal formatting, escapes, `%%` and byte
+truncation to the destination size. Unsupported expressions and prefixes
+truncated inside a UTF-8 character require a manual seed.
+
+Before preparing a release, run the suite with an ASan-capable compiler and
+verify that an isolated wheel installs and its console commands work:
+
+```bash
+python3 -m pytest tests/ -q -rs
+python3 scripts/check_release_hussein.py
+```
+
+GitHub Actions runs the portable suite on Linux, macOS and Windows, plus a
+dedicated Linux job that requires the critical compiler-backed tests to run.
+Real LeakSanitizer integration checks run on Linux; leak-output parsing tests
+run on every platform.
 
 ## Honest limits
 

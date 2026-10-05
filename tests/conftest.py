@@ -14,12 +14,17 @@ the provenance integration tests and the SZZ-baseline comparison tests:
 """
 from __future__ import annotations
 
+import shutil
 import subprocess
 from pathlib import Path
 
 import pytest
 
-GIT_MISSING = subprocess.run(["which", "git"], capture_output=True).returncode != 0
+# `shutil.which`, not `subprocess.run(["which", ...])`: `which` is a Unix
+# utility and does not exist on Windows, so the previous form raised
+# FileNotFoundError at import time there and aborted collection of the
+# entire suite -- including the tests that need no git at all.
+GIT_MISSING = shutil.which("git") is None
 
 VULNERABLE_SOURCE = '''#include <string.h>
 #include <stdlib.h>

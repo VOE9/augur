@@ -1,0 +1,463 @@
+[
+  {
+    "project": "zlib",
+    "sha": "74d2696d87188f52296ee9c88f295eb0d896acf9",
+    "files": [
+      "win32/VisualC.txt"
+    ],
+    "subject": "Update location of Visual Studio project files.",
+    "diff": "diff --git a/win32/VisualC.txt b/win32/VisualC.txt\nindex 579a5fc..1005b21 100644\n--- a/win32/VisualC.txt\n+++ b/win32/VisualC.txt\n@@ -1,3 +1,3 @@\n \n To build zlib using the Microsoft Visual C++ environment,\n-use the appropriate project from the projects/ directory.\n+use the appropriate project from the contrib/vstudio/ directory.",
+    "diff_sha256": "865ac5626385a8125c750894ec6202699f4ad9e83b74895e71cbfdca28909938"
+  },
+  {
+    "project": "zlib",
+    "sha": "ba9df2111e9c4a95bc48daf402a90873852b10af",
+    "files": [
+      "README"
+    ],
+    "subject": "Add legal disclaimer to README.",
+    "diff": "diff --git a/README b/README\nindex 41777d0..5b74a3c 100644\n--- a/README\n+++ b/README\n@@ -108,7 +108,10 @@ Copyright notice:\n If you use the zlib library in a product, we would appreciate *not* receiving\n lengthy legal documents to sign.  The sources are provided for free but without\n warranty of any kind.  The library has been entirely written by Jean-loup\n-Gailly and Mark Adler; it does not include third-party code.\n+Gailly and Mark Adler; it does not include third-party code.  We make all\n+contributions to and distributions of this project solely in our personal\n+capacity, and are not conveying any rights to any intellectual property of\n+any third parties.\n \n If you redistribute modified sources, we would appreciate that you include in\n the file ChangeLog history information documenting your changes.  Please read",
+    "diff_sha256": "c1c9b709bd7a5f7d5e5845194c817763b7bb621c2baa95a5d8985d55c21d1353"
+  },
+  {
+    "project": "zlib",
+    "sha": "d6f0da2fa3bad566a43c7778259c55069416bd25",
+    "files": [
+      "contrib/README.contrib"
+    ],
+    "subject": "Fix character encoding and link in contrib README.",
+    "diff": "diff --git a/contrib/README.contrib b/contrib/README.contrib\nindex c66349b..a411d5c 100644\n--- a/contrib/README.contrib\n+++ b/contrib/README.contrib\n@@ -38,7 +38,7 @@ inflate86/  by Chris Anderson <christop@charm.net>\n iostream/   by Kevin Ruland <kevin@rodin.wustl.edu>\n         A C++ I/O streams interface to the zlib gz* functions\n \n-iostream2/  by Tyge L\ufffdvset <Tyge.Lovset@cmr.no>\n+iostream2/  by Tyge L\u00f8vset <Tyge.Lovset@cmr.no>\n         Another C++ I/O streams interface\n \n iostream3/  by Ludwig Schwardt <schwardt@sun.ac.za>\n@@ -58,7 +58,7 @@ masmx86/    by Gilles Vollant <info@winimage.com>\n minizip/    by Gilles Vollant <info@winimage.com>\n         Mini zip and unzip based on zlib\n         Includes Zip64 support by Mathias Svensson <mathias@result42.com>\n-        See http://www.winimage.com/zLibDll/unzip.html\n+        See http://www.winimage.com/zLibDll/minizip.html\n \n pascal/     by Bob Dellaca <bobdl@xtra.co.nz> et al.\n         Support for Pascal",
+    "diff_sha256": "e759f8da79bbb3290981fedc88beb2ca22afaec7f2beae14b6f301f9acdd16d8"
+  },
+  {
+    "project": "curl",
+    "sha": "2a5f6b60b34118e327048297f76c8c1059dad199",
+    "files": [
+      "docs/RELEASE-PROCEDURE.md"
+    ],
+    "subject": "RELEASE-PROCEDURE.md: updated coming release dates",
+    "diff": "diff --git a/docs/RELEASE-PROCEDURE.md b/docs/RELEASE-PROCEDURE.md\nindex 4ff8fcc516..0ce02fbbc7 100644\n--- a/docs/RELEASE-PROCEDURE.md\n+++ b/docs/RELEASE-PROCEDURE.md\n@@ -107,11 +107,11 @@ Coming dates\n Based on the description above, here are some planned release dates (at the\n time of this writing):\n \n-- July 19, 2023\n-- September 13, 2023\n-- November 8, 2023\n-- January 3, 2024\n-- February 28, 2024\n-- April 24, 2024\n-- June 19, 2024\n-- August 14, 2024\n+- October 11, 2023\n+- December 6, 2023\n+- January 31, 2024\n+- March 27, 2024\n+- May 22, 2024\n+- July 17, 2024\n+- September 11, 2024\n+- November 6, 2024",
+    "diff_sha256": "1a9943a6feced0167a1222a6343f5f28b4663cf775a7ee58dc1c6b2640957939"
+  },
+  {
+    "project": "curl",
+    "sha": "3046f477e48ffcfc625838cac5438b5ec9d04f81",
+    "files": [
+      "docs/HTTP3.md"
+    ],
+    "subject": "HTTP3: the msquic backend is not functional",
+    "diff": "diff --git a/docs/HTTP3.md b/docs/HTTP3.md\nindex 8ad100073b..48e27d3191 100644\n--- a/docs/HTTP3.md\n+++ b/docs/HTTP3.md\n@@ -27,10 +27,7 @@ the master branch using pull-requests, just like ordinary changes.\n \n To fix before we remove the experimental label:\n \n- - working multiplexing and GTFO handling\n- - fallback or another flexible way to go (back to) h1/h2 if h3 fails\n- - enough test cases to verify basic HTTP/3 functionality\n- - no \"important\" bugs left on HTTP/3\n+ - the used QUIC library needs to consider itself non-beta\n  - it's fine to \"leave\" individual backends as experimental if necessary\n \n # ngtcp2 version\n@@ -194,6 +191,10 @@ Build curl:\n \n # msh3 (msquic) version\n \n+**Note**: The msquic HTTP/3 backend is immature and is not properly functional\n+one as of September 2023. Feel free to help us test it and improve it, but\n+there is no point in filing bugs about it just yet.\n+\n ## Build Linux (with quictls fork of OpenSSL)\n \n Build msh3:\n@@ -226,19 +227,21 @@ Build msh3:\n      % cmake --install . --config Release\n \n **Note** - On Windows, Schannel will be used for TLS support by default. If\n-you with to use (the quictls fork of) OpenSSL, specify the `-DQUIC_TLS=openssl`\n-option to the generate command above. Also note that OpenSSL brings with it an\n-additional set of build dependencies not specified here.\n+you with to use (the quictls fork of) OpenSSL, specify the\n+`-DQUIC_TLS=openssl` option to the generate command above. Also note that\n+OpenSSL brings with it an additional set of build dependencies not specified\n+here.\n \n-Build curl (in [Visual Studio Command prompt](../winbuild/README.md#open-a-command-prompt)):\n+Build curl (in [Visual Studio Command\n+prompt](../winbuild/README.md#open-a-command-prompt)):\n \n      % git clone https://github.com/curl/curl\n      % cd curl/winbuild\n      % nmake /f Makefile.vc mode=dll WITH_MSH3=dll MSH3_PATH=\"C:/Program Files/msh3\" MACHINE=x64\n \n-**Note** - If you encounter a build error with `tool_hugehelp.c` being missing,\n-rename `tool_hugehelp.c.cvs` in the same directory to `tool_hugehelp.c` and\n-then run `nmake` again.\n+**Note** - If you encounter a build error with `tool_hugehelp.c` being\n+missing, rename `tool_hugehelp.c.cvs` in the same directory to\n+`tool_hugehelp.c` and then run `nmake` again.\n \n Run in the `C:/Program Files/msh3/lib` directory, copy `curl.exe` to that\n directory, or copy `msquic.dll` and `msh3.dll` from that directory to the\n@@ -264,25 +267,41 @@ See this [list of public HTTP/3 servers](https://bagder.github.io/HTTP3-test/)\n \n ### HTTPS eyeballing\n \n-With option `--http3` curl will attempt earlier HTTP versions as well should the connect\n-attempt via HTTP/3 not succeed \"fast enough\". This strategy is similar to IPv4/6 happy\n-eyeballing where the alternate address family is used in parallel after a short delay.\n+With option `--http3` curl will attempt earlier HTTP versions as well should\n+the connect attempt via HTTP/3 not succeed \"fast enough\". This strategy is\n+similar to IPv4/6 happy eyeballing where the alternate address family is used\n+in parallel after a short delay.\n \n-The IPv4/6 eyeballing has a default of 200ms and you may override that via `--happy-eyeballs-timeout-ms value`.\n-Since HTTP/3 is still relatively new, we decided to use this timeout also for the HTTP eyeballing - with a slight twist.\n+The IPv4/6 eyeballing has a default of 200ms and you may override that via\n+`--happy-eyeballs-timeout-ms value`. Since HTTP/3 is still relatively new, we\n+decided to use this timeout also for the HTTP eyeballing - with a slight\n+twist.\n \n-The `happy-eyeballs-timeout-ms` value is the **hard** timeout, meaning after that time expired, a TLS connection is opened in addition to negotiate HTTP/2 or HTTP/1.1. At half of that value - currently - is the **soft** timeout. The soft timeout fires, when there has been **no data at all** seen from the server on the HTTP/3 connection.\n+The `happy-eyeballs-timeout-ms` value is the **hard** timeout, meaning after\n+that time expired, a TLS connection is opened in addition to negotiate HTTP/2\n+or HTTP/1.1. At half of that value - currently - is the **soft** timeout. The\n+soft timeout fires, when there has been **no data at all** seen from the\n+server on the HTTP/3 connection.\n \n So, without you specifying anything, the hard timeout is 200ms and the soft is 100ms:\n \n- * Ideally, the whole QUIC handshake happens and curl has an HTTP/3 connection in less than 100ms.\n- * When QUIC is not supported (or UDP does not work for this network path), no reply is seen and the HTTP/2 TLS+TCP connection starts 100ms later.\n- * In the worst case, UDP replies start before 100ms, but drag on. This will start the TLS+TCP connection after 200ms.\n- * When the QUIC handshake fails, the TLS+TCP connection is attempted right away. For example, when the QUIC server presents the wrong certificate.\n-\n-The whole transfer only fails, when **both** QUIC and TLS+TCP fail to handshake or time out.\n-\n-Note that all this happens in addition to IP version happy eyeballing. If the name resolution for the server gives more than one IP address, curl will try all those until one succeeds - just as with all other protocols. And if those IP addresses contain both IPv6 and IPv4, those attempts will happen, delayed, in parallel (the actual eyeballing).\n+ * Ideally, the whole QUIC handshake happens and curl has an HTTP/3 connection\n+   in less than 100ms.\n+ * When QUIC is not supported (or UDP does not work for this network path), no\n+   reply is seen and the HTTP/2 TLS+TCP connection starts 100ms later.\n+ * In the worst case, UDP replies start before 100ms, but drag on. This will\n+   start the TLS+TCP connection after 200ms.\n+ * When the QUIC handshake fails, the TLS+TCP connection is attempted right\n+   away. For example, when the QUIC server presents the wrong certificate.\n+\n+The whole transfer only fails, when **both** QUIC and TLS+TCP fail to\n+handshake or time out.\n+\n+Note that all this happens in addition to IP version happy eyeballing. If the\n+name resolution for the server gives more than one IP address, curl will try\n+all those until one succeeds - just as with all other protocols. And if those\n+IP addresses contain both IPv6 and IPv4, those attempts will happen, delayed,\n+in parallel (the actual eyeballing).\n \n ## Known Bugs",
+    "diff_sha256": "c28db0add86388fa48175b31a7929df946f31e5441125976bb2fddf8056b8e05"
+  },
+  {
+    "project": "curl",
+    "sha": "49664d6afc3886d3a4cf2b5f16f45fdb645313f0",
+    "files": [
+      "tests/FILEFORMAT.md"
+    ],
+    "subject": "tests: fix formatting errors in `FILEFORMAT.md`.",
+    "diff": "diff --git a/tests/FILEFORMAT.md b/tests/FILEFORMAT.md\nindex 7adc847201..57bfb4f5bb 100644\n--- a/tests/FILEFORMAT.md\n+++ b/tests/FILEFORMAT.md\n@@ -241,7 +241,7 @@ which test file to load the list content.\n \n ### `<dataNUM [crlf=\"yes\"]>`\n \n-Send back this contents instead of the <data> one. The `NUM` is set by:\n+Send back this contents instead of the `<data>` one. The `NUM` is set by:\n \n  - The test number in the request line is >10000 and this is the remainder\n    of [test case number]%10000.\n@@ -643,7 +643,7 @@ compared with what is stored in the test file. This is pretty\n advanced. Example: \"s/^EPRT .*/EPRT stripped/\"\n \n ### `<stripfile1>`\n-1 to 4 can be appended to `stripfile` to strip the corresponding <fileN>\n+1 to 4 can be appended to `stripfile` to strip the corresponding `<fileN>`\n content\n \n ### `<stripfile2>`",
+    "diff_sha256": "b5073bb66163d0ea923857bde823f0bb9cebcf50c1d540172c601cb99efac3e7"
+  },
+  {
+    "project": "curl",
+    "sha": "4e8a3a1fc83b98c8803eb81124d2e7d9ca0b5974",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "cmake: tidy-up `NOT_NEED_LBER_H` detection",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex d8cc9cfe68..f1de3843a0 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -808,8 +808,7 @@ if(NOT CURL_DISABLE_LDAP)\n         list(APPEND CMAKE_REQUIRED_LIBRARIES ${CMAKE_LBER_LIB})\n       endif()\n \n-      set(_SRC_STRING\n-        \"\n+      check_c_source_compiles(\"\n         ${_INCLUDE_STRING}\n         int main(int argc, char ** argv)\n         {\n@@ -817,9 +816,7 @@ if(NOT CURL_DISABLE_LDAP)\n           BerElement *bep = ber_init(bvp);\n           ber_free(bep, 1);\n           return 0;\n-        }\"\n-      )\n-      check_c_source_compiles(\"${_SRC_STRING}\" NOT_NEED_LBER_H)\n+        }\" NOT_NEED_LBER_H)\n       if(NOT_NEED_LBER_H)\n         set(NEED_LBER_H OFF)\n       else()",
+    "diff_sha256": "becfadb5431f5d8b5a2dcd44ede551c4998b2074799b3ebfd304e6fe86375aa8"
+  },
+  {
+    "project": "curl",
+    "sha": "717c15f8c086a22c513c5cc0ad364396b3ae1647",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "cmake: validate `CURL_DEFAULT_SSL_BACKEND` config value",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex 1795b2a710..a9e3a200c7 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -394,6 +394,10 @@ endif()\n # check SSL libraries\n option(CURL_ENABLE_SSL \"Enable SSL support\" ON)\n \n+if(CURL_DEFAULT_SSL_BACKEND)\n+  set(valid_default_ssl_backend FALSE)\n+endif()\n+\n if(APPLE)\n   cmake_dependent_option(CURL_USE_SECTRANSP \"Enable Apple OS native SSL/TLS\" OFF CURL_ENABLE_SSL OFF)\n endif()\n@@ -430,6 +434,10 @@ if(CURL_USE_SCHANNEL)\n   set(SSL_ENABLED ON)\n   set(USE_SCHANNEL ON) # Windows native SSL/TLS support\n   set(USE_WINDOWS_SSPI ON) # CURL_USE_SCHANNEL implies CURL_WINDOWS_SSPI\n+\n+  if(CURL_DEFAULT_SSL_BACKEND AND CURL_DEFAULT_SSL_BACKEND STREQUAL \"schannel\")\n+    set(valid_default_ssl_backend TRUE)\n+  endif()\n endif()\n if(CURL_WINDOWS_SSPI)\n   set(USE_WINDOWS_SSPI ON)\n@@ -446,6 +454,10 @@ if(CURL_USE_SECTRANSP)\n   set(SSL_ENABLED ON)\n   set(USE_SECTRANSP ON)\n   list(APPEND CURL_LIBS \"-framework Security\")\n+\n+  if(CURL_DEFAULT_SSL_BACKEND AND CURL_DEFAULT_SSL_BACKEND STREQUAL \"secure-transport\")\n+    set(valid_default_ssl_backend TRUE)\n+  endif()\n endif()\n \n if(use_core_foundation_and_core_services)\n@@ -482,6 +494,10 @@ if(CURL_USE_OPENSSL)\n     list(APPEND CURL_LIBS \"bcrypt\")  # for OpenSSL/LibreSSL\n   endif()\n \n+  if(CURL_DEFAULT_SSL_BACKEND AND CURL_DEFAULT_SSL_BACKEND STREQUAL \"openssl\")\n+    set(valid_default_ssl_backend TRUE)\n+  endif()\n+\n   set(CMAKE_REQUIRED_INCLUDES ${OPENSSL_INCLUDE_DIR})\n   if(NOT DEFINED HAVE_BORINGSSL)\n     check_symbol_exists(OPENSSL_IS_BORINGSSL \"openssl/base.h\" HAVE_BORINGSSL)\n@@ -497,6 +513,10 @@ if(CURL_USE_MBEDTLS)\n   set(USE_MBEDTLS ON)\n   list(APPEND CURL_LIBS ${MBEDTLS_LIBRARIES})\n   include_directories(${MBEDTLS_INCLUDE_DIRS})\n+\n+  if(CURL_DEFAULT_SSL_BACKEND AND CURL_DEFAULT_SSL_BACKEND STREQUAL \"mbedtls\")\n+    set(valid_default_ssl_backend TRUE)\n+  endif()\n endif()\n \n if(CURL_USE_BEARSSL)\n@@ -505,6 +525,10 @@ if(CURL_USE_BEARSSL)\n   set(USE_BEARSSL ON)\n   list(APPEND CURL_LIBS ${BEARSSL_LIBRARY})\n   include_directories(${BEARSSL_INCLUDE_DIRS})\n+\n+  if(CURL_DEFAULT_SSL_BACKEND AND CURL_DEFAULT_SSL_BACKEND STREQUAL \"bearssl\")\n+    set(valid_default_ssl_backend TRUE)\n+  endif()\n endif()\n \n if(CURL_USE_WOLFSSL)\n@@ -513,6 +537,10 @@ if(CURL_USE_WOLFSSL)\n   set(USE_WOLFSSL ON)\n   list(APPEND CURL_LIBS ${WolfSSL_LIBRARIES})\n   include_directories(${WolfSSL_INCLUDE_DIRS})\n+\n+  if(CURL_DEFAULT_SSL_BACKEND AND CURL_DEFAULT_SSL_BACKEND STREQUAL \"wolfssl\")\n+    set(valid_default_ssl_backend TRUE)\n+  endif()\n endif()\n \n if(CURL_USE_GNUTLS)\n@@ -522,6 +550,10 @@ if(CURL_USE_GNUTLS)\n   list(APPEND CURL_LIBS ${GNUTLS_LIBRARIES} \"nettle\")\n   include_directories(${GNUTLS_INCLUDE_DIRS})\n \n+  if(CURL_DEFAULT_SSL_BACKEND AND CURL_DEFAULT_SSL_BACKEND STREQUAL \"gnutls\")\n+    set(valid_default_ssl_backend TRUE)\n+  endif()\n+\n   if(NOT DEFINED HAVE_GNUTLS_SRP AND NOT CURL_DISABLE_SRP)\n     cmake_push_check_state()\n     set(CMAKE_REQUIRED_INCLUDES ${GNUTLS_INCLUDE_DIRS})\n@@ -531,6 +563,10 @@ if(CURL_USE_GNUTLS)\n   endif()\n endif()\n \n+if(CURL_DEFAULT_SSL_BACKEND AND NOT valid_default_ssl_backend)\n+  message(FATAL_ERROR \"CURL_DEFAULT_SSL_BACKEND '${CURL_DEFAULT_SSL_BACKEND}' not enabled.\")\n+endif()\n+\n # Keep ZLIB detection after TLS detection,\n # and before calling openssl_check_symbol_exists().",
+    "diff_sha256": "a5d354ae9cf306e16258b1f4a69092b996eac61d9a5044dd741edea965bdca2e"
+  },
+  {
+    "project": "curl",
+    "sha": "8bc474fa0593bfc6e19bae5220b4021d5db39260",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "cmake: re-add missed C89 headers for specific detections",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex 9ae7a3e26b..863d126ac8 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -1165,7 +1165,7 @@ check_symbol_exists(utimes        \"${CURL_INCLUDES}\" HAVE_UTIMES)\n \n check_symbol_exists(gettimeofday  \"${CURL_INCLUDES}\" HAVE_GETTIMEOFDAY)\n check_symbol_exists(closesocket   \"${CURL_INCLUDES}\" HAVE_CLOSESOCKET)\n-check_symbol_exists(sigsetjmp     \"${CURL_INCLUDES}\" HAVE_SIGSETJMP)\n+check_symbol_exists(sigsetjmp     \"${CURL_INCLUDES};setjmp.h\" HAVE_SIGSETJMP)\n check_symbol_exists(getpass_r     \"${CURL_INCLUDES}\" HAVE_GETPASS_R)\n check_symbol_exists(getpwuid      \"${CURL_INCLUDES}\" HAVE_GETPWUID)\n check_symbol_exists(getpwuid_r    \"${CURL_INCLUDES}\" HAVE_GETPWUID_R)\n@@ -1175,10 +1175,10 @@ check_symbol_exists(gmtime_r      \"${CURL_INCLUDES};stdlib.h;time.h\" HAVE_GMTIME\n \n check_symbol_exists(gethostbyname_r \"${CURL_INCLUDES}\" HAVE_GETHOSTBYNAME_R)\n \n-check_symbol_exists(signal         \"${CURL_INCLUDES}\" HAVE_SIGNAL)\n+check_symbol_exists(signal         \"${CURL_INCLUDES};signal.h\" HAVE_SIGNAL)\n check_symbol_exists(strtoll        \"${CURL_INCLUDES};stdlib.h\" HAVE_STRTOLL)\n check_symbol_exists(strerror_r     \"${CURL_INCLUDES};stdlib.h;string.h\" HAVE_STRERROR_R)\n-check_symbol_exists(siginterrupt   \"${CURL_INCLUDES}\" HAVE_SIGINTERRUPT)\n+check_symbol_exists(siginterrupt   \"${CURL_INCLUDES};signal.h\" HAVE_SIGINTERRUPT)\n check_symbol_exists(getaddrinfo    \"${CURL_INCLUDES};stdlib.h;string.h\" HAVE_GETADDRINFO)\n check_symbol_exists(getifaddrs     \"${CURL_INCLUDES};stdlib.h\" HAVE_GETIFADDRS)\n check_symbol_exists(freeaddrinfo   \"${CURL_INCLUDES}\" HAVE_FREEADDRINFO)",
+    "diff_sha256": "173eb30560f4dfbaa161f45ec182e2ff3dc0cd3d4575f22f0c16b25bb4018721"
+  },
+  {
+    "project": "curl",
+    "sha": "ca7daadd9b6e7c68607a53c48dd8ab2a753306f0",
+    "files": [
+      "CMakeLists.txt",
+      "lib/CMakeLists.txt"
+    ],
+    "subject": "cmake: fix `HAVE_WRITABLE_ARGV` detection",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex 0ad4081fcf..36d23c82ea 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -1255,6 +1255,18 @@ if(WIN32)\n   unset(HAVE_WIN32_WINNT CACHE)\n endif()\n \n+if(NOT WIN32 AND NOT CMAKE_CROSSCOMPILING)\n+  # on not-Windows and not-crosscompiling, check for writable argv[]\n+  include(CheckCSourceRuns)\n+  check_c_source_runs(\"\n+    int main(int argc, char **argv)\n+    {\n+      (void)argc;\n+      argv[0][0] = ' ';\n+      return (argv[0][0] == ' ')?0:1;\n+    }\" HAVE_WRITABLE_ARGV)\n+endif()\n+\n set(CMAKE_REQUIRED_FLAGS)\n \n option(ENABLE_WEBSOCKETS \"Set to ON to enable EXPERIMENTAL websockets\" OFF)\ndiff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt\nindex 61cfb81a7b..83c0a53f28 100644\n--- a/lib/CMakeLists.txt\n+++ b/lib/CMakeLists.txt\n@@ -85,19 +85,6 @@ else()\n   unset(CMAKESONAME)\n endif()\n \n-if(NOT WIN32 AND NOT CMAKE_CROSSCOMPILING)\n-  # on not-Windows and not-crosscompiling, check for writable argv[]\n-    include(CheckCSourceRuns)\n-    check_c_source_runs(\"\n-int main(int argc, char **argv)\n-{\n-  (void)argc;\n-  argv[0][0] = ' ';\n-  return (argv[0][0] == ' ')?0:1;\n-}\"\n-      HAVE_WRITABLE_ARGV)\n-endif()\n-\n ## Library definition\n \n # Add \"_imp\" as a suffix before the extension to avoid conflicting with",
+    "diff_sha256": "af4daf20b2f685eecbdfd86076bd131a9c6909c58dc470d5aeda8cf04dec0460"
+  },
+  {
+    "project": "curl",
+    "sha": "d82b080f6374433ce7c98241329189ad2d3976f8",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "cmake: disable unity mode with Windows Unicode + TrackMemory",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex f1de3843a0..e6d0e5190e 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -144,6 +144,16 @@ if(ENABLE_CURLDEBUG)\n   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS CURLDEBUG)\n endif()\n \n+# This combination results in curl tool crashing on startup when run on native\n+# Windows (it was seen to work when run under WINE though). We disable UNITY\n+# mode as a workaround.\n+if(ENABLE_UNICODE AND ENABLE_CURLDEBUG)\n+  set(CMAKE_UNITY_BUILD OFF)\n+  message(WARNING \"Unity builds are not supported with Windows Unicode and \"\n+    \"TrackMemory (-DCURLDEBUG) enabled at the same time. Unity mode has been \"\n+    \"disabled.\")\n+endif()\n+\n # For debug libs and exes, add \"-d\" postfix\n if(NOT DEFINED CMAKE_DEBUG_POSTFIX)\n   set(CMAKE_DEBUG_POSTFIX \"-d\")",
+    "diff_sha256": "8e2dda65660dd8fd566af391b196560cdceceeb2faf961a41fd67a8f7138c4e7"
+  },
+  {
+    "project": "curl",
+    "sha": "e5e370965f258da7ac96abf5d740c94c922ddf20",
+    "files": [
+      "docs/HYPER.md"
+    ],
+    "subject": "docs: removing \"pausing transfers\" from HYPER.md.",
+    "diff": "diff --git a/docs/HYPER.md b/docs/HYPER.md\nindex c2c55ab4cb..fe3047d4cb 100644\n--- a/docs/HYPER.md\n+++ b/docs/HYPER.md\n@@ -65,7 +65,6 @@ still need attention and verification include:\n \n - multiplexed HTTP/2\n - h2 Upgrade:\n-- pausing transfers\n - receiving HTTP/1 trailers\n - sending HTTP/1 trailers",
+    "diff_sha256": "b670feb3a9255ea03304ad969fc2c48c14bc5f25d71b72b828b873a2a7102073"
+  },
+  {
+    "project": "curl",
+    "sha": "ecdde58c14fd061c6e490fa925236f05f9c5103a",
+    "files": [
+      "docs/BINDINGS.md"
+    ],
+    "subject": "docs: upgrade an URL to HTTPS in `BINDINGS.md` [ci skip]",
+    "diff": "diff --git a/docs/BINDINGS.md b/docs/BINDINGS.md\nindex 7be5387eb2..57f87a5f82 100644\n--- a/docs/BINDINGS.md\n+++ b/docs/BINDINGS.md\n@@ -111,7 +111,7 @@ Ruby: [curb](https://github.com/taf2/curb) written by Ross Bamford,\n \n [Rust](https://github.com/alexcrichton/curl-rust) curl-rust - by Carl Lerche\n \n-[Scheme](http://www.metapaper.net/lisovsky/web/curl/) Bigloo binding by Kirill Lisovsky\n+[Scheme](https://www.metapaper.net/lisovsky/web/curl/) Bigloo binding by Kirill Lisovsky\n \n [Scilab](https://help.scilab.org/docs/current/fr_FR/getURL.html) binding by Sylvestre Ledru",
+    "diff_sha256": "76a6e9fbae5d9c3948643e76d176037ad6cc5dca9a779e534406d8a9f0ad6060"
+  },
+  {
+    "project": "curl",
+    "sha": "ff9f57bd34257e0fcadba0818d44d9436799967d",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "cmake: delete old `HAVE_LDAP_URL_PARSE` logic",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex f1de3843a0..3a20f2e915 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -1237,11 +1237,6 @@ if(NOT HAVE_SIGSETJMP)\n   endif()\n endif()\n \n-# If there is no stricmp(), do not allow LDAP to parse URLs\n-if(NOT HAVE_STRICMP)\n-  set(HAVE_LDAP_URL_PARSE 1)\n-endif()\n-\n # Do curl specific tests\n foreach(CURL_TEST\n     HAVE_FCNTL_O_NONBLOCK",
+    "diff_sha256": "953c8ff913ad98b32a11641ddab03281d493c20756f7aeef7d9369d37a2e742b"
+  },
+  {
+    "project": "jq",
+    "sha": "4842146e1b9051f9d729ec03874281c8f4e02947",
+    "files": [
+      "README.md"
+    ],
+    "subject": "Add \"make clean\" to build instructions",
+    "diff": "diff --git a/README.md b/README.md\nindex ea4ea2e..8cc9a56 100644\n--- a/README.md\n+++ b/README.md\n@@ -43,6 +43,7 @@ docker run --rm -i -v \"$PWD:$PWD\" -w \"$PWD\" ghcr.io/jqlang/jq:latest '.version'\n git submodule update --init # if building from git to get oniguruma\n autoreconf -i               # if building from git\n ./configure --with-oniguruma=builtin\n+make clean        # if upgrading from a version previously built from source\n make -j8\n make check\n sudo make install",
+    "diff_sha256": "c14b3382c88bf21b0ca2a180a8f1298f0ecd936fb8a34b2a20bacf5e5cdf287e"
+  },
+  {
+    "project": "jq",
+    "sha": "53a62cf2b06ea58973a7880096d959bfc42677d6",
+    "files": [
+      "README.md"
+    ],
+    "subject": "Improve README to be more structural and more readable (#2814)",
+    "diff": "diff --git a/README.md b/README.md\nindex f71577e..fb0730f 100644\n--- a/README.md\n+++ b/README.md\n@@ -1,76 +1,60 @@\n-jq\n-==\n+# jq\n \n-jq is a lightweight and flexible command-line JSON processor.\n+`jq` is a lightweight and flexible command-line JSON processor akin to`sed`,`awk`,`grep`, and friends for JSON data. It's written in portable C and has zero runtime dependencies, allowing you to easily slice, filter, map, and transform structured data.\n \n-If you want to learn to use jq, read the documentation at\n-[https://jqlang.github.io/jq](https://jqlang.github.io/jq).  This\n-documentation is generated from the docs/ folder of this repository.\n-You can also try it online at [jqplay.org](https://jqplay.org).\n+## Documentation\n \n-If you want to hack on jq, feel free, but be warned that its internals\n-are not well-documented at the moment. Bring a hard hat and a\n-shovel.  Also, read the wiki: https://github.com/jqlang/jq/wiki, where\n-you will find cookbooks, discussion of advanced topics, internals,\n-release engineering, and more.\n+- **Official Documentation**: [jqlang.github.io/jq](https://jqlang.github.io/jq)\n+- **Try jq Online**: [jqplay.org](https://jqplay.org)\n \n-Source tarball and built executable releases can be found on the\n-homepage and on the github release page, https://github.com/jqlang/jq/releases.\n-Docker image is available at https://github.com/jqlang/jq/pkgs/container/jq.\n+## Installation\n \n-If you're building directly from the latest git, you'll need libtool, make, automake,\n-and autoconf installed.\n-To get regexp support you'll also need to install Oniguruma or clone it as a\n-git submodule as per the instructions below. To build, run:\n+### Prebuilt Binaries\n \n-    git submodule update --init # if building from git to get oniguruma\n-    autoreconf -i               # if building from git\n-    ./configure --with-oniguruma=builtin\n-    make -j8\n-    make check\n+Download the latest releases from the [GitHub release page](https://github.com/jqlang/jq/releases).\n \n-Developers must `--enable-maintainer-mode` when making changes to the\n-jq parser and lexer which also requires bison and flex to be installed.\n+### Docker Image\n \n-To build a statically linked version of jq, run:\n+Pull the [jq image](https://github.com/jqlang/jq/pkgs/container/jq) to start quickly with Docker.\n \n-    make LDFLAGS=-all-static\n+### Building from source\n \n-After make finishes, you'll be able to use `./jq`.  You can also\n-install it using:\n+#### Dependencies\n \n-    sudo make install\n+- libtool\n+- make\n+- automake\n+- autoconf\n \n-If you're not using the latest git version but instead building a\n-released tarball (available on the website), then you won't need to\n-run `autoreconf` (and shouldn't), and you won't need flex or bison.\n+#### Instructions\n \n-To cross-compile for OS X and Windows, see docs/Rakefile's build task\n-and scripts/crosscompile.  You'll need a cross-compilation environment,\n-such as Mingw for cross-compiling for Windows.\n+```console\n+git submodule update --init # if building from git to get oniguruma\n+autoreconf -i               # if building from git\n+./configure --with-oniguruma=builtin\n+make -j8\n+make check\n+sudo make install\n+```\n \n-Cross-compilation requires a clean workspace, then:\n+Build a statically linked version:\n \n-    # git clean ...\n-    autoreconf -i\n-    ./configure\n-    make distclean\n-    scripts/crosscompile <name-of-build> <configure-options>\n+```console\n+make LDFLAGS=-all-static\n+```\n \n-Use the `--host=` and `--target=` ./configure options to select a\n-cross-compilation environment.  See also\n-[\"Cross compilation\"](https://github.com/jqlang/jq/wiki/Cross-compilation) on\n-the wiki.\n+If you're not using the latest git version but instead building a released tarball (available on the release page), skip the `autoreconf` step, and flex or bison won't be needed.\n \n-To compile jq to WebAssembly, install the [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html), then:\n+##### Cross-Compilation\n \n-    git submodule update --init # if building from git to get oniguruma\n-    autoreconf -i               # if building from git\n-    emconfigure ./configure --with-oniguruma=builtin\n-    emmake make EXEEXT=.js CFLAGS=\"-O2\" LDFLAGS=\"-s EXPORTED_RUNTIME_METHODS=['callMain']\"\n+For details on cross-compliation, check out the [GitHub Actions file](.github/workflows/ci.yml) and the [cross-compliation wiki page](https://github.com/jqlang/jq/wiki/Cross-compilation).\n \n+## Community & Support\n \n-# Community\n+- Questions & Help: [Stack Overflow (jq tag)](https://stackoverflow.com/questions/tagged/jq)\n+- Chat & Community: [Join us on Discord](https://discord.gg/yg6yjNmgAC)\n+- Wiki & Advanced Topics: [Explore the Wiki](https://github.com/jqlang/jq/wiki)\n \n-* Send questions to https://stackoverflow.com/questions/tagged/jq.\n-* Join our [Discord server](https://discord.gg/yg6yjNmgAC).\n+## License\n+\n+`jq` is released under the [MIT License](COPYING).",
+    "diff_sha256": "8161536ffc4c3cec0e09b4cdc8d6912738793ad3c3c0a44366d744457958e697"
+  },
+  {
+    "project": "jq",
+    "sha": "6c035133e876c1ce5cbafe53164d0dc513c4e766",
+    "files": [
+      "README.md"
+    ],
+    "subject": "README.md: to`sed` => to `sed` (#2944)",
+    "diff": "diff --git a/README.md b/README.md\nindex 5e8800a..18e7698 100644\n--- a/README.md\n+++ b/README.md\n@@ -1,6 +1,6 @@\n # jq\n \n-`jq` is a lightweight and flexible command-line JSON processor akin to`sed`,`awk`,`grep`, and friends for JSON data. It's written in portable C and has zero runtime dependencies, allowing you to easily slice, filter, map, and transform structured data.\n+`jq` is a lightweight and flexible command-line JSON processor akin to `sed`,`awk`,`grep`, and friends for JSON data. It's written in portable C and has zero runtime dependencies, allowing you to easily slice, filter, map, and transform structured data.\n \n ## Documentation",
+    "diff_sha256": "727d23be1b7679d82508c05ffcd435bbd60d1c9754c8d82e1d82f8d70980908a"
+  },
+  {
+    "project": "jq",
+    "sha": "7cd23f1f2f6dd6be772d1f9fc1c287a58a601560",
+    "files": [
+      "README.md"
+    ],
+    "subject": "Improve formatting of the build instructions.",
+    "diff": "diff --git a/README.md b/README.md\nindex 8cc9a56..42f771b 100644\n--- a/README.md\n+++ b/README.md\n@@ -40,10 +40,10 @@ docker run --rm -i -v \"$PWD:$PWD\" -w \"$PWD\" ghcr.io/jqlang/jq:latest '.version'\n #### Instructions\n \n ```console\n-git submodule update --init # if building from git to get oniguruma\n-autoreconf -i               # if building from git\n+git submodule update --init    # if building from git to get oniguruma\n+autoreconf -i                  # if building from git\n ./configure --with-oniguruma=builtin\n-make clean        # if upgrading from a version previously built from source\n+make clean                     # if upgrading from a version previously built from source\n make -j8\n make check\n sudo make install",
+    "diff_sha256": "2bc7f989110baa64becbd96794543db3008540703226ce5a7181ea7057a5cdfc"
+  },
+  {
+    "project": "jq",
+    "sha": "ac3b70d3a118713b24a82da15441788fee6c5d4e",
+    "files": [
+      "NEWS.md"
+    ],
+    "subject": "Add a thank you note to the new owners, admins, and maintainers, and to @stedolan",
+    "diff": "diff --git a/NEWS.md b/NEWS.md\nindex cfde6a6..80fe23d 100644\n--- a/NEWS.md\n+++ b/NEWS.md\n@@ -1,6 +1,6 @@\n # 1.7\n \n-After a five year hiatus we're back with a GitHub organization, with new admins and new maintainers who have brought a great deal of energy to make a long-awaited and long-needed new release.\n+After a five year hiatus we're back with a GitHub organization, with new admins and new maintainers who have brought a great deal of energy to make a long-awaited and long-needed new release.  We're very grateful for all the new owners, admins, and maintainers.  Special thanks go to Owen Ou (@owenthereal) for pushing to set up a new GitHub organization for jq, Stephen Dolan (@stedolan) for transferring the jq repository to the new organization, @itchyny for doing a great deal of work to get the release done, Mattias Wadman (@wader) and Emanuele Torre (@emanuele6) for many PRs and code reviews.  Many others also contributed PRs, issues, and code reviews as well, and you can find their contributions in the Git log and on the [closed issues and PRs page](https://github.com/jqlang/jq/issues?q=is%3Aclosed+sort%3Aupdated-desc).\n \n Since the last stable release many things have happened:",
+    "diff_sha256": "734343ff71856ea306a2e1268f73cf393c07f66834851a4b202aa1cf765027ae"
+  },
+  {
+    "project": "jq",
+    "sha": "c3b14967d3bcb11a53989de4e26093198459c962",
+    "files": [
+      "NEWS.md"
+    ],
+    "subject": "Update NEWS.md with changes since 1.7 (#2948)",
+    "diff": "diff --git a/NEWS.md b/NEWS.md\nindex 80fe23d..1455a96 100644\n--- a/NEWS.md\n+++ b/NEWS.md\n@@ -1,3 +1,43 @@\n+# 1.7.1\n+\n+# CLI changes\n+\n+- Make the default background color more suitable for bright backgrounds. @mjarosie @taoky @nicowilliams @itchyny #2904\n+- Allow passing the inline jq script after `--`. @emanuele6 #2919\n+- Restrict systems operations on OpenBSD and remove unused `mkstemp`. @klemensn #2934\n+- Fix possible uninitialised value dereference if `jq_init()` fails. @emanuele6 @nicowilliams #2935\n+\n+## Language changes\n+\n+- Simplify `paths/0` and `paths/1`. @asheiduk @emanuele6 #2946\n+- Reject `U+001F` in string literals. @torsten-schenk @itchyny @wader #2911\n+- Remove unused nref accumulator in `block_bind_library`. @emanuele6 #2914\n+- Remove a bunch of unused variables, and useless assignments. @emanuele6 #2914\n+- main.c: Remove unused EXIT_STATUS_EXACT option. @emanuele6 #2915\n+- Actually use the number correctly casted from double to int as index. @emanuele6 #2916\n+- src/builtin.c: remove unnecessary jv_copy-s in type_error/type_error2. @emanuele6 #2937\n+- Remove undefined behavior caught by LLVM 10 UBSAN. @Gaelan @emanuele6 #2926\n+- Convert decnum to binary64 (double) instead of decimal64. This makes jq behave like the JSON specification suggests and more similar to other languages. @wader @leonid-s-usov #2949\n+- Fix memory leaks on invalid input for `setpath/2`, `ltrimstr/1` and `rtrimstr/1` . @emanuele6 #2970 #2977\n+\n+## Documentation changes\n+\n+- Generate links in the man page. @emanuele6 #2931\n+- Standardize arch types to AMD64 & ARM64 from index page download dropdown. @owenthereal #2884\n+\n+## libjq\n+\n+- Add extern C for C++. @rockwotj #2953\n+\n+## Build and test changes\n+\n+- Fix incorrect syntax for checksum file. @kamontat @wader #2899\n+- Remove `-dirty` version suffix for windows release build. @itchyny #2888\n+- Make use of `od` in tests more compatible. @nabijaczleweli @emanuele6 @nicowilliams #2922\n+- Add dependabot. @yeikel #2889\n+- Extend fuzzing setup to fuzz parser and and JSON serializer. @DavidKorczynski @emanuele6 #2952\n+- Keep releasing executables with legacy names. @itchyny #2951\n+\n # 1.7\n \n After a five year hiatus we're back with a GitHub organization, with new admins and new maintainers who have brought a great deal of energy to make a long-awaited and long-needed new release.  We're very grateful for all the new owners, admins, and maintainers.  Special thanks go to Owen Ou (@owenthereal) for pushing to set up a new GitHub organization for jq, Stephen Dolan (@stedolan) for transferring the jq repository to the new organization, @itchyny for doing a great deal of work to get the release done, Mattias Wadman (@wader) and Emanuele Torre (@emanuele6) for many PRs and code reviews.  Many others also contributed PRs, issues, and code reviews as well, and you can find their contributions in the Git log and on the [closed issues and PRs page](https://github.com/jqlang/jq/issues?q=is%3Aclosed+sort%3Aupdated-desc).",
+    "diff_sha256": "a15cda972df9db1028641111e0a2110453d36b751aed7ee425ba0705eadaea7e"
+  },
+  {
+    "project": "jq",
+    "sha": "d875ff5c7a7a77e6234c2c5aea44aaae3bea1143",
+    "files": [
+      "README.md"
+    ],
+    "subject": "doc(readme): Add docker usage doc (#3103)",
+    "diff": "diff --git a/README.md b/README.md\nindex 1d06b0c..691adc4 100644\n--- a/README.md\n+++ b/README.md\n@@ -17,6 +17,17 @@ Download the latest releases from the [GitHub release page](https://github.com/j\n \n Pull the [jq image](https://github.com/jqlang/jq/pkgs/container/jq) to start quickly with Docker.\n \n+\n+#### Run with Docker\n+##### Example: Extracting the version from a `package.json` file\n+```bash\n+docker run --rm -i ghcr.io/jqlang/jq:latest < package.json '.version'\n+```\n+##### Example: Extracting the version from a `package.json` file with a mounted volume\n+```bash\n+docker run --rm -i -v \"${PWD}\":/pwd -w /pwd ghcr.io/jqlang/jq:latest '.version' package.json\n+```\n+\n ### Building from source\n \n #### Dependencies",
+    "diff_sha256": "17e89c1f88e1f6c046ab55742012b2524e761c465f9ef866f77889dd7563045c"
+  },
+  {
+    "project": "jq",
+    "sha": "dcf9a8e580e3607e70737fad8bc0987d30be871b",
+    "files": [
+      "NEWS.md"
+    ],
+    "subject": "NEWS.md: fix markdown syntax; mention more bug fixs; list cves (#2987)",
+    "diff": "diff --git a/NEWS.md b/NEWS.md\nindex 1455a96..fffdbd9 100644\n--- a/NEWS.md\n+++ b/NEWS.md\n@@ -1,6 +1,11 @@\n # 1.7.1\n \n-# CLI changes\n+## Security\n+\n+- CVE-2023-50246: ....\n+- CVE-2023-50268: ....\n+\n+## CLI changes\n \n - Make the default background color more suitable for bright backgrounds. @mjarosie @taoky @nicowilliams @itchyny #2904\n - Allow passing the inline jq script after `--`. @emanuele6 #2919\n@@ -13,12 +18,15 @@\n - Reject `U+001F` in string literals. @torsten-schenk @itchyny @wader #2911\n - Remove unused nref accumulator in `block_bind_library`. @emanuele6 #2914\n - Remove a bunch of unused variables, and useless assignments. @emanuele6 #2914\n-- main.c: Remove unused EXIT_STATUS_EXACT option. @emanuele6 #2915\n+- main.c: Remove unused EXIT\\_STATUS\\_EXACT option. @emanuele6 #2915\n - Actually use the number correctly casted from double to int as index. @emanuele6 #2916\n-- src/builtin.c: remove unnecessary jv_copy-s in type_error/type_error2. @emanuele6 #2937\n+- src/builtin.c: remove unnecessary jv\\_copy-s in type\\_error/type\\_error2. @emanuele6 #2937\n - Remove undefined behavior caught by LLVM 10 UBSAN. @Gaelan @emanuele6 #2926\n - Convert decnum to binary64 (double) instead of decimal64. This makes jq behave like the JSON specification suggests and more similar to other languages. @wader @leonid-s-usov #2949\n-- Fix memory leaks on invalid input for `setpath/2`, `ltrimstr/1` and `rtrimstr/1` . @emanuele6 #2970 #2977\n+- Fix memory leaks on invalid input for `ltrimstr/1` and `rtrimstr/1`. @emanuele6 #2977\n+- Fix memory leak on failed get for `setpath/2`. @emanuele6 #2970\n+- Fix nan from json parsing also for nans with payload that start with 'n'. @emanuele6 #2985\n+- Allow carriage return characters in comments. @emanuele6 #2942 #2984\n \n ## Documentation changes",
+    "diff_sha256": "2c5112f790d14f06183dc2b7e3339fc33cdf8df60c43555aafdf59bd4e4b57b7"
+  },
+  {
+    "project": "jq",
+    "sha": "e526df15fe083b174e292da1eb4236b7e9101de4",
+    "files": [
+      "README.md"
+    ],
+    "subject": "Correct typo in README.md: compilation (#2912)",
+    "diff": "diff --git a/README.md b/README.md\nindex fb0730f..5e8800a 100644\n--- a/README.md\n+++ b/README.md\n@@ -47,7 +47,7 @@ If you're not using the latest git version but instead building a released tarba\n \n ##### Cross-Compilation\n \n-For details on cross-compliation, check out the [GitHub Actions file](.github/workflows/ci.yml) and the [cross-compliation wiki page](https://github.com/jqlang/jq/wiki/Cross-compilation).\n+For details on cross-compilation, check out the [GitHub Actions file](.github/workflows/ci.yml) and the [cross-compilation wiki page](https://github.com/jqlang/jq/wiki/Cross-compilation).\n \n ## Community & Support",
+    "diff_sha256": "3784d1e1b391edcda40457ccc8e8da96a5312881e5c84ea7b1e6195f28741205"
+  },
+  {
+    "project": "jq",
+    "sha": "ed8f7154f4e3e0a8b01e6778de2633aabbb623f8",
+    "files": [
+      "README.md"
+    ],
+    "subject": "doc(readme): Fix docker run with mounted volume command (#3105)",
+    "diff": "diff --git a/README.md b/README.md\nindex 691adc4..ea4ea2e 100644\n--- a/README.md\n+++ b/README.md\n@@ -25,7 +25,7 @@ docker run --rm -i ghcr.io/jqlang/jq:latest < package.json '.version'\n ```\n ##### Example: Extracting the version from a `package.json` file with a mounted volume\n ```bash\n-docker run --rm -i -v \"${PWD}\":/pwd -w /pwd ghcr.io/jqlang/jq:latest '.version' package.json\n+docker run --rm -i -v \"$PWD:$PWD\" -w \"$PWD\" ghcr.io/jqlang/jq:latest '.version' package.json\n ```\n \n ### Building from source",
+    "diff_sha256": "df2d15ca2b88566cd304e32d0d7e296d6887367acc45c6567328e46149198621"
+  },
+  {
+    "project": "libarchive",
+    "sha": "2b12cb429cb2a7b9332b5d71f078b458fa095ed7",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "cmake: look for libxml2 only if HAVE_ICONV is set (#2105)",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex be6cfd2a..3122d929 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -1193,7 +1193,7 @@ ENDIF(ENABLE_ICONV)\n #\n # Find Libxml2\n #\n-IF(ENABLE_LIBXML2)\n+IF(ENABLE_LIBXML2 AND HAVE_ICONV)\n   FIND_PACKAGE(LibXml2)\n ELSE()\n   SET(LIBXML2_FOUND FALSE)",
+    "diff_sha256": "8090c320883444faa9a4618f227ade0c4bd64ec128b0e695bd63cde47aeff4aa"
+  },
+  {
+    "project": "libarchive",
+    "sha": "3a5a34b8211b68709090fcac71c45d9b5f59f4f2",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "[cmake] Require CMake 3.17 or newer (#2556)",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex 55234b5e..20e77453 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -1,16 +1,6 @@\n #\n-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)\n-if(APPLE AND CMAKE_VERSION VERSION_LESS \"3.17.0\")\n-  message(WARNING \"CMake>=3.17.0 required to make the generated shared library have the same Mach-O headers as autotools\")\n-endif()\n+cmake_minimum_required(VERSION 3.17 FATAL_ERROR)\n \n-if(POLICY CMP0074)\n-  cmake_policy(SET CMP0074 NEW) #3.12.0 `find_package()`` uses ``<PackageName>_ROOT`` variables.\n-endif()\n-if(POLICY CMP0075)\n-  cmake_policy(SET CMP0075 NEW) #3.12.0 `check_include_file()`` and friends use ``CMAKE_REQUIRED_LIBRARIES``.\n-endif()\n-#\n PROJECT(libarchive C)\n #\n SET(CMAKE_MODULE_PATH \"${CMAKE_CURRENT_SOURCE_DIR}/build/cmake\")\n@@ -293,18 +283,6 @@ IF(WIN32)\n     SET(NTDDI_VERSION 0x06000100)\n     SET(_WIN32_WINNT 0x0600)\n     SET(WINVER 0x0600)\n-  ELSEIF(WINDOWS_VERSION STREQUAL \"VISTA\")\n-    SET(NTDDI_VERSION 0x06000000)\n-    SET(_WIN32_WINNT 0x0600)\n-    SET(WINVER 0x0600)\n-  ELSEIF(WINDOWS_VERSION STREQUAL \"WS03\")\n-    SET(NTDDI_VERSION 0x05020000)\n-    SET(_WIN32_WINNT 0x0502)\n-    SET(WINVER 0x0502)\n-  ELSEIF(WINDOWS_VERSION STREQUAL \"WINXP\")\n-    SET(NTDDI_VERSION 0x05010000)\n-    SET(_WIN32_WINNT 0x0501)\n-    SET(WINVER 0x0501)\n   ELSE(WINDOWS_VERSION STREQUAL \"WIN10\")\n     # Default to Windows Server 2003 API if we don't recognize the specifier\n     SET(NTDDI_VERSION 0x05020000)\n@@ -1546,9 +1524,9 @@ CHECK_FUNCTION_EXISTS_GLIBC(utimes HAVE_UTIMES)\n CHECK_FUNCTION_EXISTS_GLIBC(utimensat HAVE_UTIMENSAT)\n CHECK_FUNCTION_EXISTS_GLIBC(vfork HAVE_VFORK)\n CHECK_FUNCTION_EXISTS_GLIBC(wcrtomb HAVE_WCRTOMB)\n-CHECK_FUNCTION_EXISTS_GLIBC(wcscmp HAVE_WCSCMP)\n-CHECK_FUNCTION_EXISTS_GLIBC(wcscpy HAVE_WCSCPY)\n-CHECK_FUNCTION_EXISTS_GLIBC(wcslen HAVE_WCSLEN)\n+check_symbol_exists(wcscmp wchar.h HAVE_WCSCMP)\n+check_symbol_exists(wcscpy wchar.h HAVE_WCSCPY)\n+check_symbol_exists(wcslen wchar.h HAVE_WCSLEN)\n CHECK_FUNCTION_EXISTS_GLIBC(wctomb HAVE_WCTOMB)\n CHECK_FUNCTION_EXISTS_GLIBC(_fseeki64 HAVE__FSEEKI64)\n CHECK_FUNCTION_EXISTS_GLIBC(_get_timezone HAVE__GET_TIMEZONE)",
+    "diff_sha256": "afcac7f4c05124f5333d694967a8c112a111977da24f03f5bd21f83cdb1a4b80"
+  },
+  {
+    "project": "libarchive",
+    "sha": "4237b476fd4ef4b2b5ebac55811d92e73aeb5257",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "[cmake] Require minimum CMake version of 3.5 (#2555)",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex 19f7438b..55234b5e 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -1,12 +1,9 @@\n #\n-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.12 FATAL_ERROR)\n+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)\n if(APPLE AND CMAKE_VERSION VERSION_LESS \"3.17.0\")\n   message(WARNING \"CMake>=3.17.0 required to make the generated shared library have the same Mach-O headers as autotools\")\n endif()\n \n-if(POLICY CMP0065)\n-  cmake_policy(SET CMP0065 NEW) #3.4 don't use `-rdynamic` with executables\n-endif()\n if(POLICY CMP0074)\n   cmake_policy(SET CMP0074 NEW) #3.12.0 `find_package()`` uses ``<PackageName>_ROOT`` variables.\n endif()",
+    "diff_sha256": "d9d1bd710be9bb1a5ba27cb05b64175a83cfcd9601d63325539cd233e0ef4449"
+  },
+  {
+    "project": "libarchive",
+    "sha": "4fd2e893c1223e0d0d81e7b15bfe577c6826371d",
+    "files": [
+      "doc/WRITING_TESTS.md"
+    ],
+    "subject": "Fix indentation in examples to match project style",
+    "diff": "diff --git a/doc/WRITING_TESTS.md b/doc/WRITING_TESTS.md\nindex 4a76cd1b..b4c6762c 100644\n--- a/doc/WRITING_TESTS.md\n+++ b/doc/WRITING_TESTS.md\n@@ -34,54 +34,54 @@ Many tests also involve an associated reference or sample input file, which is t\n /* The test name typically matches the name of the `.c` source file. */\n DEFINE_TEST(test_foo)\n {\n-    /* The file in the repository is named \"test_foo.tar.uu\". */\n-    /* The `refname` here omits the `.uu` suffix. */\n-    /* The base filename should match the test name. */\n-    const char *refname = \"test_foo.tar\";\n-\n-    struct archive *a;\n-    struct archive_entry *ae;\n-    int r;\n-\n-    /* Each test runs in a private temporary directory. */\n-\n-    /* If you have a binary archive sample, extract it first. */\n-    extract_reference_file(refname);\n-\n-    /* Create and configure a suitable archive handle. */\n-    assert((a = archive_read_new()) != NULL);\n-    assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));\n-    assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));\n-\n-    /* Open the extracted reference file. */\n-    assertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, refname, 10240));\n-\n-    /* Perform whatever tests are appropriate. */\n-\n-    /* For example, when fixing a crash in libarchive, it\n-     * may suffice for a test to simply read all the entries and\n-     * their contents, as shown below.\n-     * If errors are expected, you may need to unroll the following\n-     * in order to perform specific checks for each entry. */\n-    while ((r = archive_read_next_header(a, &ae)) == ARCHIVE_OK) {\n-        const void *pv;\n-\tsize_t s;\n-\tint64_t o;\n-\n-        while ((r == archive_read_data_block(a, &pv, &s, &o)) == ARCHIVE_OK) {\n-\t  /* Verify the data contents if appropriate. */\n+\t/* The file in the repository is named \"test_foo.tar.uu\". */\n+\t/* The `refname` here omits the `.uu` suffix. */\n+\t/* The base filename should match the test name. */\n+\tconst char *refname = \"test_foo.tar\";\n+\n+\tstruct archive *a;\n+\tstruct archive_entry *ae;\n+\tint r;\n+\n+\t/* Each test runs in a private temporary directory. */\n+\n+\t/* If you have a binary archive sample, extract it first. */\n+\textract_reference_file(refname);\n+\n+\t/* Create and configure a suitable archive handle. */\n+\tassert((a = archive_read_new()) != NULL);\n+\tassertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));\n+\tassertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));\n+\n+\t/* Open the extracted reference file. */\n+\tassertEqualIntA(a, ARCHIVE_OK, archive_read_open_filename(a, refname, 10240));\n+\n+\t/* Perform whatever tests are appropriate. */\n+\n+\t/* For example, when fixing a crash in libarchive, it\n+\t * may suffice for a test to simply read all the entries and\n+\t * their contents, as shown below.\n+\t * If errors are expected, you may need to unroll the following\n+\t * in order to perform specific checks for each entry. */\n+\twhile ((r = archive_read_next_header(a, &ae)) == ARCHIVE_OK) {\n+\t\tconst void *pv;\n+\t\tsize_t s;\n+\t\tint64_t o;\n+\n+\t\t while ((r == archive_read_data_block(a, &pv, &s, &o)) == ARCHIVE_OK) {\n+\t\t\t/* Verify the data contents if appropriate. */\n+\t\t}\n+\t\t/* Verify that we exited the loop above on EOF, not on error. */\n+\t\tassertEqualIntA(a, ARCHIVE_EOF, r);\n \t}\n-        /* Verify that we exited the loop above on EOF, not on error. */\n-\tassertEqualIntA(a, ARCHIVE_EOF, r);\n-    }\n \n-    /* We exited the loop above, verify that it's EOF and not an error. */\n-    assertEqualIntA(a, ARCHIVE_EOF, r);\n+\t/* We exited the loop above, verify that it's EOF and not an error. */\n+\tassertEqualIntA(a, ARCHIVE_EOF, r);\n \n-    /* Best practice: Close and free separately to get better\n-     * error reporting if close fails. */\n-    assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));\n-    assertEqualInt(ARCHIVE_OK, archive_read_free(a));\n+\t/* Best practice: Close and free separately to get better\n+\t * error reporting if close fails. */\n+\tassertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));\n+\tassertEqualInt(ARCHIVE_OK, archive_read_free(a));\n }\n ```\n \n@@ -135,15 +135,15 @@ The full list of available macros is defined in `test_utils/test_common.h`.\n \n **Example usage:**\n ```c\n-    /* Read first entry and verify metadata. */\n-    assertEqualIntA(a, ARCHIVE_OK, r = archive_read_next_header(a, &ae));\n-    if (r != ARCHIVE_OK) { ... end the test ... }\n-\n-    assertEqualString(\"test_file.txt\", archive_entry_pathname(ae));\n-    assertEqualInt(1197179003, archive_entry_mtime(ae));\n-    assertEqualInt(1000, archive_entry_uid(ae));\n-    assertEqualString(\"tim\", archive_entry_uname(ae));\n-    assertEqualInt(0100644, archive_entry_mode(ae));\n+/* Read first entry and verify metadata. */\n+assertEqualIntA(a, ARCHIVE_OK, r = archive_read_next_header(a, &ae));\n+if (r != ARCHIVE_OK) { ... end the test ... }\n+\n+assertEqualString(\"test_file.txt\", archive_entry_pathname(ae));\n+assertEqualInt(1197179003, archive_entry_mtime(ae));\n+assertEqualInt(1000, archive_entry_uid(ae));\n+assertEqualString(\"tim\", archive_entry_uname(ae));\n+assertEqualInt(0100644, archive_entry_mode(ae));\n ```\n \n ---\n@@ -192,8 +192,8 @@ if (canSymlink()) {\n Or to abort an entire test:\n ```c\n if (!canSymlink()) {\n-    skipping(\"Symlinks not supported on this platform\");\n-    return;\n+\tskipping(\"Symlinks not supported on this platform\");\n+\treturn;\n }\n ```",
+    "diff_sha256": "07c231b8e67506297e50af3668d2d19db478ba831ca712892cec864e8a446431"
+  },
+  {
+    "project": "libarchive",
+    "sha": "5daa209cfa68da574d2082180273dea2a0382a86",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "Change CMAKE_BUILD_TYPE comparison to be case-insensitive (#2130)",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex 1cb975a3..a953bcea 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -34,13 +34,15 @@ IF(\"${cached_type}\" STREQUAL \"UNINITIALIZED\")\n   SET(CMAKE_BUILD_TYPE \"${CMAKE_BUILD_TYPE}\" CACHE STRING \"Build Type\" FORCE)\n ENDIF(\"${cached_type}\" STREQUAL \"UNINITIALIZED\")\n # Check the Build Type.\n-IF(NOT \"${CMAKE_BUILD_TYPE}\"\n-       MATCHES \"^(Debug|Release|RelWithDebInfo|MinSizeRel|None)\\$\")\n+# Convert the CMAKE_BUILD_TYPE to uppercase to perform a case-insensitive comparison.\n+string(TOUPPER \"${CMAKE_BUILD_TYPE}\" CMAKE_BUILD_TYPE_UPPER)\n+IF(NOT \"${CMAKE_BUILD_TYPE_UPPER}\"\n+       MATCHES \"^(DEBUG|RELEASE|RELWITHDEBINFO|MINSIZEREL|NONE)\\$\")\n   MESSAGE(FATAL_ERROR\n           \"Unknown keyword for CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}\\n\"\n-          \"Acceptable keywords: Debug,Release,RelWithDebInfo,MinSizeRel,None\")\n-ENDIF(NOT \"${CMAKE_BUILD_TYPE}\"\n-          MATCHES \"^(Debug|Release|RelWithDebInfo|MinSizeRel|None)\\$\")\n+          \"Acceptable keywords: Debug, Release, RelWithDebInfo, MinSizeRel, None\")\n+ENDIF(NOT \"${CMAKE_BUILD_TYPE_UPPER}\"\n+       MATCHES \"^(DEBUG|RELEASE|RELWITHDEBINFO|MINSIZEREL|NONE)\\$\")\n \n # On MacOS, prefer MacPorts libraries to system libraries.\n # I haven't come up with a compelling argument for this to be conditional.",
+    "diff_sha256": "96c47e51c0eabef7b6481392bef47e639f96c81f26c2cb83a67d260ff95f5208"
+  },
+  {
+    "project": "libarchive",
+    "sha": "5fe9364e7261b221856eab4bf793911d10aebe1b",
+    "files": [
+      "libarchive/CMakeLists.txt"
+    ],
+    "subject": "CMake: Add missing include directories for archive_static (#2078)",
+    "diff": "diff --git a/libarchive/CMakeLists.txt b/libarchive/CMakeLists.txt\nindex f7fdfb68..b79091ca 100644\n--- a/libarchive/CMakeLists.txt\n+++ b/libarchive/CMakeLists.txt\n@@ -252,6 +252,7 @@ ENDIF(BUILD_SHARED_LIBS)\n \n # archive_static is a static library\n ADD_LIBRARY(archive_static STATIC ${libarchive_SOURCES} ${include_HEADERS})\n+TARGET_INCLUDE_DIRECTORIES(archive_static PUBLIC .)\n TARGET_LINK_LIBRARIES(archive_static ${ADDITIONAL_LIBS})\n SET_TARGET_PROPERTIES(archive_static PROPERTIES COMPILE_DEFINITIONS\n   LIBARCHIVE_STATIC)",
+    "diff_sha256": "efc41579f283d5428ee549287edda2887183b1959cc614e6f647ff2b8d8b6518"
+  },
+  {
+    "project": "libarchive",
+    "sha": "b43f61da907ee5f74ffabb0cd9550aae9b568e26",
+    "files": [
+      "doc/WRITING_TESTS.md"
+    ],
+    "subject": "Minor clarification on test discovery",
+    "diff": "diff --git a/doc/WRITING_TESTS.md b/doc/WRITING_TESTS.md\nindex 3a7704e2..61c05aec 100644\n--- a/doc/WRITING_TESTS.md\n+++ b/doc/WRITING_TESTS.md\n@@ -107,8 +107,13 @@ The basic naming convention is `test_<functionality>_<format/API>_<detail>.c` wh\n \n ### 4. Registering the Test\n \n-Adding the new files to build system is sufficient to have them built\n-and run with the rest of the suite:\n+The build system searches uses of `DEFINE_TEST` to locate tests\n+in the relevant sources.\n+You only need to add the new files to the build system\n+to have them built\n+and run with the rest of the suite.\n+To add them to the build systems,\n+you need to update two files:\n \n 1. `Makefile.am` in the root:\n    - Add `.c` files to `libarchive_test_SOURCES`.",
+    "diff_sha256": "2a58e1395ac72dcbfde1701a511704ee280a5b63af6c1bf36032cc88dee9cb5e"
+  },
+  {
+    "project": "libarchive",
+    "sha": "d8ec28c080a7d2c18c854067e97fd1fa883d88b3",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "add support for CMAKE_BUILD_TYPE None (#2074)",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex c982af9a..71248c62 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -20,6 +20,7 @@ endif()\n #   Release        : Release build\n #   RelWithDebInfo : Release build with Debug Info\n #   MinSizeRel     : Release Min Size build\n+#   None           : No build type\n IF(NOT CMAKE_BUILD_TYPE)\n   SET(CMAKE_BUILD_TYPE \"Debug\" CACHE STRING \"Build Type\" FORCE)\n ENDIF(NOT CMAKE_BUILD_TYPE)\n@@ -31,12 +32,12 @@ IF(\"${cached_type}\" STREQUAL \"UNINITIALIZED\")\n ENDIF(\"${cached_type}\" STREQUAL \"UNINITIALIZED\")\n # Check the Build Type.\n IF(NOT \"${CMAKE_BUILD_TYPE}\"\n-       MATCHES \"^(Debug|Release|RelWithDebInfo|MinSizeRel)\\$\")\n+       MATCHES \"^(Debug|Release|RelWithDebInfo|MinSizeRel|None)\\$\")\n   MESSAGE(FATAL_ERROR\n           \"Unknown keyword for CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}\\n\"\n-          \"Acceptable keywords: Debug,Release,RelWithDebInfo,MinSizeRel\")\n+          \"Acceptable keywords: Debug,Release,RelWithDebInfo,MinSizeRel,None\")\n ENDIF(NOT \"${CMAKE_BUILD_TYPE}\"\n-          MATCHES \"^(Debug|Release|RelWithDebInfo|MinSizeRel)\\$\")\n+          MATCHES \"^(Debug|Release|RelWithDebInfo|MinSizeRel|None)\\$\")\n \n # On MacOS, prefer MacPorts libraries to system libraries.\n # I haven't come up with a compelling argument for this to be conditional.",
+    "diff_sha256": "3f575b530ba87a401fb4a0829558e00e3c985f3482f863a8e174d78e58d8bdaa"
+  },
+  {
+    "project": "libarchive",
+    "sha": "db7aa7530f89ceef1bc744933ed1f0720cb3b3eb",
+    "files": [
+      "README.md"
+    ],
+    "subject": "Provide more details on autotool meta-files",
+    "diff": "diff --git a/README.md b/README.md\nindex e9691f1b..3009e1b5 100644\n--- a/README.md\n+++ b/README.md\n@@ -37,10 +37,13 @@ The top-level directory contains the following information files:\n * **CMakeLists.txt** - input for \"cmake\" build tool, see INSTALL\n * **configure** - configuration script, see INSTALL for details.  If your copy of the source lacks a `configure` script, you can try to construct it by running the script in `build/autogen.sh` (or use `cmake`).\n \n-The following files in the top-level directory are used by the 'configure' script:\n+The following files in the top-level directory are related to the 'configure' script and are only needed by maintainers:\n \n-* `Makefile.am`, `aclocal.m4`, `configure.ac` - used to build this distribution, only needed by maintainers\n-* `Makefile.in`, `config.h.in` - templates used by configure script\n+* `configure.ac` - used (by autoconf) to build the configure script and related files\n+* `Makefile.am` - used (by automake) to generate Makefile.in\n+* `aclocal.m4` - auto-generated file (created by aclocal) used to build the configure script\n+* `Makefile.in` - auto-generated template (created by automake) used by the configure script to create Makefile\n+* `config.h.in` - auto-generated template (created by autoheader) used by the configure script to create config.h\n \n ## Documentation",
+    "diff_sha256": "8579edab074dba15663b7b9b6b360c3ab978e3e69a258f20c9e7363f0b6b76b2"
+  },
+  {
+    "project": "libarchive",
+    "sha": "dcfef34f0ccaed0cb949803c5f3a0d47601e8b1c",
+    "files": [
+      "CMakeLists.txt"
+    ],
+    "subject": "cmake: Set CMP0075 to NEW (#2067)",
+    "diff": "diff --git a/CMakeLists.txt b/CMakeLists.txt\nindex 71248c62..be6cfd2a 100644\n--- a/CMakeLists.txt\n+++ b/CMakeLists.txt\n@@ -6,6 +6,9 @@ endif()\n if(POLICY CMP0074)\n   cmake_policy(SET CMP0074 NEW) #3.12.0 `find_package()`` uses ``<PackageName>_ROOT`` variables.\n endif()\n+if(POLICY CMP0075)\n+  cmake_policy(SET CMP0075 NEW) #3.12.0 `check_include_file()`` and friends use ``CMAKE_REQUIRED_LIBRARIES``.\n+endif()\n #\n PROJECT(libarchive C)\n #",
+    "diff_sha256": "6ef481d5111cd7215791a7aed5262551f8ae7a85d4fa79ef4a8be44c0464df3a"
+  },
+  {
+    "project": "libarchive",
+    "sha": "e7afd7730f26fd612a41c6e9f2e4aec1c3536f95",
+    "files": [
+      "doc/WRITING_TESTS.md"
+    ],
+    "subject": "Additional adjustments",
+    "diff": "diff --git a/doc/WRITING_TESTS.md b/doc/WRITING_TESTS.md\nindex b4c6762c..3a7704e2 100644\n--- a/doc/WRITING_TESTS.md\n+++ b/doc/WRITING_TESTS.md\n@@ -11,13 +11,15 @@ These are located in the `test` directory underneath the component directory\n \n The most common reason that we fail to accept patches to libarchive\n is because the patch lacks suitable new tests.\n-Almost all changes should be accompanied with a new test case,\n+Almost all changes should be accompanied with a new or updated test case,\n and if the change is non-trivial it will likely require several\n tests to verify the full range of new behavior.\n-A new format or filter will likely require dozens of new tests.\n+A new format or filter may require dozens of new tests.\n \n The rest of this file explains how to write a new test case and\n add it to the existing test suite.\n+Understanding the structure of tests will also help when updating\n+or modifying existing tests.\n The RUNNING_TESTS documentation corresponding to your platform\n describes how to build and run the test suite.\n \n@@ -217,6 +219,10 @@ Some pointers for making more effective tests:\n   Run your new test against the code before and after any\n   other changes to ensure the test reproduces the issue and that\n   your fix addresses it.\n+- **Test, then Fix:**\n+  Pull requests should have one or more commits with\n+  new or updated unit tests, followed by commits that\n+  change functionality.\n - **Verify Error Details:**\n   When an API returns `ARCHIVE_WARN` or `ARCHIVE_FATAL`,\n   verify the specific error code from `archive_errno()`.",
+    "diff_sha256": "f94eebc9c902ff6171779c1f9fa84229602a5e37990f38313696593b9f2747f9"
+  },
+  {
+    "project": "libexpat",
+    "sha": "1ec7950e46da1ff0b224910718414e2f8ab0d3ac",
+    "files": [
+      "expat/README.md"
+    ],
+    "subject": "README.md: Replace Travis CI badge with GitHub Actions badge",
+    "diff": "diff --git a/expat/README.md b/expat/README.md\nindex c92216ae..d75eb6e7 100644\n--- a/expat/README.md\n+++ b/expat/README.md\n@@ -1,4 +1,4 @@\n-[![Travis CI Build Status](https://travis-ci.org/libexpat/libexpat.svg?branch=master)](https://travis-ci.org/libexpat/libexpat)\n+[![Run Linux Travis CI tasks](https://github.com/libexpat/libexpat/actions/workflows/linux.yml/badge.svg)](https://github.com/libexpat/libexpat/actions/workflows/linux.yml)\n [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/libexpat/libexpat?svg=true)](https://ci.appveyor.com/project/libexpat/libexpat)\n [![Packaging status](https://repology.org/badge/tiny-repos/expat.svg)](https://repology.org/metapackage/expat/versions)",
+    "diff_sha256": "9f847cee9501dda264ef34867136da91039bb4ff32f86ab76164f8b84520dd48"
+  },
+  {
+    "project": "libexpat",
+    "sha": "4bd4bac2682d913515c9dd638592582ccfca285a",
+    "files": [
+      "expat/README.md"
+    ],
+    "subject": "README.md: Fix a SourceForge link leftover regarding Windows binaries (#1)",
+    "diff": "diff --git a/expat/README.md b/expat/README.md\nindex d75eb6e7..4e505040 100644\n--- a/expat/README.md\n+++ b/expat/README.md\n@@ -20,8 +20,8 @@ Expat supports the following compilers:\n - Microsoft Visual Studio >=15.0/2017 (rolling `${today} minus 5 years`)\n \n Windows users can use the\n-[`expat_win32` package](https://sourceforge.net/projects/expat/files/expat_win32/),\n-which includes both precompiled libraries and executables, and source code for\n+[`expat-win32bin-*.*.*.exe` installer download](https://github.com/libexpat/libexpat/releases),\n+which includes both pre-compiled libraries and executables, and source code for\n developers.\n \n Expat is [free software](https://www.gnu.org/philosophy/free-sw.en.html).",
+    "diff_sha256": "64befab1304ed60f77dc0eed4e81d80d37ddefbea7ec1ee07c43f8cbc0de61ac"
+  },
+  {
+    "project": "libexpat",
+    "sha": "8f70f8c87fb436144a1c9bf4d735db20514dad45",
+    "files": [
+      "expat/README.md"
+    ],
+    "subject": "README.md: Add more structure",
+    "diff": "diff --git a/expat/README.md b/expat/README.md\nindex 81794ec3..65833c25 100644\n--- a/expat/README.md\n+++ b/expat/README.md\n@@ -31,6 +31,9 @@ contained in the file\n distributed with this package.\n This license is the same as the MIT/X Consortium license.\n \n+\n+## Buildung from a Git Clone\n+\n If you are building Expat from a check-out from the\n [Git repository](https://github.com/libexpat/libexpat/),\n you need to run a script that generates the configure script using the\n@@ -44,6 +47,11 @@ autoconf 2.58 or newer. Run the script like this:\n Once this has been done, follow the same instructions as for building\n from a source distribution.\n \n+\n+## Buildung from a Source Distribution\n+\n+### a) Building with the configure script (i.e. GNU Autotools)\n+\n To build Expat from a source distribution, you first run the\n configuration shell script in the top level distribution directory:\n \n@@ -133,8 +141,14 @@ A reference manual is available in the file `doc/reference.html` in this\n distribution.\n \n \n+### b) Building with CMake\n+\n The CMake build system is still *experimental* and will replace the primary\n build system based on GNU Autotools at some point when it is ready.\n+\n+\n+#### Available Options\n+\n For an idea of the available (non-advanced) options for building with CMake:\n \n ```console",
+    "diff_sha256": "ee8ca6831f19c286618e78d6de00553c9ef4f6e0222de9ead084a9dc899f68dd"
+  },
+  {
+    "project": "libexpat",
+    "sha": "8fdc4c6c5fda3e60145beefae3198ef84c7c479f",
+    "files": [
+      "expat/README.md"
+    ],
+    "subject": "typo: Buildung -> Building",
+    "diff": "diff --git a/expat/README.md b/expat/README.md\nindex 6e4b4226..b67da3ee 100644\n--- a/expat/README.md\n+++ b/expat/README.md\n@@ -85,7 +85,7 @@ target_link_libraries(hello PUBLIC expat::expat)\n ```\n \n \n-## Buildung from a Git Clone\n+## Building from a Git Clone\n \n If you are building Expat from a check-out from the\n [Git repository](https://github.com/libexpat/libexpat/),\n@@ -101,7 +101,7 @@ Once this has been done, follow the same instructions as for building\n from a source distribution.\n \n \n-## Buildung from a Source Distribution\n+## Building from a Source Distribution\n \n ### a) Building with the configure script (i.e. GNU Autotools)",
+    "diff_sha256": "066d068bf7013f6fa6017b0696bc09e476c3e18fc69a88912d6a1da71bb93270"
+  },
+  {
+    "project": "libexpat",
+    "sha": "9fafff73cd29c2ba62bd72e14f4cd4e2fd21b4c0",
+    "files": [
+      "expat/CMakeLists.txt"
+    ],
+    "subject": "CMake: Be less rejective towards unsupported MSVC compilers for Conan (#454)",
+    "diff": "diff --git a/expat/CMakeLists.txt b/expat/CMakeLists.txt\nindex e3564691..b237c51e 100644\n--- a/expat/CMakeLists.txt\n+++ b/expat/CMakeLists.txt\n@@ -130,10 +130,22 @@ if(EXPAT_WITH_LIBBSD)\n endif()\n \n if(MSVC)\n-    # Minimum supported MSVC version is 1910 = Visual Studio 15.0/2017\n-    # See also https://cmake.org/cmake/help/latest/variable/MSVC_VERSION.html\n-    if(MSVC_VERSION VERSION_LESS 1910)\n-        message(SEND_ERROR \"MSVC_VERSION ${MSVC_VERSION} is not a supported Visual Studio compiler version. Please use Visual Studio 15.0/2017 or any later version.\")\n+    # For the three types of MSVC version values, please see:\n+    # - https://cmake.org/cmake/help/latest/variable/MSVC_VERSION.html\n+    # - https://sourceforge.net/p/predef/wiki/Compilers/\n+    # - https://en.wikipedia.org/wiki/Microsoft_Visual_Studio#History\n+    set(_EXPAT_MSVC_REQUIRED_INT 1800)  # i.e. 12.0/2013/1800; see PR #426\n+    set(_EXPAT_MSVC_SUPPORTED_INT 1910)\n+    set(_EXPAT_MSVC_SUPPORTED_DISPLAY \"Visual Studio 15.0/2017/${_EXPAT_MSVC_SUPPORTED_INT}\")\n+\n+    if(MSVC_VERSION VERSION_LESS ${_EXPAT_MSVC_SUPPORTED_INT})\n+        if(MSVC_VERSION VERSION_LESS ${_EXPAT_MSVC_REQUIRED_INT})\n+            message(SEND_ERROR \"MSVC_VERSION ${MSVC_VERSION} is TOO OLD to compile Expat without errors.\")\n+            message(SEND_ERROR \"Please use officially supported ${_EXPAT_MSVC_SUPPORTED_DISPLAY} or later.  Thank you!\")\n+        else()\n+            message(WARNING \"MSVC_VERSION ${MSVC_VERSION} is NOT OFFICIALLY SUPPORTED by Expat.\")\n+            message(WARNING \"Please use ${_EXPAT_MSVC_SUPPORTED_DISPLAY} or later.  Thank you!\")\n+        endif()\n     endif()\n endif()",
+    "diff_sha256": "bde3ca74ec026b51286c54f8252327a615b3014bdfb4ba923552dad0a7ff7eed"
+  },
+  {
+    "project": "libexpat",
+    "sha": "ae6c9b40af08f385a99a655e71564e1e35a28d21",
+    "files": [
+      "expat/README.md"
+    ],
+    "subject": "README.md: Extract two bullet points from a long sentence",
+    "diff": "diff --git a/expat/README.md b/expat/README.md\nindex 27c6f60d..cb002277 100644\n--- a/expat/README.md\n+++ b/expat/README.md\n@@ -63,10 +63,11 @@ endif()\n \n ### b) Config Mode\n \n-This approach requires files from\n-libexpat >=2.2.8 where packaging uses the CMake build system\n+This approach requires files from\u2026\n+\n+- libexpat >=2.2.8 where packaging uses the CMake build system\n or\n-libexpat >=2.3.0 where packaging uses the GNU Autotools build system.\n+- libexpat >=2.3.0 where packaging uses the GNU Autotools build system.\n \n Notice the *lowercase* `expat` in the following example:",
+    "diff_sha256": "428f94c8a1d0796c4e61c5f80262aab4aa922edc2935c9ea697ab3280e7d4a56"
+  },
+  {
+    "project": "libexpat",
+    "sha": "b4f142967995e6480b59953e622c9582fd3b505c",
+    "files": [
+      "expat/CMakeLists.txt"
+    ],
+    "subject": "CMake: Give test suite access to internal symbols",
+    "diff": "diff --git a/expat/CMakeLists.txt b/expat/CMakeLists.txt\nindex b237c51e..2dc86327 100644\n--- a/expat/CMakeLists.txt\n+++ b/expat/CMakeLists.txt\n@@ -450,6 +450,7 @@ if(EXPAT_BUILD_TESTS)\n         tests/memcheck.c\n         tests/minicheck.c\n         tests/structdata.c\n+        ${expat_SRCS}\n     )\n \n     if(NOT MSVC)\n@@ -469,13 +470,16 @@ if(EXPAT_BUILD_TESTS)\n \n     add_executable(runtests tests/runtests.c ${test_SRCS})\n     set_property(TARGET runtests PROPERTY RUNTIME_OUTPUT_DIRECTORY tests)\n-    target_link_libraries(runtests expat)\n     expat_add_test(runtests $<TARGET_FILE:runtests>)\n \n     add_executable(runtestspp tests/runtestspp.cpp ${test_SRCS})\n     set_property(TARGET runtestspp PROPERTY RUNTIME_OUTPUT_DIRECTORY tests)\n-    target_link_libraries(runtestspp expat)\n     expat_add_test(runtestspp $<TARGET_FILE:runtestspp>)\n+\n+    if(EXPAT_WITH_LIBBSD)\n+        target_link_libraries(runtests ${LIB_BSD})\n+        target_link_libraries(runtestspp ${LIB_BSD})\n+    endif()\n endif()\n \n if(EXPAT_BUILD_FUZZERS)",
+    "diff_sha256": "7746b2d24c2e053d21b87c25b3a6649cb6aa00417efd246ef5a0c8831f6731a0"
+  },
+  {
+    "project": "libexpat",
+    "sha": "befef7e52ada1f9382bec74af7226f4b84054c57",
+    "files": [
+      "expat/CMakeLists.txt"
+    ],
+    "subject": "CMake: Add unofficial flag for passing 32bit compile flag -m32",
+    "diff": "diff --git a/expat/CMakeLists.txt b/expat/CMakeLists.txt\nindex 7e5b9590..ab3b8d8c 100644\n--- a/expat/CMakeLists.txt\n+++ b/expat/CMakeLists.txt\n@@ -151,6 +151,9 @@ mark_as_advanced(EXPAT_MIN_SIZE)\n if(MSVC OR _EXPAT_HELP)\n     set(EXPAT_MSVC_STATIC_CRT OFF CACHE BOOL \"Use /MT flag (static CRT) when compiling in MSVC\")\n endif()\n+if(NOT _EXPAT_HELP)\n+    set(_EXPAT_M32 OFF CACHE BOOL \"(Unofficial!) Produce 32bit code with -m32\")\n+endif()\n \n if(EXPAT_BUILD_TESTS)\n     # We have to call enable_language() before modifying any CMAKE_CXX_* variables\n@@ -322,6 +325,23 @@ if (MSVC)\n     endif()\n endif()\n \n+if(_EXPAT_M32 AND NOT MSVC)\n+    foreach(flag_var\n+            CMAKE_CXX_FLAGS_${_EXPAT_BUILD_TYPE_UPPER}\n+            CMAKE_CXX_FLAGS_DEBUG\n+            CMAKE_CXX_FLAGS_RELEASE\n+            CMAKE_CXX_FLAGS_MINSIZEREL\n+            CMAKE_CXX_FLAGS_RELWITHDEBINFO\n+            CMAKE_C_FLAGS_${_EXPAT_BUILD_TYPE_UPPER}\n+            CMAKE_C_FLAGS_DEBUG\n+            CMAKE_C_FLAGS_RELEASE\n+            CMAKE_C_FLAGS_MINSIZEREL\n+            CMAKE_C_FLAGS_RELWITHDEBINFO\n+            )\n+        set(${flag_var} \"${${flag_var}} -m32\")\n+    endforeach()\n+endif()\n+\n include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lib)\n if(MSVC)\n     add_definitions(-D_CRT_SECURE_NO_WARNINGS -wd4996)",
+    "diff_sha256": "74f2aa6a95c9a11bcbd060b0ac7a40c0f80ed01256bc101862eb1e5a903b315b"
+  },
+  {
+    "project": "libexpat",
+    "sha": "c992ac0fd7938b2e68eeafc427d735f518fc4804",
+    "files": [
+      "expat/README.md"
+    ],
+    "subject": "README.md: Fix list syntax for some markdown interpreters",
+    "diff": "diff --git a/expat/README.md b/expat/README.md\nindex 7547cd42..81794ec3 100644\n--- a/expat/README.md\n+++ b/expat/README.md\n@@ -14,6 +14,7 @@ document being parsed.  A start tag is an example of the kind of\n structures for which you may register handlers.\n \n Expat supports the following compilers:\n+\n - GNU GCC >=4.5\n - LLVM Clang >=3.5\n - Microsoft Visual Studio >=15.0/2017 (rolling `${today} minus 5 years`)",
+    "diff_sha256": "da5c3e1386a29b7237719f9104471490b57b66283f25a8a604d2daf4dc66d3de"
+  },
+  {
+    "project": "libexpat",
+    "sha": "d0faa1ec149527ac0da7e39d3531d554947ea506",
+    "files": [
+      "expat/README.md"
+    ],
+    "subject": "README.md: Replace a \"will\" by a \"may\" to be more precise",
+    "diff": "diff --git a/expat/README.md b/expat/README.md\nindex 4e505040..e2eafc3b 100644\n--- a/expat/README.md\n+++ b/expat/README.md\n@@ -196,7 +196,7 @@ distribution.\n \n ### b) Building with CMake\n \n-The CMake build system is still *experimental* and will replace the primary\n+The CMake build system is still *experimental* and may replace the primary\n build system based on GNU Autotools at some point when it is ready.",
+    "diff_sha256": "730c13aa8513daef902fc1542d6adc0e007bd35e32388fe325f682b0692efebf"
+  },
+  {
+    "project": "libexpat",
+    "sha": "dff64502da5251d9d6a455a44378a5ac06870de8",
+    "files": [
+      "expat/README.md"
+    ],
+    "subject": "README.md: Emphasize lowercase and uppercase in CMake content",
+    "diff": "diff --git a/expat/README.md b/expat/README.md\nindex b67da3ee..27c6f60d 100644\n--- a/expat/README.md\n+++ b/expat/README.md\n@@ -40,7 +40,7 @@ There are two ways of using libexpat with CMake:\n \n This approach leverages CMake's own [module `FindEXPAT`](https://cmake.org/cmake/help/latest/module/FindEXPAT.html).\n \n-Notice the uppercase `EXPAT` in the following example:\n+Notice the *uppercase* `EXPAT` in the following example:\n \n ```cmake\n cmake_minimum_required(VERSION 3.0)\n@@ -68,7 +68,7 @@ libexpat >=2.2.8 where packaging uses the CMake build system\n or\n libexpat >=2.3.0 where packaging uses the GNU Autotools build system.\n \n-Notice the lowercase `expat` in the following example:\n+Notice the *lowercase* `expat` in the following example:\n \n ```cmake\n cmake_minimum_required(VERSION 3.0)",
+    "diff_sha256": "7cef6e33d18fd2ac2b4f0d76359b1934ce8e87990819cc543c40b9e214adaea0"
+  }
+]

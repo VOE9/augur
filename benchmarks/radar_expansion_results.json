@@ -1,0 +1,2253 @@
+{
+  "schema_version": 1,
+  "reviewer": "Hussein",
+  "verified_date": "2026-10-02",
+  "experiment": "original_message_disclosed_control_checks",
+  "history_window_runs": {
+    "status": "partially_executed",
+    "configuration": {
+      "limit": 200,
+      "min_score": 0.0,
+      "top_k": 10
+    },
+    "curl": {
+      "status": "not_executed",
+      "reason": "Full clone preparation timed out after 240 seconds; no valid HEAD."
+    },
+    "libexpat": {
+      "status": "executed",
+      "source_head_during_preparation": "a824e920f3d3d77930d7897c80b6925a6733aebc",
+      "source_origin": "https://github.com/libexpat/libexpat.git",
+      "results": {
+        "default": {
+          "name": "libexpat-CVE-2022-25235-disclosed-control",
+          "source_path": "../local-clones/libexpat-hussein-expansion-004",
+          "revision": "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+          "window_shas": [
+            "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+            "ee2a5b50e7d1940ba8745715b62ceb9efd3a96da",
+            "2cc97e875ef84da4bcf55156c83599116f7523b4",
+            "d477fdd284468f2ab822024e75702f2c1b254f42",
+            "89214940efd13e3b83fa078fd70eb4dbdc04c4a5",
+            "bbdfcfef4747d2d66e81c19f4a55e29e291aa171",
+            "e4d7e49782dafed160f0af8af907681dfd35bda7",
+            "2de077423fb22750ebea599677d523b53cb93b1d",
+            "a2fe525e660badd64b6c557c2b1ec26ddc07f6e4",
+            "6881a4fc8596307ab9ff2e85e605afa2e413ab71",
+            "f1a444ef64680ebd4ff89091a2c388cd046ece2d",
+            "317c91776a20a9e1d9ba32973c23f236a99b9662",
+            "68ed0d7e6363a1a77f724bca1f5df7f5014872c1",
+            "eb0362808b4f9f1e2345a0cf203b8cc196d776d9",
+            "efcb347440ade24b9f1054671e6bd05e60b4cafd",
+            "9b4ce651b26557f16103c3a366c91934ecd439ab",
+            "81b89678e200820271b72cacdd45fb5868855765",
+            "3ce557eecbe83499a214340a884a2d035d521f0e",
+            "c322e14f9f9c7203f058737cc02a001b3cd9a143",
+            "26b677744c2eff96ce619004473d8e7680d8c92f",
+            "da3dcd4ecfb41e825a66021b281cbaf07bbd6f3f",
+            "0afb2df6a9d429a0a78d2d65a5cb72140ee9df3a",
+            "039af6611d0c28e879196698ee0f6707d430d855",
+            "a445be8e0d15aff2d2cfcb58b18525b9b2eccc6a",
+            "2a0add0a7a2b03af70b5d0db88baeec66d930ff5",
+            "6c7c96d98c3cf40dc198f9c5787c00af234006f5",
+            "d97a123d0b48f6a36f3bcc1984b4c287243718fc",
+            "5c168279c5ad4668e5e48fe13374fe7a7de4b573",
+            "6e3449594fb2f61c92fc561f51f82196fdd15d63",
+            "ede41d1e186ed2aba88a06e84cac839b770af3a1",
+            "5f100ffa78b74da8020b71d1582a8979193c1359",
+            "85a6f8fcdb2bc1530934f8cf684bdab86f1f2a1c",
+            "178d26f50af21ec23d6e43814b9b602590b5865c",
+            "99cec436fbd9444f57ee74ca8ae4c0a13e561a4f",
+            "acf956f14bf79a5e6383a969aaffec98bfbc2e44",
+            "847a645152f5ebc10ac63b74b604d0c1a79fae40",
+            "8fb2211e997679ce7aae9d0234983052c1054f62",
+            "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+            "1e1b52be2d9e1d2e0c3c1cb106eb7c6071747bac",
+            "57c7da69b78e3698e112a6b5da19d5109b8232d1",
+            "fc4652b2b301adb95a7b0b3a731033648f379869",
+            "87638f86fddb0811fe5523ecad95c0f9b3a167a2",
+            "09044348e1b76580c91391cdfd9ffee7b8db1bd2",
+            "6496a03d40764bab09d30433345dd392fc33a038",
+            "d102671bfe3fe9a87af5efd2ffb2738a80b6fcca",
+            "2a6019d0fb55452cef6336d99099b3bdfbb85d18",
+            "919a2bec5e12e6285031308e6da86f250b21d166",
+            "8e9f6ea08c0fdded06efcc4c124872bb4c82c89e",
+            "9f93e8036e842329863bf20395b8fb8f73834d9e",
+            "653bcf9c25dca2a5b223fac88fc177bd0037ef6f",
+            "82c11af9d3dafc1b086a15efecd6ec07b6e13613",
+            "f488b072b75d090f76aa61146ddf743813e9b81b",
+            "85ae9a2d7d0e9358f356b33977b842df8ebaec2b",
+            "b6b432bad559b7dcd60ed3da36db3881abb08457",
+            "572ef7a2acdd50f82426eedb8facdb7fe0beab12",
+            "9dc50735f737eaf6890ad3fd4903db62b03a9ac4",
+            "f82a72271c2c613202e0fb0bd1eeacfa36a8161b",
+            "0adcb34c49bee5b19bd29b16a578c510c23597ea",
+            "5cde0d78fc454ebc4b5631926e976a764e0bace6",
+            "9470015a1f62f6030415262bf7b990ad0abc5008",
+            "4a0af42c35b5efb45d3bdeb4057543be6f5f3b3b",
+            "2ed8e19ada265a523b35f78c7ff13858a22f15d0",
+            "60bbbe560cb50e6bfbf93ed765aaeb38335487c3",
+            "5aaa96e1a2d4791fb6da01a75f88ca7b22daf44e",
+            "28e427e6896ff889d4eb117978dfbd2f3d586e4c",
+            "f4adc65cc8a68c70890beba41fbd1ec779d0d26a",
+            "23e820aa2572df776aee4abce7a148ee26b3deca",
+            "befef7e52ada1f9382bec74af7226f4b84054c57",
+            "58d1f13d313534e593f97cb46da24c18468bd3b5",
+            "98bb7f287ee752673368fc3587e971842839f445",
+            "c2b5d5240465159c380b9d9b66228b39585c5520",
+            "9542ad247130801eb226225299d01a17c0582f08",
+            "5bab452b4952ab417a0a47ce4a6185e94e22bd0c",
+            "9c42ebdd4a3b901dd47fb20925291ff10698b610",
+            "e26a263aa9182d1e4552cd615857f0f61df3ba42",
+            "4d9059d3cf46ec3284bf88deee2a5bc97e59d089",
+            "f3f6ae617c18b32f2ee53c44a7b646e35d1d9a79",
+            "716735e56be7ed2d71b5ed1e47d2a14102f95c78",
+            "96ff8de1d671c6bcb6f8b533dda07243dd23a844",
+            "2829a2750543fe0f78e3220cdfcd6414995efc4c",
+            "8589e9598a3265d965dd34383841d31443ba9f22",
+            "bf2c3f3d8901d876e67eb768562bba2c2a282093",
+            "8c2b1853cdcbea1ac1ba5f2f945f7d26ee41aa1d",
+            "59d5c6eacd96731eb01868d7eaf6ab5997b2c5f4",
+            "5a4ec4cf7f727fb779b846336f4c60f70db782ea",
+            "08d29debaee59fc44f470e2392b78820015afcf2",
+            "761db909b05f8cde66e069df7750ce25d7d8e6ad",
+            "ade2c097748fe411e79af9b42c28d09844928866",
+            "5be9361183ac62ee9376037efc4b29e276c361fb",
+            "c3300c9bf2b5f31365e8dd63b926ed12d8e5a125",
+            "2996968b119f0504cddf32db5b212f8bfed3fff7",
+            "105a5c6ee79d73f66db16562d0fc5623c8e203b5",
+            "c05efa1fbf9d0bc0824e37c8a764191cc81da10a",
+            "59734d6e319042d964c6d5038f2b8d5db8b50792",
+            "72d7ce953827fe08a56b8ea64092f208be6ffc5b",
+            "0b7a88b35593b15c97b8f12f0e27ddec7e9ab756",
+            "634cc999e0dd43d5c11a4abe9fb5e42241f30473",
+            "9f742632bae28dea97d6c4b77038608e932d05eb",
+            "3914c2cb8384444b82df9a706cb8a3e5a04eee49",
+            "ee695c78954edded24e5674722869daa69fd230a",
+            "f9eb8a1286e23ebbea852dfc4067562936a7b885",
+            "40bf9fe84aa58c13b3c8de39495f9a1cabd4ab7c",
+            "19dd50990def0229b18dfdc2a9a2ab6f3491f9de",
+            "1d4bb74c34c00a357478087998cc72684ae7aa16",
+            "663e529eed7720585177e93f87ba8f859c74a9ce",
+            "3486fd6e3d2bc269660cedd3befa1ae649d1dcf4",
+            "7cf97a9bda1b67cd2adba6d972b693aff0d8b875",
+            "b73c80a727feee73843221a13c816334d8ab2ba6",
+            "a3bc9162e6b4b1bd79ac11b2d9f15066261c0540",
+            "9c9b05d2d75074c538ed7f16a905f7ce877c71ba",
+            "76186fb89e66963810e28c7111c76525751da43c",
+            "6a0584a59a963554ffc1d8dea98bfec25b354d44",
+            "00839393f3b36a82fd1366882198f9e26c9bf401",
+            "a28238bdeebc087071777001245df1876a11f5ee",
+            "92c3cad80fec0717f82813dcf2eedb82ad6df100",
+            "13445938e77848774961fba6bc6e62f0d65d1bbf",
+            "8001550dc43afdad447ed3b1049f92fd44cb725b",
+            "e215a91bce4e6acd29bb2daa55b7c9410b71ab42",
+            "779d147681f4ff3bf399f5c4f2d77a8f0d266db4",
+            "fa12e73d0526546de349661d2076a74fd9e9f93d",
+            "6aa6fe90a38b874b58a1944d77970e4eaf118bbf",
+            "ac2b235d3cea96ed105bbfc0052ae9b79e8ccb78",
+            "ecdff1c906ecb041c0c05a27410211b1052f7ab1",
+            "e083f03235c5e86a4a4f9b7e233db5cf47cd4b54",
+            "b913a529ae090647c015d4212048b58ebae93aeb",
+            "bc6495dfc0ce36277d36c231f794b10e5ed4e609",
+            "731bdee05388c714c4a5d2eb4b2afc499e74727d",
+            "c57141d59751c71ff9559cdf64fefea9dc50f0df",
+            "fb952cb1d69689865e2ea0f210e11f72ab2d5038",
+            "39e081acc0edf211baf2dcfe6c85d2b5f821342c",
+            "a7694ee392110674eddaf9eb819eb7dda12ce56f",
+            "100bc7072ca63a9053b4e34b80d084896cfb143e",
+            "caaf43470d360af7d76ee6a5f337c962831ce0f6",
+            "192af39be0458273f0a8ac407e4a848d52f484d6",
+            "0b8dacdcce89386a9ebda8a192ecd0b78dee16df",
+            "43142f0babc617123bccd2f516223c90ca9e6dbc",
+            "09ec4ff9c14d1859f57efcb1303d666c8232d7a9",
+            "0ee4a6a94e50fef516addcca066349b365614e5c",
+            "4107aca9cb5ec18ae6aa1f34e38866ca08682b56",
+            "2c9230f611e7a69924cebb0272a5c073016b5dc2",
+            "1b782d2fef7a6eb30fac218228203621a253f050",
+            "99aec2fc77b2da4fc6a196a7bfd5690b886a481e",
+            "b19cc837efea762c8d64e75ba9d02866685c2837",
+            "ad937138e9efbe8563efedf9d9c558b32d20778f",
+            "41b732a16381699e4c9ad831b6fef20c86cf9461",
+            "77cfb8f4cd9679cef27ae9bc38e39ac51235af2d",
+            "60959f2b491876199879d97c8ed956eabb0c2e73",
+            "31bce2cc813ed63bb7ba45cd97f1a5586b817188",
+            "9fd364942bb310c4cb5f1e62e8d7655c96bef9ed",
+            "4597195fa31173a122b307263b065b9c39df88c7",
+            "b3a988a3cef38a2bea7f6141fb4da58a9df823e6",
+            "7e080292711c61b901c66af8d2a76fe259c6cd59",
+            "9cc3ca3e361551e9e5f7c2083e9a744d58f5f437",
+            "309cd4aa4b470a3e496a5d72014148dd8a583529",
+            "fb78bfdae55408af50eb0da558f288775fd92baf",
+            "99bf4c370f9dd674dc61dc3803a0a36efcb561ef",
+            "3f2f8786623cc3e89a1f4384715b3ad178c5ee2c",
+            "5dbc857f47ecd6c37748ce279c6535fbbf526590",
+            "e9d8f115580c3a25a9579c213f096af623dd92ce",
+            "899c00e613800ef973a93ce8f83b3514992f1afa",
+            "bf878495985b81731c620bbac26df79e6c98c9fd",
+            "c6223b3b0f3d8e6a37b5775b44eeded02e9c3ea7",
+            "65cddaa4e93263fb88261b60f97cf29f1589d038",
+            "271efb6069c5c979545cfbe00b738184c5632b93",
+            "29c3748788ff5ba0e4b14b02dfa15080177a3c8c",
+            "857fdc4c3bf47eb3fedcd15d3763f62727476df0",
+            "8af7d22ff029796484c78a16d4c6d44a47cb5729",
+            "fcd0e14c3e35a56eb7ec42142a12e984fbe1b3c0",
+            "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+            "1e053c698b7ff8f7b4cc3c7c6e9945b72c3d5286",
+            "3120b86447defee11d11bb9e78e49311f3307324",
+            "9d425466b89c807e6a04d0f9b3a3876b7fd30f95",
+            "e43dab0c4400362e94b92ab5b28472c06d14cc3d",
+            "55dbc442000a1ff609d82201c8cb062c06bca12f",
+            "283f024a4e2557f012604ecde7d87ead8b93c565",
+            "edf095116c6ac8a229f1b778fda17b49114c1766",
+            "8d28fe29be412b216b5c57e1de9e5dceaefebb64",
+            "fe29a25ec008c610faf5fcf47cee3c48fe789ba3",
+            "1a01ba37f065e3e6f995bb56cdbb90bdc04fb2e6",
+            "7938b88c9b9a534bd7f0aac7ac4f2e270f0c1b68",
+            "6f47cee76029ca07926c08e2a22c48a3f5978211",
+            "30c4aa85f530f279d8c9cc2f584fa9a9df7e2bf1",
+            "e13d94b426445cd5598860245a8cc83bed794020",
+            "3596977d9da1297ff562cef669cb464f7becb39e",
+            "888566e418ac95d80af40d8a8e1cf54b44b4fba7",
+            "f5dd8a9a5a2c80b0f970c832d5cacf356d214775",
+            "988bff10cdfa7e7cdbad5b6c0f3dff5a68abc660",
+            "7f7da50d9c7013af6462953c0785253b17051027",
+            "7820e4137fe4d9e205d73b442abcb3963db5246b",
+            "4a7b1d5dcf91c95d472f4ebb73291d7785edd626",
+            "df42f935bfe9703594ad2c411f35d9948ebd7281",
+            "8c6f0369db15dcb2f1500837a0c4d3347146bea4",
+            "bb3cf96dbe763149f7ad55b53eadcdebd5811095",
+            "1f0b77316b0dfd4974901ebda768cf3a6338a775",
+            "6050ed062eb354870201922bdf0367e622553635",
+            "ec3186f7ac970459d1f7a22929c51516a6a26927",
+            "c93729b961dea29d78fc8bd28a6b075533503618",
+            "8755b82355e57d123624648957b3d7612de1fc4c",
+            "ab8830f72c39238700521accb34d97ceb81b0cc1",
+            "af6bb52c7d8950b26da97caa03e1b81907727e04"
+          ],
+          "metrics": {
+            "window_commits": 200,
+            "candidates_before_cutoff": 65,
+            "predictions": 65,
+            "known_positives": 2,
+            "in_window_positives": 2,
+            "out_of_window_or_unavailable_positives": 0,
+            "excluded_positives": 1,
+            "loud_disclosure_positives": 1,
+            "eligible_positives": 1,
+            "eligible_true_positives": 1,
+            "eligible_false_negatives": 0,
+            "eligible_recall": 1.0,
+            "eligible_recall_at_k": 0.0,
+            "all_in_window_positive_detection_rate": 0.5,
+            "reviewed_prediction_tp": 1,
+            "reviewed_prediction_fp": 1,
+            "unreviewed_predictions": 63,
+            "reviewed_prediction_coverage": 0.03076923076923077,
+            "labeled_precision": 0.5,
+            "precision": null
+          },
+          "labels": [
+            {
+              "sha": "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+              "label": "security_fix",
+              "sample_role": "disclosed_fix_exclusion_control",
+              "silent_status": "not_claimed_disclosed_original_message",
+              "evidence": "https://github.com/libexpat/libexpat/commit/3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+              "release_source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_5/expat/Changes",
+              "original_subject": "lib: Add missing validation of encoding (CVE-2022-25235)",
+              "original_message_disclosure_marker": "CVE-2022-25235",
+              "correction_summary": "Reject invalid multi-byte characters in tokenizer paths before passing malformed text to downstream XML handlers.",
+              "timeline": {
+                "reported_to_project": null,
+                "first_public_disclosure": null,
+                "fixed_release_and_security_changelog": "2022-02-18",
+                "commit_author_date_from_official_patch": "2022-02-08T04:32:20+01:00",
+                "first_public_commit_visibility": null,
+                "source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_5/expat/Changes",
+                "limitation": "The earlier author date is not evidence of a silent public period. Original subject explicitly identifies the CVE; public visibility and initial report time were not established."
+              },
+              "normalized_original_message_sha256": "b843e1e0fddbd8d9f0dfb42dbebf74c2340e2295f60f9a7f2560fe10066b7553",
+              "original_patch_sha256": "ab9da6e0f80e8cc5726638e55f9ff76d34bcfbb2dba66707dc8fca2b2dfd61aa",
+              "original_patch_source": "https://github.com/libexpat/libexpat/commit/3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6.patch",
+              "original_message_reproduction": "git -C local-clones/libexpat-hussein-expansion-004 show -s --format=%B 3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+              "in_window": true,
+              "exclusion": "loud_disclosure",
+              "rank": null,
+              "score": null,
+              "detected": false,
+              "detected_at_k": false,
+              "availability": "in_window"
+            },
+            {
+              "sha": "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+              "label": "non_security",
+              "sample_role": "exploratory_reviewed_negative",
+              "evidence": "https://github.com/libexpat/libexpat/commit/5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+              "original_subject": "Fix typos",
+              "reviewer": "Hussein",
+              "review_date": "2026-10-02",
+              "review_basis": "Read complete first-parent diff: four typo corrections in C/CMake comments across three files; no executable expression, declaration, literal or build command changed.",
+              "changed_files": [
+                "expat/CMakeLists.txt",
+                "expat/lib/xmlparse.c",
+                "expat/tests/runtests.c"
+              ],
+              "first_parent_diff_sha256": "86104f0e879c33286d85d43fd714773bfb0b0b4ceda19dd118def67bab8c2501",
+              "selection": "First five default predictions reviewed after scanning; exploratory label, not a predeclared held-out evaluation sample.",
+              "in_window": true,
+              "exclusion": null,
+              "rank": 4,
+              "score": 2.0,
+              "detected": true,
+              "detected_at_k": true,
+              "availability": "in_window"
+            },
+            {
+              "sha": "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+              "label": "security_fix",
+              "sample_role": "semantic_disclosure_control_engine_eligible",
+              "human_disclosure_classification": "explicit_attack_defense_in_original_subject_and_public_CVE_PR",
+              "silent_status": "not_silent_disclosed_security_defense",
+              "evidence": "https://github.com/libexpat/libexpat/pull/466",
+              "commit_source": "https://github.com/libexpat/libexpat/commit/b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+              "release_source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_0/expat/Changes",
+              "original_subject": "lib: Protect against billion laughs attacks (approach 3.0.21)",
+              "original_body_summary": "No body; original message consists of the subject alone.",
+              "normalized_original_message_sha256": "ee771a2ece3d5fcbf6be8fc6a03e6eb889b5aeca67fe4ab535c6abaf12534b22",
+              "original_message_reproduction": "git -C local-clones/libexpat-hussein-expansion-004 show -s --format=%B b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+              "review_basis": "Official public PR 466 explicitly identifies CVE-2013-0340/CWE-776 and lists this exact fix commit; official 2.4.0 release changelog identifies PR 466 under security fixes for entity amplification attacks.",
+              "correction_summary": "Add input-amplification accounting, bounded amplification defaults and an abort error for excessive entity expansion.",
+              "selection": "Exploratory additional candidate selected after inspecting scan output; not held out.",
+              "engine_eligibility_warning": "Existing message-keyword filter admits this subject despite its explicit attack-defense meaning. Engine eligible recall for this label is not silent-fix recall.",
+              "timeline": {
+                "commit_author_date": "2021-04-19T21:42:51+02:00",
+                "commit_committer_date": "2021-05-07T18:25:07+02:00",
+                "public_pr_security_labels_and_activity": "2021-04-20",
+                "documented_commit_addition_to_pr": "2021-05-07",
+                "pr_merged": "2021-05-11",
+                "fixed_release_and_security_changelog": "2021-05-23",
+                "first_public_commit_visibility": null,
+                "sources": [
+                  "https://github.com/libexpat/libexpat/pull/466",
+                  "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_0/expat/Changes"
+                ],
+                "limitation": "Current PR history gives dated public-security context; no exact initial publication timestamp is claimed. Original subject explicitly describes protection against an attack."
+              },
+              "in_window": true,
+              "exclusion": null,
+              "rank": 50,
+              "score": 1.5,
+              "detected": true,
+              "detected_at_k": false,
+              "availability": "in_window"
+            }
+          ],
+          "elapsed_seconds": 0.969,
+          "prediction_ranking": [
+            {
+              "rank": 1,
+              "sha": "039af6611d0c28e879196698ee0f6707d430d855",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 2,
+              "sha": "29c3748788ff5ba0e4b14b02dfa15080177a3c8c",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 3,
+              "sha": "41b732a16381699e4c9ad831b6fef20c86cf9461",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 4,
+              "sha": "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 5,
+              "sha": "5bab452b4952ab417a0a47ce4a6185e94e22bd0c",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 6,
+              "sha": "5dbc857f47ecd6c37748ce279c6535fbbf526590",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 7,
+              "sha": "5f100ffa78b74da8020b71d1582a8979193c1359",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 8,
+              "sha": "60959f2b491876199879d97c8ed956eabb0c2e73",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 9,
+              "sha": "65cddaa4e93263fb88261b60f97cf29f1589d038",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 10,
+              "sha": "6881a4fc8596307ab9ff2e85e605afa2e413ab71",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 11,
+              "sha": "857fdc4c3bf47eb3fedcd15d3763f62727476df0",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 12,
+              "sha": "85a6f8fcdb2bc1530934f8cf684bdab86f1f2a1c",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 13,
+              "sha": "8af7d22ff029796484c78a16d4c6d44a47cb5729",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 14,
+              "sha": "8fb2211e997679ce7aae9d0234983052c1054f62",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 15,
+              "sha": "9542ad247130801eb226225299d01a17c0582f08",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 16,
+              "sha": "c2b5d5240465159c380b9d9b66228b39585c5520",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 17,
+              "sha": "d97a123d0b48f6a36f3bcc1984b4c287243718fc",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 18,
+              "sha": "ee2a5b50e7d1940ba8745715b62ceb9efd3a96da",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 19,
+              "sha": "efcb347440ade24b9f1054671e6bd05e60b4cafd",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 20,
+              "sha": "fcd0e14c3e35a56eb7ec42142a12e984fbe1b3c0",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 21,
+              "sha": "08d29debaee59fc44f470e2392b78820015afcf2",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 22,
+              "sha": "0afb2df6a9d429a0a78d2d65a5cb72140ee9df3a",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 23,
+              "sha": "0b7a88b35593b15c97b8f12f0e27ddec7e9ab756",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 24,
+              "sha": "0ee4a6a94e50fef516addcca066349b365614e5c",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 25,
+              "sha": "1b782d2fef7a6eb30fac218228203621a253f050",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 26,
+              "sha": "283f024a4e2557f012604ecde7d87ead8b93c565",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 27,
+              "sha": "2996968b119f0504cddf32db5b212f8bfed3fff7",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 28,
+              "sha": "2c9230f611e7a69924cebb0272a5c073016b5dc2",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 29,
+              "sha": "317c91776a20a9e1d9ba32973c23f236a99b9662",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 30,
+              "sha": "4d9059d3cf46ec3284bf88deee2a5bc97e59d089",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 31,
+              "sha": "57c7da69b78e3698e112a6b5da19d5109b8232d1",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 32,
+              "sha": "58d1f13d313534e593f97cb46da24c18468bd3b5",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 33,
+              "sha": "59734d6e319042d964c6d5038f2b8d5db8b50792",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 34,
+              "sha": "5be9361183ac62ee9376037efc4b29e276c361fb",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 35,
+              "sha": "6496a03d40764bab09d30433345dd392fc33a038",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 36,
+              "sha": "72d7ce953827fe08a56b8ea64092f208be6ffc5b",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 37,
+              "sha": "761db909b05f8cde66e069df7750ce25d7d8e6ad",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 38,
+              "sha": "7f7da50d9c7013af6462953c0785253b17051027",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 39,
+              "sha": "8001550dc43afdad447ed3b1049f92fd44cb725b",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 40,
+              "sha": "81b89678e200820271b72cacdd45fb5868855765",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 41,
+              "sha": "8c6f0369db15dcb2f1500837a0c4d3347146bea4",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 42,
+              "sha": "99aec2fc77b2da4fc6a196a7bfd5690b886a481e",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 43,
+              "sha": "9b4ce651b26557f16103c3a366c91934ecd439ab",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 44,
+              "sha": "9d425466b89c807e6a04d0f9b3a3876b7fd30f95",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 45,
+              "sha": "a28238bdeebc087071777001245df1876a11f5ee",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 46,
+              "sha": "a445be8e0d15aff2d2cfcb58b18525b9b2eccc6a",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 47,
+              "sha": "ac2b235d3cea96ed105bbfc0052ae9b79e8ccb78",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 48,
+              "sha": "ade2c097748fe411e79af9b42c28d09844928866",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 49,
+              "sha": "af6bb52c7d8950b26da97caa03e1b81907727e04",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 50,
+              "sha": "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 51,
+              "sha": "b913a529ae090647c015d4212048b58ebae93aeb",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 52,
+              "sha": "bf878495985b81731c620bbac26df79e6c98c9fd",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 53,
+              "sha": "c05efa1fbf9d0bc0824e37c8a764191cc81da10a",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 54,
+              "sha": "c3300c9bf2b5f31365e8dd63b926ed12d8e5a125",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 55,
+              "sha": "c6223b3b0f3d8e6a37b5775b44eeded02e9c3ea7",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 56,
+              "sha": "d102671bfe3fe9a87af5efd2ffb2738a80b6fcca",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 57,
+              "sha": "da3dcd4ecfb41e825a66021b281cbaf07bbd6f3f",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 58,
+              "sha": "df42f935bfe9703594ad2c411f35d9948ebd7281",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 59,
+              "sha": "e26a263aa9182d1e4552cd615857f0f61df3ba42",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 60,
+              "sha": "e43dab0c4400362e94b92ab5b28472c06d14cc3d",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 61,
+              "sha": "ecdff1c906ecb041c0c05a27410211b1052f7ab1",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 62,
+              "sha": "edf095116c6ac8a229f1b778fda17b49114c1766",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 63,
+              "sha": "f1a444ef64680ebd4ff89091a2c388cd046ece2d",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 64,
+              "sha": "f3f6ae617c18b32f2ee53c44a7b646e35d1d9a79",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 65,
+              "sha": "fc4652b2b301adb95a7b0b3a731033648f379869",
+              "score": 1.5,
+              "confidence": "low"
+            }
+          ],
+          "reviewed_prediction_signal_evidence": [
+            {
+              "rank": 1,
+              "commit": {
+                "sha": "039af6611d0c28e879196698ee0f6707d430d855",
+                "subject": "Sync file headers",
+                "message": "Sync file headers",
+                "author": "Sebastian Pipping",
+                "date": "2022-01-29",
+                "changed_files": [
+                  "expat/lib/xmlparse.c",
+                  "expat/win32/expat.iss",
+                  "expat/xmlwf/xmlwf.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "2 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "3 file(s), 3 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 2,
+              "commit": {
+                "sha": "29c3748788ff5ba0e4b14b02dfa15080177a3c8c",
+                "subject": "lib: Make EXPAT_ENTROPY_DEBUG consistent with other EXPAT_*_DEBUG variables",
+                "message": "lib: Make EXPAT_ENTROPY_DEBUG consistent with other EXPAT_*_DEBUG variables",
+                "author": "Sebastian Pipping",
+                "date": "2021-04-19",
+                "changed_files": [
+                  "expat/lib/xmlparse.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "1 file(s), 3 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 3,
+              "commit": {
+                "sha": "41b732a16381699e4c9ad831b6fef20c86cf9461",
+                "subject": "Merge pull request #484 from libexpat/fix-accounting-issues",
+                "message": "Merge pull request #484 from libexpat/fix-accounting-issues\n\nFix accounting issues",
+                "author": "Sebastian Pipping",
+                "date": "2021-05-14",
+                "changed_files": [
+                  "expat/Changes",
+                  "expat/lib/xmlparse.c",
+                  "expat/tests/runtests.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "3 file(s), 30 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 4,
+              "commit": {
+                "sha": "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+                "subject": "Fix typos",
+                "message": "Fix typos\n\nTypos found with codespell.",
+                "author": "Samanta Navarro",
+                "date": "2022-01-22",
+                "changed_files": [
+                  "expat/CMakeLists.txt",
+                  "expat/lib/xmlparse.c",
+                  "expat/tests/runtests.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "3 file(s), 6 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 5,
+              "commit": {
+                "sha": "5bab452b4952ab417a0a47ce4a6185e94e22bd0c",
+                "subject": "lib: Address GCC 11.2.1 compiler warning",
+                "message": "lib: Address GCC 11.2.1 compiler warning\n\nSymptom was:\n\nIn file included from xmltok.c:58:\nxmltok_ns.c: In function \u00e2\u20ac\u02dcfindEncodingNS\u00e2\u20ac\u2122:\nxmltok.h:276:10: warning: \u00e2\u20ac\u02dcbuf\u00e2\u20ac\u2122 may be used uninitialized [-Wmaybe-uninitialized]\n  276 |   (((enc)->utf8Convert)(enc, fromP, fromLim, toP, toLim))\n      |   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nxmltok_ns.c:99:3: note: in expansion of macro \u00e2\u20ac\u02dcXmlUtf8Convert\u00e2\u20ac\u2122\n   99 |   XmlUtf8Convert(enc, &ptr, end, &p, p + ENCODING_MAX - 1);\n      |   ^~~~~~~~~~~~~~\nxmltok.h:276:10: note: by argument 5 of type \u00e2\u20ac\u02dcconst char *\u00e2\u20ac\u2122 to \u00e2\u20ac\u02dcenum XML_Convert_Result(const ENCODING *, const char **, const char *, char **, const char *)\u00e2\u20ac\u2122 {aka \u00e2\u20ac\u02dcenum XML_Convert_Result(const struct encoding *, const char **, const char *, char **, const char *)\u00e2\u20ac\u2122}\n  276 |   (((enc)->utf8Convert)(enc, fromP, fromLim, toP, toLim))\n      |   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nxmltok_ns.c:99:3: note: in expansion of macro \u00e2\u20ac\u02dcXmlUtf8Convert\u00e2\u20ac\u2122\n   99 |   XmlUtf8Convert(enc, &ptr, end, &p, p + ENCODING_MAX - 1);\n      |   ^~~~~~~~~~~~~~\nIn file included from xmltok.c:1666:\nxmltok_ns.c:96:8: note: \u00e2\u20ac\u02dcbuf\u00e2\u20ac\u2122 declared here\n   96 |   char buf[ENCODING_MAX];\n      |        ^~~",
+                "author": "Sebastian Pipping",
+                "date": "2021-12-25",
+                "changed_files": [
+                  "expat/Changes",
+                  "expat/lib/xmltok_ns.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "2 file(s), 2 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 50,
+              "commit": {
+                "sha": "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+                "subject": "lib: Protect against billion laughs attacks (approach 3.0.21)",
+                "message": "lib: Protect against billion laughs attacks (approach 3.0.21)",
+                "author": "Sebastian Pipping",
+                "date": "2021-04-19",
+                "changed_files": [
+                  ".github/workflows/data/exported-symbols.txt",
+                  "expat/lib/expat.h",
+                  "expat/lib/internal.h",
+                  "expat/lib/libexpat.def",
+                  "expat/lib/libexpatw.def",
+                  "expat/lib/xmlparse.c"
+                ]
+              },
+              "score": 1.5,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": false,
+                  "detail": "6 file(s), 1177 line(s) changed -- too broad or too small for a single targeted patch."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            }
+          ],
+          "metric_scope_warning": "Eligible positive is semantically disclosed security defense; eligible_recall is engine-rule recall on that one label, not evidence of finding a silent fix. Labels from candidate review are exploratory."
+        },
+        "memory-safety": {
+          "name": "libexpat-CVE-2022-25235-disclosed-control",
+          "source_path": "../local-clones/libexpat-hussein-expansion-004",
+          "revision": "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+          "window_shas": [
+            "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+            "ee2a5b50e7d1940ba8745715b62ceb9efd3a96da",
+            "2cc97e875ef84da4bcf55156c83599116f7523b4",
+            "d477fdd284468f2ab822024e75702f2c1b254f42",
+            "89214940efd13e3b83fa078fd70eb4dbdc04c4a5",
+            "bbdfcfef4747d2d66e81c19f4a55e29e291aa171",
+            "e4d7e49782dafed160f0af8af907681dfd35bda7",
+            "2de077423fb22750ebea599677d523b53cb93b1d",
+            "a2fe525e660badd64b6c557c2b1ec26ddc07f6e4",
+            "6881a4fc8596307ab9ff2e85e605afa2e413ab71",
+            "f1a444ef64680ebd4ff89091a2c388cd046ece2d",
+            "317c91776a20a9e1d9ba32973c23f236a99b9662",
+            "68ed0d7e6363a1a77f724bca1f5df7f5014872c1",
+            "eb0362808b4f9f1e2345a0cf203b8cc196d776d9",
+            "efcb347440ade24b9f1054671e6bd05e60b4cafd",
+            "9b4ce651b26557f16103c3a366c91934ecd439ab",
+            "81b89678e200820271b72cacdd45fb5868855765",
+            "3ce557eecbe83499a214340a884a2d035d521f0e",
+            "c322e14f9f9c7203f058737cc02a001b3cd9a143",
+            "26b677744c2eff96ce619004473d8e7680d8c92f",
+            "da3dcd4ecfb41e825a66021b281cbaf07bbd6f3f",
+            "0afb2df6a9d429a0a78d2d65a5cb72140ee9df3a",
+            "039af6611d0c28e879196698ee0f6707d430d855",
+            "a445be8e0d15aff2d2cfcb58b18525b9b2eccc6a",
+            "2a0add0a7a2b03af70b5d0db88baeec66d930ff5",
+            "6c7c96d98c3cf40dc198f9c5787c00af234006f5",
+            "d97a123d0b48f6a36f3bcc1984b4c287243718fc",
+            "5c168279c5ad4668e5e48fe13374fe7a7de4b573",
+            "6e3449594fb2f61c92fc561f51f82196fdd15d63",
+            "ede41d1e186ed2aba88a06e84cac839b770af3a1",
+            "5f100ffa78b74da8020b71d1582a8979193c1359",
+            "85a6f8fcdb2bc1530934f8cf684bdab86f1f2a1c",
+            "178d26f50af21ec23d6e43814b9b602590b5865c",
+            "99cec436fbd9444f57ee74ca8ae4c0a13e561a4f",
+            "acf956f14bf79a5e6383a969aaffec98bfbc2e44",
+            "847a645152f5ebc10ac63b74b604d0c1a79fae40",
+            "8fb2211e997679ce7aae9d0234983052c1054f62",
+            "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+            "1e1b52be2d9e1d2e0c3c1cb106eb7c6071747bac",
+            "57c7da69b78e3698e112a6b5da19d5109b8232d1",
+            "fc4652b2b301adb95a7b0b3a731033648f379869",
+            "87638f86fddb0811fe5523ecad95c0f9b3a167a2",
+            "09044348e1b76580c91391cdfd9ffee7b8db1bd2",
+            "6496a03d40764bab09d30433345dd392fc33a038",
+            "d102671bfe3fe9a87af5efd2ffb2738a80b6fcca",
+            "2a6019d0fb55452cef6336d99099b3bdfbb85d18",
+            "919a2bec5e12e6285031308e6da86f250b21d166",
+            "8e9f6ea08c0fdded06efcc4c124872bb4c82c89e",
+            "9f93e8036e842329863bf20395b8fb8f73834d9e",
+            "653bcf9c25dca2a5b223fac88fc177bd0037ef6f",
+            "82c11af9d3dafc1b086a15efecd6ec07b6e13613",
+            "f488b072b75d090f76aa61146ddf743813e9b81b",
+            "85ae9a2d7d0e9358f356b33977b842df8ebaec2b",
+            "b6b432bad559b7dcd60ed3da36db3881abb08457",
+            "572ef7a2acdd50f82426eedb8facdb7fe0beab12",
+            "9dc50735f737eaf6890ad3fd4903db62b03a9ac4",
+            "f82a72271c2c613202e0fb0bd1eeacfa36a8161b",
+            "0adcb34c49bee5b19bd29b16a578c510c23597ea",
+            "5cde0d78fc454ebc4b5631926e976a764e0bace6",
+            "9470015a1f62f6030415262bf7b990ad0abc5008",
+            "4a0af42c35b5efb45d3bdeb4057543be6f5f3b3b",
+            "2ed8e19ada265a523b35f78c7ff13858a22f15d0",
+            "60bbbe560cb50e6bfbf93ed765aaeb38335487c3",
+            "5aaa96e1a2d4791fb6da01a75f88ca7b22daf44e",
+            "28e427e6896ff889d4eb117978dfbd2f3d586e4c",
+            "f4adc65cc8a68c70890beba41fbd1ec779d0d26a",
+            "23e820aa2572df776aee4abce7a148ee26b3deca",
+            "befef7e52ada1f9382bec74af7226f4b84054c57",
+            "58d1f13d313534e593f97cb46da24c18468bd3b5",
+            "98bb7f287ee752673368fc3587e971842839f445",
+            "c2b5d5240465159c380b9d9b66228b39585c5520",
+            "9542ad247130801eb226225299d01a17c0582f08",
+            "5bab452b4952ab417a0a47ce4a6185e94e22bd0c",
+            "9c42ebdd4a3b901dd47fb20925291ff10698b610",
+            "e26a263aa9182d1e4552cd615857f0f61df3ba42",
+            "4d9059d3cf46ec3284bf88deee2a5bc97e59d089",
+            "f3f6ae617c18b32f2ee53c44a7b646e35d1d9a79",
+            "716735e56be7ed2d71b5ed1e47d2a14102f95c78",
+            "96ff8de1d671c6bcb6f8b533dda07243dd23a844",
+            "2829a2750543fe0f78e3220cdfcd6414995efc4c",
+            "8589e9598a3265d965dd34383841d31443ba9f22",
+            "bf2c3f3d8901d876e67eb768562bba2c2a282093",
+            "8c2b1853cdcbea1ac1ba5f2f945f7d26ee41aa1d",
+            "59d5c6eacd96731eb01868d7eaf6ab5997b2c5f4",
+            "5a4ec4cf7f727fb779b846336f4c60f70db782ea",
+            "08d29debaee59fc44f470e2392b78820015afcf2",
+            "761db909b05f8cde66e069df7750ce25d7d8e6ad",
+            "ade2c097748fe411e79af9b42c28d09844928866",
+            "5be9361183ac62ee9376037efc4b29e276c361fb",
+            "c3300c9bf2b5f31365e8dd63b926ed12d8e5a125",
+            "2996968b119f0504cddf32db5b212f8bfed3fff7",
+            "105a5c6ee79d73f66db16562d0fc5623c8e203b5",
+            "c05efa1fbf9d0bc0824e37c8a764191cc81da10a",
+            "59734d6e319042d964c6d5038f2b8d5db8b50792",
+            "72d7ce953827fe08a56b8ea64092f208be6ffc5b",
+            "0b7a88b35593b15c97b8f12f0e27ddec7e9ab756",
+            "634cc999e0dd43d5c11a4abe9fb5e42241f30473",
+            "9f742632bae28dea97d6c4b77038608e932d05eb",
+            "3914c2cb8384444b82df9a706cb8a3e5a04eee49",
+            "ee695c78954edded24e5674722869daa69fd230a",
+            "f9eb8a1286e23ebbea852dfc4067562936a7b885",
+            "40bf9fe84aa58c13b3c8de39495f9a1cabd4ab7c",
+            "19dd50990def0229b18dfdc2a9a2ab6f3491f9de",
+            "1d4bb74c34c00a357478087998cc72684ae7aa16",
+            "663e529eed7720585177e93f87ba8f859c74a9ce",
+            "3486fd6e3d2bc269660cedd3befa1ae649d1dcf4",
+            "7cf97a9bda1b67cd2adba6d972b693aff0d8b875",
+            "b73c80a727feee73843221a13c816334d8ab2ba6",
+            "a3bc9162e6b4b1bd79ac11b2d9f15066261c0540",
+            "9c9b05d2d75074c538ed7f16a905f7ce877c71ba",
+            "76186fb89e66963810e28c7111c76525751da43c",
+            "6a0584a59a963554ffc1d8dea98bfec25b354d44",
+            "00839393f3b36a82fd1366882198f9e26c9bf401",
+            "a28238bdeebc087071777001245df1876a11f5ee",
+            "92c3cad80fec0717f82813dcf2eedb82ad6df100",
+            "13445938e77848774961fba6bc6e62f0d65d1bbf",
+            "8001550dc43afdad447ed3b1049f92fd44cb725b",
+            "e215a91bce4e6acd29bb2daa55b7c9410b71ab42",
+            "779d147681f4ff3bf399f5c4f2d77a8f0d266db4",
+            "fa12e73d0526546de349661d2076a74fd9e9f93d",
+            "6aa6fe90a38b874b58a1944d77970e4eaf118bbf",
+            "ac2b235d3cea96ed105bbfc0052ae9b79e8ccb78",
+            "ecdff1c906ecb041c0c05a27410211b1052f7ab1",
+            "e083f03235c5e86a4a4f9b7e233db5cf47cd4b54",
+            "b913a529ae090647c015d4212048b58ebae93aeb",
+            "bc6495dfc0ce36277d36c231f794b10e5ed4e609",
+            "731bdee05388c714c4a5d2eb4b2afc499e74727d",
+            "c57141d59751c71ff9559cdf64fefea9dc50f0df",
+            "fb952cb1d69689865e2ea0f210e11f72ab2d5038",
+            "39e081acc0edf211baf2dcfe6c85d2b5f821342c",
+            "a7694ee392110674eddaf9eb819eb7dda12ce56f",
+            "100bc7072ca63a9053b4e34b80d084896cfb143e",
+            "caaf43470d360af7d76ee6a5f337c962831ce0f6",
+            "192af39be0458273f0a8ac407e4a848d52f484d6",
+            "0b8dacdcce89386a9ebda8a192ecd0b78dee16df",
+            "43142f0babc617123bccd2f516223c90ca9e6dbc",
+            "09ec4ff9c14d1859f57efcb1303d666c8232d7a9",
+            "0ee4a6a94e50fef516addcca066349b365614e5c",
+            "4107aca9cb5ec18ae6aa1f34e38866ca08682b56",
+            "2c9230f611e7a69924cebb0272a5c073016b5dc2",
+            "1b782d2fef7a6eb30fac218228203621a253f050",
+            "99aec2fc77b2da4fc6a196a7bfd5690b886a481e",
+            "b19cc837efea762c8d64e75ba9d02866685c2837",
+            "ad937138e9efbe8563efedf9d9c558b32d20778f",
+            "41b732a16381699e4c9ad831b6fef20c86cf9461",
+            "77cfb8f4cd9679cef27ae9bc38e39ac51235af2d",
+            "60959f2b491876199879d97c8ed956eabb0c2e73",
+            "31bce2cc813ed63bb7ba45cd97f1a5586b817188",
+            "9fd364942bb310c4cb5f1e62e8d7655c96bef9ed",
+            "4597195fa31173a122b307263b065b9c39df88c7",
+            "b3a988a3cef38a2bea7f6141fb4da58a9df823e6",
+            "7e080292711c61b901c66af8d2a76fe259c6cd59",
+            "9cc3ca3e361551e9e5f7c2083e9a744d58f5f437",
+            "309cd4aa4b470a3e496a5d72014148dd8a583529",
+            "fb78bfdae55408af50eb0da558f288775fd92baf",
+            "99bf4c370f9dd674dc61dc3803a0a36efcb561ef",
+            "3f2f8786623cc3e89a1f4384715b3ad178c5ee2c",
+            "5dbc857f47ecd6c37748ce279c6535fbbf526590",
+            "e9d8f115580c3a25a9579c213f096af623dd92ce",
+            "899c00e613800ef973a93ce8f83b3514992f1afa",
+            "bf878495985b81731c620bbac26df79e6c98c9fd",
+            "c6223b3b0f3d8e6a37b5775b44eeded02e9c3ea7",
+            "65cddaa4e93263fb88261b60f97cf29f1589d038",
+            "271efb6069c5c979545cfbe00b738184c5632b93",
+            "29c3748788ff5ba0e4b14b02dfa15080177a3c8c",
+            "857fdc4c3bf47eb3fedcd15d3763f62727476df0",
+            "8af7d22ff029796484c78a16d4c6d44a47cb5729",
+            "fcd0e14c3e35a56eb7ec42142a12e984fbe1b3c0",
+            "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+            "1e053c698b7ff8f7b4cc3c7c6e9945b72c3d5286",
+            "3120b86447defee11d11bb9e78e49311f3307324",
+            "9d425466b89c807e6a04d0f9b3a3876b7fd30f95",
+            "e43dab0c4400362e94b92ab5b28472c06d14cc3d",
+            "55dbc442000a1ff609d82201c8cb062c06bca12f",
+            "283f024a4e2557f012604ecde7d87ead8b93c565",
+            "edf095116c6ac8a229f1b778fda17b49114c1766",
+            "8d28fe29be412b216b5c57e1de9e5dceaefebb64",
+            "fe29a25ec008c610faf5fcf47cee3c48fe789ba3",
+            "1a01ba37f065e3e6f995bb56cdbb90bdc04fb2e6",
+            "7938b88c9b9a534bd7f0aac7ac4f2e270f0c1b68",
+            "6f47cee76029ca07926c08e2a22c48a3f5978211",
+            "30c4aa85f530f279d8c9cc2f584fa9a9df7e2bf1",
+            "e13d94b426445cd5598860245a8cc83bed794020",
+            "3596977d9da1297ff562cef669cb464f7becb39e",
+            "888566e418ac95d80af40d8a8e1cf54b44b4fba7",
+            "f5dd8a9a5a2c80b0f970c832d5cacf356d214775",
+            "988bff10cdfa7e7cdbad5b6c0f3dff5a68abc660",
+            "7f7da50d9c7013af6462953c0785253b17051027",
+            "7820e4137fe4d9e205d73b442abcb3963db5246b",
+            "4a7b1d5dcf91c95d472f4ebb73291d7785edd626",
+            "df42f935bfe9703594ad2c411f35d9948ebd7281",
+            "8c6f0369db15dcb2f1500837a0c4d3347146bea4",
+            "bb3cf96dbe763149f7ad55b53eadcdebd5811095",
+            "1f0b77316b0dfd4974901ebda768cf3a6338a775",
+            "6050ed062eb354870201922bdf0367e622553635",
+            "ec3186f7ac970459d1f7a22929c51516a6a26927",
+            "c93729b961dea29d78fc8bd28a6b075533503618",
+            "8755b82355e57d123624648957b3d7612de1fc4c",
+            "ab8830f72c39238700521accb34d97ceb81b0cc1",
+            "af6bb52c7d8950b26da97caa03e1b81907727e04"
+          ],
+          "metrics": {
+            "window_commits": 200,
+            "candidates_before_cutoff": 68,
+            "predictions": 68,
+            "known_positives": 2,
+            "in_window_positives": 2,
+            "out_of_window_or_unavailable_positives": 0,
+            "excluded_positives": 1,
+            "loud_disclosure_positives": 1,
+            "eligible_positives": 1,
+            "eligible_true_positives": 1,
+            "eligible_false_negatives": 0,
+            "eligible_recall": 1.0,
+            "eligible_recall_at_k": 1.0,
+            "all_in_window_positive_detection_rate": 0.5,
+            "reviewed_prediction_tp": 1,
+            "reviewed_prediction_fp": 1,
+            "unreviewed_predictions": 66,
+            "reviewed_prediction_coverage": 0.029411764705882353,
+            "labeled_precision": 0.5,
+            "precision": null
+          },
+          "labels": [
+            {
+              "sha": "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+              "label": "security_fix",
+              "sample_role": "disclosed_fix_exclusion_control",
+              "silent_status": "not_claimed_disclosed_original_message",
+              "evidence": "https://github.com/libexpat/libexpat/commit/3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+              "release_source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_5/expat/Changes",
+              "original_subject": "lib: Add missing validation of encoding (CVE-2022-25235)",
+              "original_message_disclosure_marker": "CVE-2022-25235",
+              "correction_summary": "Reject invalid multi-byte characters in tokenizer paths before passing malformed text to downstream XML handlers.",
+              "timeline": {
+                "reported_to_project": null,
+                "first_public_disclosure": null,
+                "fixed_release_and_security_changelog": "2022-02-18",
+                "commit_author_date_from_official_patch": "2022-02-08T04:32:20+01:00",
+                "first_public_commit_visibility": null,
+                "source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_5/expat/Changes",
+                "limitation": "The earlier author date is not evidence of a silent public period. Original subject explicitly identifies the CVE; public visibility and initial report time were not established."
+              },
+              "normalized_original_message_sha256": "b843e1e0fddbd8d9f0dfb42dbebf74c2340e2295f60f9a7f2560fe10066b7553",
+              "original_patch_sha256": "ab9da6e0f80e8cc5726638e55f9ff76d34bcfbb2dba66707dc8fca2b2dfd61aa",
+              "original_patch_source": "https://github.com/libexpat/libexpat/commit/3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6.patch",
+              "original_message_reproduction": "git -C local-clones/libexpat-hussein-expansion-004 show -s --format=%B 3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+              "in_window": true,
+              "exclusion": "loud_disclosure",
+              "rank": null,
+              "score": null,
+              "detected": false,
+              "detected_at_k": false,
+              "availability": "in_window"
+            },
+            {
+              "sha": "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+              "label": "non_security",
+              "sample_role": "exploratory_reviewed_negative",
+              "evidence": "https://github.com/libexpat/libexpat/commit/5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+              "original_subject": "Fix typos",
+              "reviewer": "Hussein",
+              "review_date": "2026-10-02",
+              "review_basis": "Read complete first-parent diff: four typo corrections in C/CMake comments across three files; no executable expression, declaration, literal or build command changed.",
+              "changed_files": [
+                "expat/CMakeLists.txt",
+                "expat/lib/xmlparse.c",
+                "expat/tests/runtests.c"
+              ],
+              "first_parent_diff_sha256": "86104f0e879c33286d85d43fd714773bfb0b0b4ceda19dd118def67bab8c2501",
+              "selection": "First five default predictions reviewed after scanning; exploratory label, not a predeclared held-out evaluation sample.",
+              "in_window": true,
+              "exclusion": null,
+              "rank": 10,
+              "score": 2.0,
+              "detected": true,
+              "detected_at_k": true,
+              "availability": "in_window"
+            },
+            {
+              "sha": "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+              "label": "security_fix",
+              "sample_role": "semantic_disclosure_control_engine_eligible",
+              "human_disclosure_classification": "explicit_attack_defense_in_original_subject_and_public_CVE_PR",
+              "silent_status": "not_silent_disclosed_security_defense",
+              "evidence": "https://github.com/libexpat/libexpat/pull/466",
+              "commit_source": "https://github.com/libexpat/libexpat/commit/b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+              "release_source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_0/expat/Changes",
+              "original_subject": "lib: Protect against billion laughs attacks (approach 3.0.21)",
+              "original_body_summary": "No body; original message consists of the subject alone.",
+              "normalized_original_message_sha256": "ee771a2ece3d5fcbf6be8fc6a03e6eb889b5aeca67fe4ab535c6abaf12534b22",
+              "original_message_reproduction": "git -C local-clones/libexpat-hussein-expansion-004 show -s --format=%B b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+              "review_basis": "Official public PR 466 explicitly identifies CVE-2013-0340/CWE-776 and lists this exact fix commit; official 2.4.0 release changelog identifies PR 466 under security fixes for entity amplification attacks.",
+              "correction_summary": "Add input-amplification accounting, bounded amplification defaults and an abort error for excessive entity expansion.",
+              "selection": "Exploratory additional candidate selected after inspecting scan output; not held out.",
+              "engine_eligibility_warning": "Existing message-keyword filter admits this subject despite its explicit attack-defense meaning. Engine eligible recall for this label is not silent-fix recall.",
+              "timeline": {
+                "commit_author_date": "2021-04-19T21:42:51+02:00",
+                "commit_committer_date": "2021-05-07T18:25:07+02:00",
+                "public_pr_security_labels_and_activity": "2021-04-20",
+                "documented_commit_addition_to_pr": "2021-05-07",
+                "pr_merged": "2021-05-11",
+                "fixed_release_and_security_changelog": "2021-05-23",
+                "first_public_commit_visibility": null,
+                "sources": [
+                  "https://github.com/libexpat/libexpat/pull/466",
+                  "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_0/expat/Changes"
+                ],
+                "limitation": "Current PR history gives dated public-security context; no exact initial publication timestamp is claimed. Original subject explicitly describes protection against an attack."
+              },
+              "in_window": true,
+              "exclusion": null,
+              "rank": 5,
+              "score": 3.0,
+              "detected": true,
+              "detected_at_k": true,
+              "availability": "in_window"
+            }
+          ],
+          "elapsed_seconds": 1.015,
+          "prediction_ranking": [
+            {
+              "rank": 1,
+              "sha": "41b732a16381699e4c9ad831b6fef20c86cf9461",
+              "score": 3.5,
+              "confidence": "medium"
+            },
+            {
+              "rank": 2,
+              "sha": "5dbc857f47ecd6c37748ce279c6535fbbf526590",
+              "score": 3.5,
+              "confidence": "medium"
+            },
+            {
+              "rank": 3,
+              "sha": "7f7da50d9c7013af6462953c0785253b17051027",
+              "score": 3.0,
+              "confidence": "medium"
+            },
+            {
+              "rank": 4,
+              "sha": "9b4ce651b26557f16103c3a366c91934ecd439ab",
+              "score": 3.0,
+              "confidence": "medium"
+            },
+            {
+              "rank": 5,
+              "sha": "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+              "score": 3.0,
+              "confidence": "medium"
+            },
+            {
+              "rank": 6,
+              "sha": "c6223b3b0f3d8e6a37b5775b44eeded02e9c3ea7",
+              "score": 3.0,
+              "confidence": "medium"
+            },
+            {
+              "rank": 7,
+              "sha": "df42f935bfe9703594ad2c411f35d9948ebd7281",
+              "score": 3.0,
+              "confidence": "medium"
+            },
+            {
+              "rank": 8,
+              "sha": "039af6611d0c28e879196698ee0f6707d430d855",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 9,
+              "sha": "29c3748788ff5ba0e4b14b02dfa15080177a3c8c",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 10,
+              "sha": "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 11,
+              "sha": "5bab452b4952ab417a0a47ce4a6185e94e22bd0c",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 12,
+              "sha": "5f100ffa78b74da8020b71d1582a8979193c1359",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 13,
+              "sha": "60959f2b491876199879d97c8ed956eabb0c2e73",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 14,
+              "sha": "65cddaa4e93263fb88261b60f97cf29f1589d038",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 15,
+              "sha": "6881a4fc8596307ab9ff2e85e605afa2e413ab71",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 16,
+              "sha": "77cfb8f4cd9679cef27ae9bc38e39ac51235af2d",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 17,
+              "sha": "857fdc4c3bf47eb3fedcd15d3763f62727476df0",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 18,
+              "sha": "85a6f8fcdb2bc1530934f8cf684bdab86f1f2a1c",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 19,
+              "sha": "8af7d22ff029796484c78a16d4c6d44a47cb5729",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 20,
+              "sha": "8fb2211e997679ce7aae9d0234983052c1054f62",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 21,
+              "sha": "9542ad247130801eb226225299d01a17c0582f08",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 22,
+              "sha": "c2b5d5240465159c380b9d9b66228b39585c5520",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 23,
+              "sha": "d97a123d0b48f6a36f3bcc1984b4c287243718fc",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 24,
+              "sha": "ee2a5b50e7d1940ba8745715b62ceb9efd3a96da",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 25,
+              "sha": "efcb347440ade24b9f1054671e6bd05e60b4cafd",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 26,
+              "sha": "fcd0e14c3e35a56eb7ec42142a12e984fbe1b3c0",
+              "score": 2.0,
+              "confidence": "low"
+            },
+            {
+              "rank": 27,
+              "sha": "08d29debaee59fc44f470e2392b78820015afcf2",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 28,
+              "sha": "0afb2df6a9d429a0a78d2d65a5cb72140ee9df3a",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 29,
+              "sha": "0b7a88b35593b15c97b8f12f0e27ddec7e9ab756",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 30,
+              "sha": "0ee4a6a94e50fef516addcca066349b365614e5c",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 31,
+              "sha": "1b782d2fef7a6eb30fac218228203621a253f050",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 32,
+              "sha": "271efb6069c5c979545cfbe00b738184c5632b93",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 33,
+              "sha": "283f024a4e2557f012604ecde7d87ead8b93c565",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 34,
+              "sha": "2996968b119f0504cddf32db5b212f8bfed3fff7",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 35,
+              "sha": "2c9230f611e7a69924cebb0272a5c073016b5dc2",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 36,
+              "sha": "317c91776a20a9e1d9ba32973c23f236a99b9662",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 37,
+              "sha": "4d9059d3cf46ec3284bf88deee2a5bc97e59d089",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 38,
+              "sha": "57c7da69b78e3698e112a6b5da19d5109b8232d1",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 39,
+              "sha": "58d1f13d313534e593f97cb46da24c18468bd3b5",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 40,
+              "sha": "59734d6e319042d964c6d5038f2b8d5db8b50792",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 41,
+              "sha": "5be9361183ac62ee9376037efc4b29e276c361fb",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 42,
+              "sha": "6496a03d40764bab09d30433345dd392fc33a038",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 43,
+              "sha": "72d7ce953827fe08a56b8ea64092f208be6ffc5b",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 44,
+              "sha": "761db909b05f8cde66e069df7750ce25d7d8e6ad",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 45,
+              "sha": "8001550dc43afdad447ed3b1049f92fd44cb725b",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 46,
+              "sha": "81b89678e200820271b72cacdd45fb5868855765",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 47,
+              "sha": "8c6f0369db15dcb2f1500837a0c4d3347146bea4",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 48,
+              "sha": "99aec2fc77b2da4fc6a196a7bfd5690b886a481e",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 49,
+              "sha": "9d425466b89c807e6a04d0f9b3a3876b7fd30f95",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 50,
+              "sha": "a28238bdeebc087071777001245df1876a11f5ee",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 51,
+              "sha": "a445be8e0d15aff2d2cfcb58b18525b9b2eccc6a",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 52,
+              "sha": "ac2b235d3cea96ed105bbfc0052ae9b79e8ccb78",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 53,
+              "sha": "ade2c097748fe411e79af9b42c28d09844928866",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 54,
+              "sha": "af6bb52c7d8950b26da97caa03e1b81907727e04",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 55,
+              "sha": "b913a529ae090647c015d4212048b58ebae93aeb",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 56,
+              "sha": "bf878495985b81731c620bbac26df79e6c98c9fd",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 57,
+              "sha": "c05efa1fbf9d0bc0824e37c8a764191cc81da10a",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 58,
+              "sha": "c3300c9bf2b5f31365e8dd63b926ed12d8e5a125",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 59,
+              "sha": "d102671bfe3fe9a87af5efd2ffb2738a80b6fcca",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 60,
+              "sha": "da3dcd4ecfb41e825a66021b281cbaf07bbd6f3f",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 61,
+              "sha": "e26a263aa9182d1e4552cd615857f0f61df3ba42",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 62,
+              "sha": "e43dab0c4400362e94b92ab5b28472c06d14cc3d",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 63,
+              "sha": "e9d8f115580c3a25a9579c213f096af623dd92ce",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 64,
+              "sha": "ecdff1c906ecb041c0c05a27410211b1052f7ab1",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 65,
+              "sha": "edf095116c6ac8a229f1b778fda17b49114c1766",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 66,
+              "sha": "f1a444ef64680ebd4ff89091a2c388cd046ece2d",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 67,
+              "sha": "f3f6ae617c18b32f2ee53c44a7b646e35d1d9a79",
+              "score": 1.5,
+              "confidence": "low"
+            },
+            {
+              "rank": 68,
+              "sha": "fc4652b2b301adb95a7b0b3a731033648f379869",
+              "score": 1.5,
+              "confidence": "low"
+            }
+          ],
+          "reviewed_prediction_signal_evidence": [
+            {
+              "rank": 1,
+              "commit": {
+                "sha": "41b732a16381699e4c9ad831b6fef20c86cf9461",
+                "subject": "Merge pull request #484 from libexpat/fix-accounting-issues",
+                "message": "Merge pull request #484 from libexpat/fix-accounting-issues\n\nFix accounting issues",
+                "author": "Sebastian Pipping",
+                "date": "2021-05-14",
+                "changed_files": [
+                  "expat/Changes",
+                  "expat/lib/xmlparse.c",
+                  "expat/tests/runtests.c"
+                ]
+              },
+              "score": 3.5,
+              "confidence": "medium",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "3 file(s), 30 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "memory_safety_diff",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "added source lines contain 1 memory-safety line(s) and 9 guard/comparison line(s)"
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 5,
+              "commit": {
+                "sha": "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+                "subject": "lib: Protect against billion laughs attacks (approach 3.0.21)",
+                "message": "lib: Protect against billion laughs attacks (approach 3.0.21)",
+                "author": "Sebastian Pipping",
+                "date": "2021-04-19",
+                "changed_files": [
+                  ".github/workflows/data/exported-symbols.txt",
+                  "expat/lib/expat.h",
+                  "expat/lib/internal.h",
+                  "expat/lib/libexpat.def",
+                  "expat/lib/libexpatw.def",
+                  "expat/lib/xmlparse.c"
+                ]
+              },
+              "score": 3.0,
+              "confidence": "medium",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": false,
+                  "detail": "6 file(s), 1177 line(s) changed -- too broad or too small for a single targeted patch."
+                },
+                {
+                  "name": "memory_safety_diff",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "added source lines contain 10 memory-safety line(s) and 391 guard/comparison line(s)"
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 8,
+              "commit": {
+                "sha": "039af6611d0c28e879196698ee0f6707d430d855",
+                "subject": "Sync file headers",
+                "message": "Sync file headers",
+                "author": "Sebastian Pipping",
+                "date": "2022-01-29",
+                "changed_files": [
+                  "expat/lib/xmlparse.c",
+                  "expat/win32/expat.iss",
+                  "expat/xmlwf/xmlwf.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "2 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "3 file(s), 3 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "memory_safety_diff",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No added source-line combination matched memory-safety plus guard vocabulary."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 9,
+              "commit": {
+                "sha": "29c3748788ff5ba0e4b14b02dfa15080177a3c8c",
+                "subject": "lib: Make EXPAT_ENTROPY_DEBUG consistent with other EXPAT_*_DEBUG variables",
+                "message": "lib: Make EXPAT_ENTROPY_DEBUG consistent with other EXPAT_*_DEBUG variables",
+                "author": "Sebastian Pipping",
+                "date": "2021-04-19",
+                "changed_files": [
+                  "expat/lib/xmlparse.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "1 file(s), 3 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "memory_safety_diff",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No added source-line combination matched memory-safety plus guard vocabulary."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 10,
+              "commit": {
+                "sha": "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+                "subject": "Fix typos",
+                "message": "Fix typos\n\nTypos found with codespell.",
+                "author": "Samanta Navarro",
+                "date": "2022-01-22",
+                "changed_files": [
+                  "expat/CMakeLists.txt",
+                  "expat/lib/xmlparse.c",
+                  "expat/tests/runtests.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: parse, xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "3 file(s), 6 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "memory_safety_diff",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No added source-line combination matched memory-safety plus guard vocabulary."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            },
+            {
+              "rank": 11,
+              "commit": {
+                "sha": "5bab452b4952ab417a0a47ce4a6185e94e22bd0c",
+                "subject": "lib: Address GCC 11.2.1 compiler warning",
+                "message": "lib: Address GCC 11.2.1 compiler warning\n\nSymptom was:\n\nIn file included from xmltok.c:58:\nxmltok_ns.c: In function \u00e2\u20ac\u02dcfindEncodingNS\u00e2\u20ac\u2122:\nxmltok.h:276:10: warning: \u00e2\u20ac\u02dcbuf\u00e2\u20ac\u2122 may be used uninitialized [-Wmaybe-uninitialized]\n  276 |   (((enc)->utf8Convert)(enc, fromP, fromLim, toP, toLim))\n      |   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nxmltok_ns.c:99:3: note: in expansion of macro \u00e2\u20ac\u02dcXmlUtf8Convert\u00e2\u20ac\u2122\n   99 |   XmlUtf8Convert(enc, &ptr, end, &p, p + ENCODING_MAX - 1);\n      |   ^~~~~~~~~~~~~~\nxmltok.h:276:10: note: by argument 5 of type \u00e2\u20ac\u02dcconst char *\u00e2\u20ac\u2122 to \u00e2\u20ac\u02dcenum XML_Convert_Result(const ENCODING *, const char **, const char *, char **, const char *)\u00e2\u20ac\u2122 {aka \u00e2\u20ac\u02dcenum XML_Convert_Result(const struct encoding *, const char **, const char *, char **, const char *)\u00e2\u20ac\u2122}\n  276 |   (((enc)->utf8Convert)(enc, fromP, fromLim, toP, toLim))\n      |   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nxmltok_ns.c:99:3: note: in expansion of macro \u00e2\u20ac\u02dcXmlUtf8Convert\u00e2\u20ac\u2122\n   99 |   XmlUtf8Convert(enc, &ptr, end, &p, p + ENCODING_MAX - 1);\n      |   ^~~~~~~~~~~~~~\nIn file included from xmltok.c:1666:\nxmltok_ns.c:96:8: note: \u00e2\u20ac\u02dcbuf\u00e2\u20ac\u2122 declared here\n   96 |   char buf[ENCODING_MAX];\n      |        ^~~",
+                "author": "Sebastian Pipping",
+                "date": "2021-12-25",
+                "changed_files": [
+                  "expat/Changes",
+                  "expat/lib/xmltok_ns.c"
+                ]
+              },
+              "score": 2.0,
+              "confidence": "low",
+              "signals": [
+                {
+                  "name": "sensitive_path",
+                  "weight": 1.5,
+                  "fired": true,
+                  "detail": "1 file(s) touch sensitive paths (matched: xml)"
+                },
+                {
+                  "name": "small_focused_diff",
+                  "weight": 0.5,
+                  "fired": true,
+                  "detail": "2 file(s), 2 line(s) changed -- small and focused."
+                },
+                {
+                  "name": "memory_safety_diff",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No added source-line combination matched memory-safety plus guard vocabulary."
+                },
+                {
+                  "name": "defensive_diff_shape",
+                  "weight": 1.5,
+                  "fired": false,
+                  "detail": "No defensive-shaped diff pattern matched."
+                },
+                {
+                  "name": "vague_message_defensive_diff",
+                  "weight": 3.0,
+                  "fired": false,
+                  "detail": "Skipped: no defensive diff shape to compare against."
+                }
+              ]
+            }
+          ],
+          "metric_scope_warning": "Eligible positive is semantically disclosed security defense; eligible_recall is engine-rule recall on that one label, not evidence of finding a silent fix. Labels from candidate review are exploratory."
+        }
+      },
+      "reviewed_prediction_candidates": [
+        {
+          "sha": "039af6611d0c28e879196698ee0f6707d430d855",
+          "original_subject": "Sync file headers",
+          "rank": 1,
+          "score": 2.0,
+          "changed_files": [
+            "expat/lib/xmlparse.c",
+            "expat/win32/expat.iss",
+            "expat/xmlwf/xmlwf.c"
+          ],
+          "diff_sha256": "427bed3b9ddcf1ef079fdbdcb3470ca2f81097690269918b63a75b40b9e19bd3",
+          "diff_source": "https://github.com/libexpat/libexpat/commit/039af6611d0c28e879196698ee0f6707d430d855",
+          "review_status": "reviewed_unknown",
+          "non_security_label": false,
+          "diff_scope": "Full raw first-parent git diff bytes, including merge commits.",
+          "review_reason": "Copyright comments and installer display-copyright metadata only. Retained unknown under the strict comment-only negative rule because an installer property value also changes."
+        },
+        {
+          "sha": "29c3748788ff5ba0e4b14b02dfa15080177a3c8c",
+          "original_subject": "lib: Make EXPAT_ENTROPY_DEBUG consistent with other EXPAT_*_DEBUG variables",
+          "rank": 2,
+          "score": 2.0,
+          "changed_files": [
+            "expat/lib/xmlparse.c"
+          ],
+          "diff_sha256": "b3261c79417eed27a8545b087d2a4440e5b70bcc0ec92e3d42efa74b459a0cab",
+          "diff_source": "https://github.com/libexpat/libexpat/commit/29c3748788ff5ba0e4b14b02dfa15080177a3c8c",
+          "review_status": "reviewed_unknown",
+          "non_security_label": false,
+          "diff_scope": "Full raw first-parent git diff bytes, including merge commits.",
+          "review_reason": "Executable change to entropy debug environment handling; no independent evidence sufficient to classify security-fix versus non-security."
+        },
+        {
+          "sha": "41b732a16381699e4c9ad831b6fef20c86cf9461",
+          "original_subject": "Merge pull request #484 from libexpat/fix-accounting-issues",
+          "rank": 3,
+          "score": 2.0,
+          "changed_files": [
+            "expat/Changes",
+            "expat/lib/xmlparse.c",
+            "expat/tests/runtests.c"
+          ],
+          "diff_sha256": "48475c907c58cb1d63841b02ae0fb7ace3d0664b0ccc79eb6dbf4eb10c7b1d69",
+          "diff_source": "https://github.com/libexpat/libexpat/commit/41b732a16381699e4c9ad831b6fef20c86cf9461",
+          "review_status": "reviewed_unknown",
+          "non_security_label": false,
+          "diff_scope": "Full raw first-parent git diff bytes, including merge commits.",
+          "review_reason": "Explicit first-parent diff changes CDATA amplification accounting and tests. Official release changelog lists PR 484 in CVE-2013-0340 security work; security-relevant candidate retained unknown pending precise correction/timeline classification.",
+          "additional_primary_evidence": [
+            "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_0/expat/Changes",
+            "https://github.com/libexpat/libexpat/pull/484"
+          ]
+        },
+        {
+          "sha": "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+          "original_subject": "Fix typos",
+          "rank": 4,
+          "score": 2.0,
+          "changed_files": [
+            "expat/CMakeLists.txt",
+            "expat/lib/xmlparse.c",
+            "expat/tests/runtests.c"
+          ],
+          "diff_sha256": "86104f0e879c33286d85d43fd714773bfb0b0b4ceda19dd118def67bab8c2501",
+          "diff_source": "https://github.com/libexpat/libexpat/commit/5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+          "review_status": "reviewed_non_security",
+          "non_security_label": true,
+          "diff_scope": "Full raw first-parent git diff bytes, including merge commits.",
+          "review_reason": "Complete diff has comment spelling corrections only, across three files; independently reviewed non_security for this task."
+        },
+        {
+          "sha": "5bab452b4952ab417a0a47ce4a6185e94e22bd0c",
+          "original_subject": "lib: Address GCC 11.2.1 compiler warning",
+          "rank": 5,
+          "score": 2.0,
+          "changed_files": [
+            "expat/Changes",
+            "expat/lib/xmltok_ns.c"
+          ],
+          "diff_sha256": "4937f000a9ec68c72826b69d6095cc75793f2d99838d1833fbe25d7f1a9e3f78",
+          "diff_source": "https://github.com/libexpat/libexpat/commit/5bab452b4952ab417a0a47ce4a6185e94e22bd0c",
+          "review_status": "reviewed_unknown",
+          "non_security_label": false,
+          "diff_scope": "Full raw first-parent git diff bytes, including merge commits.",
+          "review_reason": "Executable change initializes a stack encoding buffer; compiler-warning framing does not establish whether a security defect was also corrected. Retained unknown."
+        }
+      ],
+      "radar_source_sha256_at_import": {
+        "__init__.py": "4e4803b3f703bea679aa2762786552d68cc826462d64ced77553bd4d8c5a6044",
+        "commit.py": "51d2bae0b995dc01cf8db6c41e5cef48a89014333b209bf1321af59da15bf586",
+        "engine.py": "ac37655a9330f5546220268766cc210639fa0f36d1235a41f0658fba588a06b2",
+        "finding.py": "4066c0422b48080e0afca1820e4f0cca8f57407c0705cdc597445bfdacac58dc",
+        "repository.py": "09b20a7b7e772728471b1b8c9a791f61215d8c242ed9cbb77abc65e8d0c795c4",
+        "signal.py": "17be37ae8c9bd0dd6f1a572f8976aee60eaa7d4914076c25d8b5b2335fe72c81"
+      },
+      "radar_source_sha256": {
+        "__init__.py": "4e4803b3f703bea679aa2762786552d68cc826462d64ced77553bd4d8c5a6044",
+        "commit.py": "51d2bae0b995dc01cf8db6c41e5cef48a89014333b209bf1321af59da15bf586",
+        "engine.py": "ac37655a9330f5546220268766cc210639fa0f36d1235a41f0658fba588a06b2",
+        "finding.py": "4066c0422b48080e0afca1820e4f0cca8f57407c0705cdc597445bfdacac58dc",
+        "repository.py": "09b20a7b7e772728471b1b8c9a791f61215d8c242ed9cbb77abc65e8d0c795c4",
+        "signal.py": "17be37ae8c9bd0dd6f1a572f8976aee60eaa7d4914076c25d8b5b2335fe72c81"
+      },
+      "radar_source_sha256_end": {
+        "__init__.py": "4e4803b3f703bea679aa2762786552d68cc826462d64ced77553bd4d8c5a6044",
+        "commit.py": "51d2bae0b995dc01cf8db6c41e5cef48a89014333b209bf1321af59da15bf586",
+        "engine.py": "ac37655a9330f5546220268766cc210639fa0f36d1235a41f0658fba588a06b2",
+        "finding.py": "4066c0422b48080e0afca1820e4f0cca8f57407c0705cdc597445bfdacac58dc",
+        "repository.py": "09b20a7b7e772728471b1b8c9a791f61215d8c242ed9cbb77abc65e8d0c795c4",
+        "signal.py": "17be37ae8c9bd0dd6f1a572f8976aee60eaa7d4914076c25d8b5b2335fe72c81"
+      },
+      "source_changed_during_run": false,
+      "review_selection": "First five default predictions reviewed, plus one root-nominated additional candidate; labels added after review, so results are exploratory and not held out."
+    }
+  },
+  "manifest_sha256": "dba57bc2efed1f48dcacec483a0732e056d89b61203adad0111bd08d67b3fbcc",
+  "benchmark_script_sha256": "c5c8c5badc0701241e8411d71c00104bf2acef333cd903b8d9c1b333e9d64ad1",
+  "radar_source_sha256_at_import": {
+    "__init__.py": "4e4803b3f703bea679aa2762786552d68cc826462d64ced77553bd4d8c5a6044",
+    "commit.py": "51d2bae0b995dc01cf8db6c41e5cef48a89014333b209bf1321af59da15bf586",
+    "engine.py": "ac37655a9330f5546220268766cc210639fa0f36d1235a41f0658fba588a06b2",
+    "finding.py": "4066c0422b48080e0afca1820e4f0cca8f57407c0705cdc597445bfdacac58dc",
+    "repository.py": "09b20a7b7e772728471b1b8c9a791f61215d8c242ed9cbb77abc65e8d0c795c4",
+    "signal.py": "17be37ae8c9bd0dd6f1a572f8976aee60eaa7d4914076c25d8b5b2335fe72c81"
+  },
+  "radar_source_sha256": {
+    "__init__.py": "4e4803b3f703bea679aa2762786552d68cc826462d64ced77553bd4d8c5a6044",
+    "commit.py": "51d2bae0b995dc01cf8db6c41e5cef48a89014333b209bf1321af59da15bf586",
+    "engine.py": "ac37655a9330f5546220268766cc210639fa0f36d1235a41f0658fba588a06b2",
+    "finding.py": "4066c0422b48080e0afca1820e4f0cca8f57407c0705cdc597445bfdacac58dc",
+    "repository.py": "09b20a7b7e772728471b1b8c9a791f61215d8c242ed9cbb77abc65e8d0c795c4",
+    "signal.py": "17be37ae8c9bd0dd6f1a572f8976aee60eaa7d4914076c25d8b5b2335fe72c81"
+  },
+  "radar_source_sha256_end": {
+    "__init__.py": "4e4803b3f703bea679aa2762786552d68cc826462d64ced77553bd4d8c5a6044",
+    "commit.py": "51d2bae0b995dc01cf8db6c41e5cef48a89014333b209bf1321af59da15bf586",
+    "engine.py": "ac37655a9330f5546220268766cc210639fa0f36d1235a41f0658fba588a06b2",
+    "finding.py": "4066c0422b48080e0afca1820e4f0cca8f57407c0705cdc597445bfdacac58dc",
+    "repository.py": "09b20a7b7e772728471b1b8c9a791f61215d8c242ed9cbb77abc65e8d0c795c4",
+    "signal.py": "17be37ae8c9bd0dd6f1a572f8976aee60eaa7d4914076c25d8b5b2335fe72c81"
+  },
+  "source_changed_during_run": false,
+  "checks": [
+    {
+      "name": "curl-CVE-2023-38545-disclosed-control",
+      "sha": "fb4415d8aee6c1045be932a34fe6107c2f5ed147",
+      "patch_source": "https://github.com/curl/curl/commit/fb4415d8aee6c1045be932a34fe6107c2f5ed147.patch",
+      "original_subject": "socks: return error if hostname too long for remote resolve",
+      "normalized_original_message_sha256": "348d80a1bacd811917741c50cc9ce94949389e5bc608bd04a9a842f9fbf09306",
+      "original_patch_sha256": "ed2002abf86f10eba31604374f4c29e2077d0e7c284dbf8da037b9d3c86485c3",
+      "original_message_contains_cve": true,
+      "loudly_disclosed": true,
+      "results": {
+        "default": "excluded",
+        "memory-safety": "excluded"
+      },
+      "scope": "One primary-source commit only; no history window/ranking run in this check."
+    },
+    {
+      "name": "libexpat-CVE-2022-25235-disclosed-control",
+      "sha": "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+      "patch_source": "https://github.com/libexpat/libexpat/commit/3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6.patch",
+      "original_subject": "lib: Add missing validation of encoding (CVE-2022-25235)",
+      "normalized_original_message_sha256": "b843e1e0fddbd8d9f0dfb42dbebf74c2340e2295f60f9a7f2560fe10066b7553",
+      "original_patch_sha256": "ab9da6e0f80e8cc5726638e55f9ff76d34bcfbb2dba66707dc8fca2b2dfd61aa",
+      "original_message_contains_cve": true,
+      "loudly_disclosed": true,
+      "results": {
+        "default": "excluded",
+        "memory-safety": "excluded"
+      },
+      "scope": "One primary-source commit only; no history window/ranking run in this check."
+    }
+  ],
+  "precision": null,
+  "eligible_silent_fix_recall": null,
+  "limitations": "Three disclosed controls (one engine eligible despite explicit attack-defense meaning) plus one comment-only negative, two labels added by post-scan exploratory review. Four of the first five manually inspected baseline candidates remain unknown. libexpat history executed, curl history unavailable. No population accuracy or silent-fix recall claims.",
+  "clone_preparation": [
+    {
+      "name": "curl-CVE-2023-38545-disclosed-control",
+      "upstream": "https://github.com/curl/curl.git",
+      "path": "../local-clones/curl-hussein-expansion-004",
+      "preparation": "Full git clone attempted into a new directory; no existing clone modified.",
+      "clone_options": [
+        "--no-checkout",
+        "--single-branch",
+        "--no-tags"
+      ],
+      "clone_timeout_seconds": 240,
+      "status": "clone_incomplete_after_timeout",
+      "head_resolution_exit_code": 128,
+      "head": null
+    },
+    {
+      "name": "libexpat-CVE-2022-25235-disclosed-control",
+      "upstream": "https://github.com/libexpat/libexpat.git",
+      "path": "../local-clones/libexpat-hussein-expansion-004",
+      "preparation": "Full git clone attempted into a new directory; no existing clone modified.",
+      "clone_options": [
+        "--no-checkout",
+        "--single-branch",
+        "--no-tags"
+      ],
+      "clone_timeout_seconds": 240,
+      "status": "complete_full_clone",
+      "head_resolution_exit_code": 0,
+      "head": "a824e920f3d3d77930d7897c80b6925a6733aebc",
+      "is_shallow": false
+    }
+  ],
+  "human_disclosed_security_control_count": 3,
+  "verified_silent_fix_label_count": 0,
+  "reviewed_negative_label_count": 1,
+  "semantic_disclosure_controls_accepted_by_engine": [
+    "b1d039607d3d8a042bf0466bfcc1c0f104e353c8"
+  ],
+  "final_review_date": "2026-10-03"
+}

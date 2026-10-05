@@ -281,3 +281,144 @@ already have locally, under a sanitizer, in a subprocess with no
 special privileges — it does not execute untrusted code from the
 network, and the functions it targets are limited by design to ones
 with primitive/string parameters only.
+
+## What the literature says this tool can and cannot do
+
+Written after a review pass in which the method was checked against
+published results rather than against its own intentions. Numbers below are
+from the cited papers, not from measurements of Augur -- Augur has no
+quantitative evaluation of its own, and saying otherwise would be exactly
+the kind of unsupported claim this document exists to avoid.
+
+### Where this problem sits
+
+Silent vulnerability fixes are an established research area, not a
+speculative one. Reported estimates put the share of open-source projects
+that fix vulnerabilities without disclosing them at around 25%. The
+earliest concrete results are striking: mining Linux kernel history for
+commits that cannot be traced to any public development artefact --
+Ramsauer et al., "The Sound of Silence" (CCSW 2020) -- recovered 29
+commits addressing 12 vulnerabilities, giving a 2-to-179-day window before
+public disclosure.
+
+Published datasets exist for exactly this task and are large enough to be
+useful for evaluation: PatchDB (~12K security and ~24K non-security
+patches across 311 projects), SPI-DB (~25K patches from FFmpeg and QEMU),
+the VFFinder dataset (~11K fixing and ~25K non-fixing commits across 507
+C/C++ projects), and a 2,251-silent-fix set used by GRAPE.
+
+### The state of the art is not what this tool does
+
+The strongest published methods are learned, structural, and graph-based:
+
+| Method | Representation |
+|---|---|
+| PatchRNN | commit text + syntactic/semantic code features |
+| VFFinder | annotated pre/post ASTs through a graph attention network |
+| VulFixMiner | Transformer over commit-level diffs |
+| Fixseeker | hunk correlation graphs (caller-callee, data, control, replication) |
+| GRAPE | a multi-code-property-graph patch representation |
+| SSPCatcher | co-training over commit logs and code changes |
+
+VFFinder reports improvements of 39-83% in precision and 19-148% in recall
+over the prior state of the art, and a 2.6x speedup at equal review effort.
+PatchRNN's NGINX case study found 10 unannounced security patches (43% of
+23 security patches across three releases) with no false positives.
+
+**Augur's Radar is a keyword-and-shape heuristic and is far below that
+level.** It is kept, and kept deliberately, for three properties the learned
+methods do not offer: every result is a deterministic function of the
+commit's own text, so a human can check any single line of a report against
+a URL; it runs offline against any local clone with no API, no token, and
+no dependency on where the project is hosted; and it has no model, so it
+cannot produce a confident claim from a misread.
+
+### A measured reason the single-signal heuristic will miss most fixes
+
+Fixseeker's empirical study of 11,900 vulnerability-fixing commits across
+six languages found that **over 70% involve multiple hunks**, and that
+inter-hunk correlations (caller-callee dependency, data-flow dependency,
+control dependency, pattern replication) are present in **93.03%** of
+multi-hunk fixes. It also found multi-hunk fixes disproportionately address
+severe vulnerabilities (68.51% critical/high, versus 57.25% for
+single-hunk).
+
+This is a structural limit, not a tuning problem: a scorer that reads one
+commit's message and one file's diff cannot see a correlation between two
+hunks. Radar's recall is bounded by this, and no amount of keyword tuning
+removes the bound. Multi-hunk correlation is the single highest-value
+direction for improving it.
+
+### What the affected-versions literature says about provenance
+
+The 2025 paper cited elsewhere in this document is real and is accurately
+quoted: Chen et al., "Vulnerability-Affected Versions Identification: How
+Far Are We?", ASE 2025, arXiv:2509.03876. It builds a benchmark of 1,128
+real-world C/C++ vulnerabilities (1,542 patches, 59,187 vulnerable
+versions, 132 CWE types) and evaluates 12 tools -- six tracing-based
+(VCCFinder, V-SZZ, Lifetime, SEM-SZZ, TC-SZZ, LLM4SZZ) and six
+matching-based (ReDeBug, VUDDY, MOVERY, V1SCAN, FIRE, VULTURE).
+
+Findings that bear directly on this module:
+
+- **No tool exceeds 45.0% accuracy** at the vulnerability level; the best,
+  VCCFinder, reaches 44.9%. A five-tool voting ensemble reaches 55.0%
+  accuracy and 84.8% version-level F1 -- better than any single tool, still
+  below 60%.
+- **Tracing-based tools fall below 40% accuracy on add-only patches**,
+  because blame-based tracing has nothing to trace. Augur's provenance
+  inherits this limit exactly: it walks the history of one file for one
+  function, so a fix that introduces a brand-new guard without touching
+  the vulnerable line is invisible to it, and an add-only fix leaves it
+  with no reference point at all. Its honest output in that case is
+  "no unguarded copy found in the commit before the fix", not a guess.
+- **Only 9.37% of patches are syntactically identical across branches**, so
+  any exact-matching approach degrades sharply in multi-branch development
+  (VULTURE's F1 drops 31.2%, V-SZZ's accuracy 32.7%).
+- **Root causes named by the study:** heuristic over-reliance in tracing,
+  insufficient semantic modelling, inflexible matching, and -- directly
+  relevant here -- *"inadequate verification mechanisms"*: both families
+  "lack robust methods to verify that identified versions actually contain
+  vulnerabilities".
+
+That last point is the one Augur's `harness` section answers. It does not
+identify affected versions; it takes one specific function and one specific
+commit and produces an executable AddressSanitizer differential over a
+sweep of inputs, so the claim "this commit fixed a memory-safety defect" is
+backed by a run rather than by a heuristic. It is the narrowest and most
+verifiable of the three sections by construction, and the only one whose
+output is a fact rather than a ranking.
+
+### What the SZZ literature says about the baseline comparison
+
+Numbers worth stating next to the B-SZZ comparison in this repository:
+
+- On a developer-informed oracle of 2,304 referenced bug-fixing commits,
+  R-SZZ is the most precise variant at roughly 66-73%, while B-SZZ has the
+  best recall at about 69% but precision only around 38-42%. F1 for the
+  balanced variants sits near 0.50 (Rosa et al., JSS 2023).
+- Evaluated on 76,046 Linux-kernel fix/introduction pairs, all SZZ variants
+  land between 0.40 and 0.60 precision and recall with F1 around 0.50;
+  **17.47% of bug-fixing commits are "ghost commits"** that SZZ cannot
+  resolve at all, and over 13% of bug-introducing commits share no file with
+  the fixing commit (Rezk et al., 2023).
+- When every SZZ variant failed on non-ghost cases, iteratively extending
+  blame through history found the introducing commit in **17.7%** of them;
+  of the remainder, 34.6% were reachable in the *function* history and
+  27.5% only in the file history. Re-running a structural detector over
+  function revisions -- which is what Augur's provenance does -- follows the
+  better half of that distribution.
+- Known SZZ failure modes explicitly documented in the literature are
+  formatting and cosmetic changes, refactoring, and **version-control
+  metadata such as merge commits**. The last of these is the reason Radar
+  now asks git for merge diffs explicitly: without that, a silent fix
+  integrated by merge produces a commit with an empty diff.
+- Token-level rather than line-level blame reduces false positives from
+  whitespace and formatting changes, at a cost of about 0.081 F1
+  (Watanabe et al., 2024).
+- Herbold et al. found only about 38% of the lines changed in bug-fixing
+  commits were actually needed to fix the bug, which is the concrete form of
+  the "tangled commit" problem that inflates SZZ precision problems.
+
+None of the above is a measurement of Augur. It is the external context in
+which Augur's own numbers, once they exist, will have to be read.

@@ -8,7 +8,9 @@ CLI entrypoint — two sections, run independently.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import math
 import sys
 import tempfile
 from pathlib import Path
@@ -18,7 +20,42 @@ from .harness.pipeline import HarnessPipeline, Verdict
 from .provenance.pipeline import ProvenancePipeline
 from .radar.engine import RadarEngine
 from .radar.repository import GitCommandError, GitRepository
-from .radar.signal import MemorySafetyDiffSignal
+from .radar.signal import (
+    MemorySafetyDiffSignal,
+    SensitivePathSignal,
+    DefensiveDiffShapeSignal,
+    SmallFocusedDiffSignal,
+    VagueMessageSignal,
+)
+
+# Signals a --weight override may name, per variant. `memory_safety_diff`
+# belongs to the opt-in variant only: accepting it under the default radar
+# would record a weight for a signal that never runs, so the report would
+# claim a configuration that was not in effect.
+def _known_signal_names(variant: str) -> set[str]:
+    names = {
+        SensitivePathSignal.name,
+        DefensiveDiffShapeSignal.name,
+        VagueMessageSignal.name,
+        SmallFocusedDiffSignal.name,
+    }
+    if variant == "memory-safety":
+        names.add(MemorySafetyDiffSignal.name)
+    return names
+
+
+def _parse_finite(raw: str, what: str) -> float:
+    """float() accepts 'nan' and 'inf', and every comparison against them is
+    False, so a NaN threshold silently disables the tier it belongs to and an
+    infinite one silently disables the other. Both produce a plausible-looking
+    report that no longer means what it says, so they are rejected here."""
+    try:
+        value = float(raw)
+    except ValueError:
+        raise ValueError(f"{what} must be a number, got: {raw}") from None
+    if not math.isfinite(value):
+        raise ValueError(f"{what} must be a finite number, got: {raw}")
+    return value
 
 
 def cmd_radar(args: argparse.Namespace) -> int:
@@ -28,7 +65,24 @@ def cmd_radar(args: argparse.Namespace) -> int:
         print(f"[!] {e}", file=sys.stderr)
         return 1
 
-    print(f"[*] scanning last {args.limit} commit(s) in {args.clone_path}...", file=sys.stderr)
+    if args.limit < 1:
+        print(f"[!] --limit must be at least 1, got: {args.limit}", file=sys.stderr)
+        return 1
+
+    try:
+        high = _parse_finite(str(args.high_threshold), "--high-threshold")
+        medium = _parse_finite(str(args.medium_threshold), "--medium-threshold")
+    except ValueError as e:
+        print(f"[!] {e}", file=sys.stderr)
+        return 1
+    if medium > high:
+        print(
+            f"[!] --medium-threshold ({medium}) cannot exceed --high-threshold ({high})",
+            file=sys.stderr,
+        )
+        return 1
+
+    known = _known_signal_names(args.variant)
     weights = {}
     for raw_weight in args.weight:
         if "=" not in raw_weight:
@@ -36,26 +90,43 @@ def cmd_radar(args: argparse.Namespace) -> int:
             return 1
         name, raw_value = raw_weight.split("=", 1)
         try:
-            weights[name] = float(raw_value)
-        except ValueError:
-            print(f"[!] invalid --weight value: {raw_weight}", file=sys.stderr)
+            value = _parse_finite(raw_value, f"--weight {name}")
+        except ValueError as e:
+            print(f"[!] {e}", file=sys.stderr)
             return 1
+        if name not in known:
+            available = ", ".join(sorted(known))
+            hint = ""
+            if name == MemorySafetyDiffSignal.name:
+                hint = " (it exists only under --variant memory-safety)"
+            print(
+                f"[!] unknown signal for --variant {args.variant}: {name}{hint}. "
+                f"Available: {available}",
+                file=sys.stderr,
+            )
+            return 1
+        weights[name] = value
 
+    print(f"[*] scanning last {args.limit} commit(s) in {args.clone_path}...", file=sys.stderr)
     if args.variant == "memory-safety":
         engine = RadarEngine(
             extra_signals=[MemorySafetyDiffSignal()],
             qualifying_signal_names={MemorySafetyDiffSignal.name},
             weight_overrides=weights,
-            high_threshold=args.high_threshold,
-            medium_threshold=args.medium_threshold,
+            high_threshold=high,
+            medium_threshold=medium,
         )
     else:
         engine = RadarEngine(
             weight_overrides=weights,
-            high_threshold=args.high_threshold,
-            medium_threshold=args.medium_threshold,
+            high_threshold=high,
+            medium_threshold=medium,
         )
-    findings = engine.scan(repo, limit=args.limit)
+    findings = engine.scan(
+        repo,
+        limit=args.limit,
+        discount_common_path_keywords=args.discount_common_path_keywords,
+    )
     print(f"[*] {len(findings)} commit(s) qualified as possible silent fixes", file=sys.stderr)
 
     if args.format == "json":
@@ -66,12 +137,14 @@ def cmd_radar(args: argparse.Namespace) -> int:
                 "high_threshold": engine.high_threshold,
                 "medium_threshold": engine.medium_threshold,
                 "weight_overrides": weights,
+                "limit": args.limit,
+                "discount_common_path_keywords": args.discount_common_path_keywords,
             },
         )
     else:
         report = render_radar_report(findings)
     if args.out:
-        args.out.write_text(report)
+        args.out.write_text(report, encoding="utf-8")
         print(f"[*] report written to {args.out}", file=sys.stderr)
     else:
         print("\n" + report)
@@ -92,6 +165,7 @@ def render_radar_json(findings, configuration: dict | None = None) -> str:
     payload = {
         "schema_version": "1.0",
         "tool": "augur",
+        "tool_version": __version__,
         "mode": "radar",
         "qualified_count": len(findings),
         "configuration": configuration or {},
@@ -109,8 +183,10 @@ def cmd_harness(args: argparse.Namespace) -> int:
         name, value = kv.split("=", 1)
         other_defaults[name] = value
 
-    old_source = args.old.read_text()
-    new_source = args.new.read_text()
+    old_bytes = args.old.read_bytes()
+    new_bytes = args.new.read_bytes()
+    old_source = old_bytes.decode("utf-8")
+    new_source = new_bytes.decode("utf-8")
     pipeline = HarnessPipeline()
 
     with tempfile.TemporaryDirectory() as tmp:
@@ -134,19 +210,30 @@ def cmd_harness(args: argparse.Namespace) -> int:
     print(f"[*] {result.detail}", file=sys.stderr)
 
     payload = {
+        "schema_version": "1.0",
+        "tool": "augur",
+        "tool_version": __version__,
+        "mode": "harness",
         "function": result.function_name,
         "verdict": result.verdict,
         "detail": result.detail,
         "old_crashes": [r.__dict__ for r in result.old_results if r.crashed],
         "new_crashes": [r.__dict__ for r in result.new_results if r.crashed],
+        "old_runs": [r.__dict__ | {"status": r.status} for r in result.old_results],
+        "new_runs": [r.__dict__ | {"status": r.status} for r in result.new_results],
+        "source_sha256": {
+            "old": hashlib.sha256(old_bytes).hexdigest(),
+            "new": hashlib.sha256(new_bytes).hexdigest(),
+        },
+        "configuration": {"seed": args.seed, "seed_encoding": "utf-8", "length_unit": "bytes", "parameters": other_defaults},
     }
     if args.out:
-        args.out.write_text(json.dumps(payload, indent=2))
+        args.out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
         print(f"[*] result written to {args.out}", file=sys.stderr)
     else:
         print(json.dumps(payload, indent=2))
 
-    return 0 if result.verdict == Verdict.CONFIRMED_REGRESSION_FIX else (1 if result.verdict == Verdict.INCONCLUSIVE else 0)
+    return 0 if result.verdict == Verdict.CONFIRMED_REGRESSION_FIX else 1
 
 
 def cmd_provenance(args: argparse.Namespace) -> int:
@@ -162,6 +249,10 @@ def cmd_provenance(args: argparse.Namespace) -> int:
     )
 
     payload = {
+        "schema_version": "1.0",
+        "tool": "augur",
+        "tool_version": __version__,
+        "mode": "provenance",
         "found": result.introduction.found,
         "reason": result.introduction.reason,
         "introduction_commit": result.introduction.introduction_commit,
@@ -175,7 +266,7 @@ def cmd_provenance(args: argparse.Namespace) -> int:
     print(f"[*] {result.introduction.reason}", file=sys.stderr)
 
     if args.out:
-        args.out.write_text(json.dumps(payload, indent=2))
+        args.out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
         print(f"[*] result written to {args.out}", file=sys.stderr)
     else:
         print(json.dumps(payload, indent=2))
@@ -200,6 +291,12 @@ def main(argv: list[str] | None = None) -> int:
     p_radar.add_argument("--weight", action="append", default=[], help="override a signal weight: signal=value")
     p_radar.add_argument("--high-threshold", type=float, default=RadarEngine.HIGH_THRESHOLD)
     p_radar.add_argument("--medium-threshold", type=float, default=RadarEngine.MEDIUM_THRESHOLD)
+    p_radar.add_argument(
+        "--discount-common-path-keywords", action="store_true",
+        help="discount path keywords that match most commits in the window. "
+             "On openssl this alone takes the candidate rate from 34.5%% to 8.0%%, "
+             "because the entire project lives under crypto/.",
+    )
     p_radar.add_argument(
         "--variant", choices=("default", "memory-safety"), default="default",
         help="opt-in experimental signal variant; default preserves the original Radar",
@@ -229,7 +326,11 @@ def main(argv: list[str] | None = None) -> int:
     p_prov.set_defaults(func=cmd_provenance)
 
     args = parser.parse_args(argv)
-    return args.func(args)
+    try:
+        return args.func(args)
+    except (OSError, UnicodeError, GitCommandError) as error:
+        print(f"[!] {error}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

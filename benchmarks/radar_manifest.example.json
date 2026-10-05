@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "repositories": [
+    {
+      "name": "zlib-known-memory-fix",
+      "path": "../local-clones/zlib",
+      "revision": "eff308af425b67093bab25f80f1ae950166bece1",
+      "labels": [
+        {
+          "sha": "eff308af425b67093bab25f80f1ae950166bece1",
+          "label": "security_fix",
+          "evidence": "https://github.com/madler/zlib/commit/eff308af425b67093bab25f80f1ae950166bece1",
+          "advisory": "https://github.com/madler/zlib/releases/tag/v1.2.13",
+          "note": "Maintainer explains a buffer-overflow fix in inflateGetHeader/inflate; official v1.2.13 notes identify this as CVE-2022-37434. Original message is preserved. This is a one-positive smoke sample, not an independently reviewed negative dataset or representative evaluation."
+        }
+      ]
+    },
+    {
+      "name": "zlib-deflate-exclusion-control",
+      "path": "../local-clones/zlib",
+      "revision": "5c44459c3b28a9bd3283aaceab7c615f8020c531",
+      "labels": [
+        {
+          "sha": "5c44459c3b28a9bd3283aaceab7c615f8020c531",
+          "label": "security_fix",
+          "evidence": "https://github.com/madler/zlib/commit/5c44459c3b28a9bd3283aaceab7c615f8020c531",
+          "note": "Maintainer describes out-of-bound accesses corrected in deflate. Current loud-disclosure substring filter matches rce in forces; retain this original-message exclusion control, never count it as eligible false negative."
+        }
+      ]
+    }
+  ]
+}

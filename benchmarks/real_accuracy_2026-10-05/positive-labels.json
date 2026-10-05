@@ -1,0 +1,98 @@
+[
+  {
+    "project": "zlib",
+    "sha": "eff308af425b67093bab25f80f1ae950166bece1",
+    "label": "security_fix",
+    "identifier": "CVE-2022-37434",
+    "evidence": "https://github.com/madler/zlib/releases/tag/v1.2.13; gzip extra-field buffer bounds",
+    "subject": "Fix a bug when getting a gzip header extra field with inflate()."
+  },
+  {
+    "project": "zlib",
+    "sha": "5c44459c3b28a9bd3283aaceab7c615f8020c531",
+    "label": "security_fix",
+    "identifier": "CVE-2018-25032",
+    "evidence": "https://github.com/madler/zlib/issues/605; deflate pending-buffer corruption",
+    "subject": "Fix a bug that can crash deflate on some input when using Z_FIXED."
+  },
+  {
+    "project": "curl",
+    "sha": "fb4415d8aee6c1045be932a34fe6107c2f5ed147",
+    "label": "security_fix",
+    "identifier": "CVE-2023-38545",
+    "evidence": "https://curl.se/docs/CVE-2023-38545.html; SOCKS5 hostname buffer overflow",
+    "subject": "socks: return error if hostname too long for remote resolve"
+  },
+  {
+    "project": "curl",
+    "sha": "61275672b46d9abb3285740467b882e22ed75da8",
+    "label": "security_fix",
+    "identifier": "CVE-2023-38546",
+    "evidence": "https://curl.se/docs/CVE-2023-38546.html; cookie filename injection via cloned handle",
+    "subject": "cookie: remove unnecessary struct fields"
+  },
+  {
+    "project": "jq",
+    "sha": "71c2ab509a8628dbbad4bc7b3f98a64aa90d3297",
+    "label": "security_fix",
+    "identifier": "CVE-2023-50246",
+    "evidence": "https://github.com/jqlang/jq/security/advisories/GHSA-686w-5m7m-54vc; literal-number output buffer allocation",
+    "subject": "Merge pull request from GHSA-686w-5m7m-54vc"
+  },
+  {
+    "project": "jq",
+    "sha": "c9a51565214eece8f1053089739aea73145bfd6b",
+    "label": "security_fix",
+    "identifier": "CVE-2023-50268",
+    "evidence": "https://github.com/jqlang/jq/security/advisories/GHSA-7hmr-442f-qc8j; NaN comparison stack overflow",
+    "subject": "Merge pull request from GHSA-7hmr-442f-qc8j"
+  },
+  {
+    "project": "jq",
+    "sha": "de21386681c0df0104a99d9d09db23a9b2a78b1e",
+    "label": "security_fix",
+    "identifier": "CVE-2024-23337",
+    "evidence": "https://github.com/jqlang/jq/security/advisories/GHSA-2q6r-344g-cx46; array/object growth integer overflow",
+    "subject": "Fix signed integer overflow in jvp_array_write and jvp_object_rehash"
+  },
+  {
+    "project": "libarchive",
+    "sha": "a612bf62f86a6faa47bd57c52b94849f0a404d8c",
+    "label": "security_fix",
+    "identifier": "CVE-2025-5915",
+    "evidence": "https://github.com/libarchive/libarchive/pull/2599; RAR filter block larger than dictionary",
+    "subject": "rar: Fix heap-buffer-overflow (#2599)"
+  },
+  {
+    "project": "libarchive",
+    "sha": "eac15e252010c1189a5c0f461364dbe2cd2a68b1",
+    "label": "security_fix",
+    "identifier": "CVE-2024-20696",
+    "evidence": "https://github.com/libarchive/libarchive/pull/2172; RAR negative copy length",
+    "subject": "rar4 reader: protect copy_from_lzss_window_to_unp() (#2172)"
+  },
+  {
+    "project": "libarchive",
+    "sha": "a20f89eb9b6eed62ee691b4d36fdf4e1216e0ba1",
+    "label": "security_fix",
+    "identifier": "CVE-2026-45308",
+    "evidence": "https://github.com/libarchive/libarchive/security/advisories/GHSA-xgqq-r5j8-3mch; ZIP writer overlong pathname",
+    "subject": "[Zip] Reject overlong pathnames in Zip writer"
+  },
+  {
+    "project": "libexpat",
+    "sha": "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+    "label": "security_fix",
+    "identifier": "CVE-2022-25235",
+    "evidence": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_5/expat/Changes; encoding validation",
+    "subject": "lib: Add missing validation of encoding (CVE-2022-25235)"
+  },
+  {
+    "project": "libexpat",
+    "sha": "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+    "label": "security_fix",
+    "identifier": "CVE-2013-0340",
+    "evidence": "https://github.com/libexpat/libexpat/pull/466; Billion Laughs amplification protection",
+    "subject": "lib: Protect against billion laughs attacks (approach 3.0.21)"
+  }
+]

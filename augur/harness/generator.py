@@ -12,6 +12,8 @@ taint traced through) and any number of plain integer parameters, which
 are filled with caller-supplied literal defaults, not synthesized."""
 from __future__ import annotations
 
+import re
+
 from ..pattern.function_extractor import ExtractedFunction
 from ..pattern.signature import Parameter
 from ..pattern.unbounded_copy import UnboundedCopyFinding
@@ -32,6 +34,17 @@ class DifferentialHarnessGenerator:
     ) -> str:
         if old_fn.signature is None or not old_fn.signature.is_simple():
             raise UnsupportedSignatureError(f"{old_fn.name}'s signature is not a supported simple shape")
+        if new_fn.signature is None or not new_fn.signature.is_simple():
+            raise UnsupportedSignatureError("the new function's signature is not a supported simple shape")
+        old_params = old_fn.signature.parameters
+        new_params = new_fn.signature.parameters
+        if len(old_params) != len(new_params) or any(
+            a.pointer_depth != b.pointer_depth or a.type_tokens != b.type_tokens
+            for a, b in zip(old_params, new_params)
+        ):
+            raise UnsupportedSignatureError("parameter types or positions changed between versions")
+        if "\0" in seed:
+            raise UnsupportedSignatureError("seed contains NUL; only NUL-free UTF-8 strings are supported")
 
         string_params = [p for p in old_fn.signature.parameters if p.is_string_like()]
         if len(string_params) != 1:
@@ -49,7 +62,8 @@ class DifferentialHarnessGenerator:
         new_renamed = self._rename_function(new_fn, f"new_{new_fn.name}")
 
         call_args_old = self._build_call_args(old_fn.signature.parameters, string_param, other_param_defaults)
-        call_args_new = self._build_call_args(new_fn.signature.parameters, string_param, other_param_defaults)
+        # Argument positions retain their meaning even if parameter names change.
+        call_args_new = call_args_old
 
         escaped_seed = self._escape_c_string(seed)
 
@@ -62,6 +76,9 @@ class DifferentialHarnessGenerator:
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 static const char SEED[] = "{escaped_seed}";
 
@@ -78,7 +95,7 @@ int main(int argc, char **argv) {{
     }}
     const char *which = argv[1];
     long trunc_len = strtol(argv[2], NULL, 10);
-    long seed_len = (long)strlen(SEED);
+    long seed_len = (long)(sizeof(SEED) - 1);
     if (trunc_len < 0 || trunc_len > seed_len) trunc_len = seed_len;
 
     /* Heap-allocate exactly trunc_len+1 bytes -- no slack past the
@@ -101,23 +118,19 @@ int main(int argc, char **argv) {{
 
     @staticmethod
     def _rename_function(fn: ExtractedFunction, new_name: str) -> str:
-        # The function name's first occurrence in the extracted text is
-        # always the declaration itself (extraction starts at the
-        # signature match), so replacing only the first occurrence can't
-        # accidentally rename an unrelated identical identifier elsewhere
-        # in the body.
-        return fn.full_text.replace(fn.name, new_name, 1)
+        # Match the declaration token, not a substring of its return type.
+        return re.sub(rf"\b{re.escape(fn.name)}(?=\s*\()", new_name, fn.full_text, count=1)
 
     @staticmethod
     def _escape_c_string(text: str) -> str:
-        """Escapes a Python string into a C string-literal body. Each
-        escape sequence still compiles down to exactly one byte, so
-        len(original_text) continues to equal strlen(SEED) at runtime --
-        the truncation-length arithmetic in the generated harness depends
-        on that equivalence holding."""
+        """Encode UTF-8 bytes using fixed-width C octal escapes.
+
+        Fixed width prevents adjacent digits from extending an escape, and
+        encoding bytes rather than code points preserves Unicode input.
+        """
         out = []
-        for ch in text:
-            code = ord(ch)
+        for code in text.encode("utf-8"):
+            ch = chr(code)
             if ch == "\\":
                 out.append("\\\\")
             elif ch == '"':
@@ -131,14 +144,7 @@ int main(int argc, char **argv) {{
             elif 32 <= code < 127:
                 out.append(ch)
             else:
-                # C hex escapes greedily consume every following hex-digit
-                # character, so a literal character right after \xNN that
-                # happens to look like a hex digit would silently merge
-                # into the escape. `""` immediately after closes the
-                # literal and reopens it, which C concatenates back
-                # together at compile time -- a hard boundary the escape
-                # can't read past.
-                out.append(f'\\x{code:02x}""')
+                out.append(f"\\{code:03o}")
         return "".join(out)
 
     @staticmethod

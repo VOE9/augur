@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "reviewer": "Hussein",
+  "review_date": "2026-10-02",
+  "purpose": "Two additional projects, three disclosed security-fix controls (one semantically disclosed but engine eligible), one comment-only exploratory negative; no silent-fix labels.",
+  "repositories": [
+    {
+      "name": "curl-CVE-2023-38545-disclosed-control",
+      "path": "../local-clones/curl-hussein-expansion-004",
+      "upstream": "https://github.com/curl/curl.git",
+      "revision": "fb4415d8aee6c1045be932a34fe6107c2f5ed147",
+      "labels": [
+        {
+          "sha": "fb4415d8aee6c1045be932a34fe6107c2f5ed147",
+          "label": "security_fix",
+          "sample_role": "disclosed_fix_exclusion_control",
+          "silent_status": "not_claimed_disclosed_original_message",
+          "evidence": "https://curl.se/docs/CVE-2023-38545.html",
+          "commit_source": "https://github.com/curl/curl/commit/fb4415d8aee6c1045be932a34fe6107c2f5ed147",
+          "original_subject": "socks: return error if hostname too long for remote resolve",
+          "original_message_disclosure_marker": "CVE-2023-38545",
+          "original_body_summary": "Explains an unsafe state-machine fallback and links the project's CVE advisory in the commit body.",
+          "correction_summary": "Reject overlong remotely resolved SOCKS5 hostnames instead of falling back to local resolution; add a regression case.",
+          "timeline": {
+            "reported_to_project": "2023-09-30",
+            "distros_contacted": "2023-10-03",
+            "public_advisory_and_fixed_release": "2023-10-11",
+            "commit_author_date_from_official_patch": "2023-10-11T07:34:19+02:00",
+            "first_public_commit_visibility": null,
+            "source": "https://curl.se/docs/CVE-2023-38545.html",
+            "limitation": "Git author/committer times do not prove when a commit first became public. The original full message declares its security context."
+          },
+          "normalized_original_message_sha256": "348d80a1bacd811917741c50cc9ce94949389e5bc608bd04a9a842f9fbf09306",
+          "original_patch_sha256": "ed2002abf86f10eba31604374f4c29e2077d0e7c284dbf8da037b9d3c86485c3",
+          "original_patch_source": "https://github.com/curl/curl/commit/fb4415d8aee6c1045be932a34fe6107c2f5ed147.patch",
+          "original_message_reproduction": "git -C local-clones/curl-hussein-expansion-004 show -s --format=%B fb4415d8aee6c1045be932a34fe6107c2f5ed147"
+        }
+      ]
+    },
+    {
+      "name": "libexpat-CVE-2022-25235-disclosed-control",
+      "path": "../local-clones/libexpat-hussein-expansion-004",
+      "upstream": "https://github.com/libexpat/libexpat.git",
+      "revision": "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+      "labels": [
+        {
+          "sha": "3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+          "label": "security_fix",
+          "sample_role": "disclosed_fix_exclusion_control",
+          "silent_status": "not_claimed_disclosed_original_message",
+          "evidence": "https://github.com/libexpat/libexpat/commit/3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6",
+          "release_source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_5/expat/Changes",
+          "original_subject": "lib: Add missing validation of encoding (CVE-2022-25235)",
+          "original_message_disclosure_marker": "CVE-2022-25235",
+          "correction_summary": "Reject invalid multi-byte characters in tokenizer paths before passing malformed text to downstream XML handlers.",
+          "timeline": {
+            "reported_to_project": null,
+            "first_public_disclosure": null,
+            "fixed_release_and_security_changelog": "2022-02-18",
+            "commit_author_date_from_official_patch": "2022-02-08T04:32:20+01:00",
+            "first_public_commit_visibility": null,
+            "source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_5/expat/Changes",
+            "limitation": "The earlier author date is not evidence of a silent public period. Original subject explicitly identifies the CVE; public visibility and initial report time were not established."
+          },
+          "normalized_original_message_sha256": "b843e1e0fddbd8d9f0dfb42dbebf74c2340e2295f60f9a7f2560fe10066b7553",
+          "original_patch_sha256": "ab9da6e0f80e8cc5726638e55f9ff76d34bcfbb2dba66707dc8fca2b2dfd61aa",
+          "original_patch_source": "https://github.com/libexpat/libexpat/commit/3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6.patch",
+          "original_message_reproduction": "git -C local-clones/libexpat-hussein-expansion-004 show -s --format=%B 3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6"
+        },
+        {
+          "sha": "5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+          "label": "non_security",
+          "sample_role": "exploratory_reviewed_negative",
+          "evidence": "https://github.com/libexpat/libexpat/commit/5a8f5f1d4017d14a01822b57c089764a5b598a1c",
+          "original_subject": "Fix typos",
+          "reviewer": "Hussein",
+          "review_date": "2026-10-02",
+          "review_basis": "Read complete first-parent diff: four typo corrections in C/CMake comments across three files; no executable expression, declaration, literal or build command changed.",
+          "changed_files": [
+            "expat/CMakeLists.txt",
+            "expat/lib/xmlparse.c",
+            "expat/tests/runtests.c"
+          ],
+          "first_parent_diff_sha256": "86104f0e879c33286d85d43fd714773bfb0b0b4ceda19dd118def67bab8c2501",
+          "selection": "First five default predictions reviewed after scanning; exploratory label, not a predeclared held-out evaluation sample."
+        },
+        {
+          "sha": "b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+          "label": "security_fix",
+          "sample_role": "semantic_disclosure_control_engine_eligible",
+          "human_disclosure_classification": "explicit_attack_defense_in_original_subject_and_public_CVE_PR",
+          "silent_status": "not_silent_disclosed_security_defense",
+          "evidence": "https://github.com/libexpat/libexpat/pull/466",
+          "commit_source": "https://github.com/libexpat/libexpat/commit/b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+          "release_source": "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_0/expat/Changes",
+          "original_subject": "lib: Protect against billion laughs attacks (approach 3.0.21)",
+          "original_body_summary": "No body; original message consists of the subject alone.",
+          "normalized_original_message_sha256": "ee771a2ece3d5fcbf6be8fc6a03e6eb889b5aeca67fe4ab535c6abaf12534b22",
+          "original_message_reproduction": "git -C local-clones/libexpat-hussein-expansion-004 show -s --format=%B b1d039607d3d8a042bf0466bfcc1c0f104e353c8",
+          "review_basis": "Official public PR 466 explicitly identifies CVE-2013-0340/CWE-776 and lists this exact fix commit; official 2.4.0 release changelog identifies PR 466 under security fixes for entity amplification attacks.",
+          "correction_summary": "Add input-amplification accounting, bounded amplification defaults and an abort error for excessive entity expansion.",
+          "selection": "Exploratory additional candidate selected after inspecting scan output; not held out.",
+          "engine_eligibility_warning": "Existing message-keyword filter admits this subject despite its explicit attack-defense meaning. Engine eligible recall for this label is not silent-fix recall.",
+          "timeline": {
+            "commit_author_date": "2021-04-19T21:42:51+02:00",
+            "commit_committer_date": "2021-05-07T18:25:07+02:00",
+            "public_pr_security_labels_and_activity": "2021-04-20",
+            "documented_commit_addition_to_pr": "2021-05-07",
+            "pr_merged": "2021-05-11",
+            "fixed_release_and_security_changelog": "2021-05-23",
+            "first_public_commit_visibility": null,
+            "sources": [
+              "https://github.com/libexpat/libexpat/pull/466",
+              "https://raw.githubusercontent.com/libexpat/libexpat/R_2_4_0/expat/Changes"
+            ],
+            "limitation": "Current PR history gives dated public-security context; no exact initial publication timestamp is claimed. Original subject explicitly describes protection against an attack."
+          }
+        }
+      ]
+    }
+  ],
+  "final_review_date": "2026-10-03"
+}

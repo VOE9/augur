@@ -5,8 +5,6 @@ confidently classify is treated as NOT simple -- silence over a wrong
 guess."""
 from __future__ import annotations
 
-import re
-
 _PRIMITIVE_BASE_TYPES = {
     "void", "char", "int", "short", "long", "float", "double", "bool",
     "size_t", "ssize_t", "unsigned", "signed",
@@ -39,10 +37,21 @@ class Parameter:
         return all(t in _PRIMITIVE_BASE_TYPES for t in self.type_tokens)
 
     def is_string_like(self) -> bool:
-        """char* / const char* -- the one pointer shape Augur can safely
-        synthesize adversarial values for (short strings, missing
-        terminators) without knowing what the buffer is supposed to mean."""
-        return "char" in self.type_tokens and self.pointer_depth >= 1
+        """`char *` / `const char *` -- the one pointer shape Augur can
+        safely synthesize adversarial values for (short strings, missing
+        terminators) without knowing what the buffer is supposed to mean.
+
+        Exactly one level of indirection. `char **` used to satisfy this
+        test because it only checked `pointer_depth >= 1`, and the harness
+        then passed a `char *` where a `char **` was expected. That
+        mismatch produced a compiler warning, not a refusal, so the harness
+        still built and ran -- and any crash afterwards would have been an
+        artefact of the harness rather than evidence about the target
+        function. `char **` needs a genuinely different model (what the
+        pointer points at is itself a buffer), so it is refused here and
+        reported as needing manual review.
+        """
+        return "char" in self.type_tokens and self.pointer_depth == 1
 
     def is_integer_like(self) -> bool:
         return self.is_primitive() and "char" not in self.type_tokens and "void" not in self.type_tokens

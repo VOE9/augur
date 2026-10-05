@@ -4,7 +4,7 @@ need. Parsing happens once, lazily, and is cached on the instance."""
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 _ADDED_LINE_RE = re.compile(r"^\+(?!\+\+)(.*)$", re.MULTILINE)
 _REMOVED_LINE_RE = re.compile(r"^-(?!--)(.*)$", re.MULTILINE)
@@ -39,6 +39,7 @@ class Commit:
         self.date = date
         self._raw_diff = raw_diff
         self._changed_files: list[ChangedFile] | None = None
+        self._source_diff: str | None = None
 
     @property
     def subject(self) -> str:
@@ -56,10 +57,22 @@ class Commit:
     def _source_diff_text(self) -> str:
         """Splits the raw diff back into per-file chunks and keeps only
         chunks for recognized source extensions, so binary/lockfile/
-        translation noise never reaches a signal's regex."""
-        chunks = re.split(r"(?=^diff --git )", self._raw_diff, flags=re.MULTILINE)
-        kept = [c for c in chunks if any(f.filename in c for f in self.changed_files if f.is_source_file())]
-        return "\n".join(kept)
+        translation noise never reaches a signal's regex.
+
+        Cached on the instance. Every signal asks for this view, and a
+        200-commit scan of a large repository holds diffs of tens of
+        megabytes; re-splitting the same text with a regex once per
+        accessor call was pure repeated work over the largest string in
+        the whole scan."""
+        if self._source_diff is None:
+            chunks = re.split(r"(?=^diff --git )", self._raw_diff, flags=re.MULTILINE)
+            kept = []
+            for chunk in chunks:
+                header = _DIFF_FILE_HEADER_RE.match(chunk)
+                if header and ChangedFile(header.group(2)).is_source_file():
+                    kept.append(chunk)
+            self._source_diff = "\n".join(kept)
+        return self._source_diff
 
     def added_lines(self) -> str:
         return "\n".join(_ADDED_LINE_RE.findall(self._source_diff_text()))
